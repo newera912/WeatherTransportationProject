@@ -695,20 +695,19 @@ public class TestTravelTimeDebug {
 	public static void testSingleFile23ChangePoint(String singleFile,
 			String resultFileName, int mwin, int sss) {
 		long startTime = System.nanoTime();
-		FileWriter fileWriter = null;
+		// FileWriter fileWriter = null;
 
 		APDMInputFormat apdm = new APDMInputFormat(singleFile);
 		TransWeatherRealGraph graph = new TransWeatherRealGraph(apdm);
 		String[] paths = singleFile.split("/");
 		String date = paths[paths.length - 1].split("_")[0];
-		try {
-
-			fileWriter = new FileWriter(resultFileName, false);
+		// try {
+			// fileWriter = new FileWriter(resultFileName, false);
 			// fileWriter.write("[Score] [Station index] [Time slots] \n");
-		} catch (IOException e1) {
+		// } catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		// e1.printStackTrace();
+		// }
 		// TransWeatherGraph graph = new TransWeatherGraph(apdm,"grid");
 		if (verboseLevel > 0) {
 			System.out.println("X: "
@@ -907,37 +906,37 @@ public class TestTravelTimeDebug {
 		for (int i = 0; i < cutOff && i < filResultList.size(); i++)
 
 		{
-			try {
+			// try {
 				// System.out.println(entry.getKey()+" "+entry.getValue());
-				fileWriter
-						.write(filResultList.get(i).score
-								+ " "
-								+ Arrays.toString(
-										resultList.get(i).Stations.toArray())
-										.replace("{", "").replace("}", "")
-								+ " "
-								+ Arrays.toString(
-										resultList.get(i).timeSlots.toArray())
-										.replace("{", "").replace("}", "")
-								+ " " + date + "\n");//
+				// fileWriter
+				// .write(filResultList.get(i).score
+				// + " "
+				// + Arrays.toString(
+				// resultList.get(i).Stations.toArray())
+				// .replace("{", "").replace("}", "")
+				// + " "
+				// + Arrays.toString(
+				// resultList.get(i).timeSlots.toArray())
+				// .replace("{", "").replace("}", "")
+				// + " " + date + "\n");//
 				allResultList.add(filResultList.get(i));
 				mapCount++;
 
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			// } catch (IOException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
 			if (mapCount > 19) {
 				break;
 			}
 
 		}
-		try {
-			fileWriter.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// try {
+		// fileWriter.close();
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 
 		System.out.println(sCount + " " + mapCount);
 		System.out.println("running time: " + (System.nanoTime() - startTime)
