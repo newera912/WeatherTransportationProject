@@ -1,0 +1,31 @@
+<gexf xmlns:viz="http://www.gexf.net/1.1draft/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.gephi.org/gexf/1.1draft" xmlns:ns0="xsi" version="1.1" ns0:schemaLocation="http://www.gephi.org/gexf/1.1draft http://gephi.org/gexf/1.1draft.xsd">
+  <meta lastmodified="2017-02-03T02:13:52.870000">
+    <creator>Your Name</creator>
+    <description>28-11-2012</description>
+  </meta>
+  <graph defaultedgetype="undirected" label="date" mode="dynamic">
+    <attributes class="node" mode="dynamic"/>
+    <attributes class="node" mode="static"/>
+    <attributes class="edge" mode="dynamic"/>
+    <attributes class="edge" mode="static"/>
+    <nodes>
+      <node id="1" label="1">
+        <attvalues/>
+      </node>
+      <node id="0" label="0">
+        <attvalues/>
+      </node>
+      <node id="2" label="2">
+        <attvalues/>
+      </node>
+    </nodes>
+    <edges>
+      <edge id="1" source="2" target="1" start="29-11-2012" end="30-11-2012">
+        <attvalues/>
+      </edge>
+      <edge id="0" source="0" target="1" start="28-11-2012" end="29-11-2012">
+        <attvalues/>
+      </edge>
+    </edges>
+  </graph>
+</gexf>

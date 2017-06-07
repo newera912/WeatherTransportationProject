@@ -1,0 +1,25 @@
+<gexf xmlns:viz="http://www.gexf.net/1.1draft/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.gephi.org/gexf/1.1draft" xmlns:ns0="xsi" version="1.1" ns0:schemaLocation="http://www.gephi.org/gexf/1.1draft http://gephi.org/gexf/1.1draft.xsd">
+  <meta lastmodified="2017-02-03T01:54:03.349000">
+    <creator>Paul Girard</creator>
+    <description>A hello world! file</description>
+  </meta>
+  <graph defaultedgetype="directed" label="a hello world graph" mode="static">
+    <attributes class="node" mode="dynamic"/>
+    <attributes class="node" mode="static"/>
+    <attributes class="edge" mode="dynamic"/>
+    <attributes class="edge" mode="static"/>
+    <nodes>
+      <node id="1" label="World">
+        <attvalues/>
+      </node>
+      <node id="0" label="hello">
+        <attvalues/>
+      </node>
+    </nodes>
+    <edges>
+      <edge id="0" source="0" target="1">
+        <attvalues/>
+      </edge>
+    </edges>
+  </graph>
+</gexf>
