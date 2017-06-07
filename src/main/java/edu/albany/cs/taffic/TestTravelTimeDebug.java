@@ -695,12 +695,17 @@ public class TestTravelTimeDebug {
 	public static void testSingleFile23ChangePoint(String singleFile,
 			String resultFileName, int mwin, int sss) {
 		long startTime = System.nanoTime();
+<<<<<<< HEAD
 		// FileWriter fileWriter = null;
+=======
+//		FileWriter fileWriter = null;
+>>>>>>> ec607e575a4330d70dbc69ea9503fd666502315a
 
 		APDMInputFormat apdm = new APDMInputFormat(singleFile);
 		TransWeatherRealGraph graph = new TransWeatherRealGraph(apdm);
 		String[] paths = singleFile.split("/");
 		String date = paths[paths.length - 1].split("_")[0];
+<<<<<<< HEAD
 		// try {
 			// fileWriter = new FileWriter(resultFileName, false);
 			// fileWriter.write("[Score] [Station index] [Time slots] \n");
@@ -708,6 +713,16 @@ public class TestTravelTimeDebug {
 			// TODO Auto-generated catch block
 		// e1.printStackTrace();
 		// }
+=======
+//		try {
+//
+//			fileWriter = new FileWriter(resultFileName, false);
+//			// fileWriter.write("[Score] [Station index] [Time slots] \n");
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+>>>>>>> ec607e575a4330d70dbc69ea9503fd666502315a
 		// TransWeatherGraph graph = new TransWeatherGraph(apdm,"grid");
 		if (verboseLevel > 0) {
 			System.out.println("X: "
@@ -906,6 +921,7 @@ public class TestTravelTimeDebug {
 		for (int i = 0; i < cutOff && i < filResultList.size(); i++)
 
 		{
+<<<<<<< HEAD
 			// try {
 				// System.out.println(entry.getKey()+" "+entry.getValue());
 				// fileWriter
@@ -926,17 +942,48 @@ public class TestTravelTimeDebug {
 			// // TODO Auto-generated catch block
 			// e.printStackTrace();
 			// }
+=======
+//			try {
+//				// System.out.println(entry.getKey()+" "+entry.getValue());
+//				fileWriter
+//						.write(filResultList.get(i).score
+//								+ " "
+//								+ Arrays.toString(
+//										resultList.get(i).Stations.toArray())
+//										.replace("{", "").replace("}", "")
+//								+ " "
+//								+ Arrays.toString(
+//										resultList.get(i).timeSlots.toArray())
+//										.replace("{", "").replace("}", "")
+//								+ " " + date + "\n");//
+				allResultList.add(filResultList.get(i));
+				mapCount++;
+
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+>>>>>>> ec607e575a4330d70dbc69ea9503fd666502315a
 			if (mapCount > 19) {
 				break;
 			}
 
 		}
+<<<<<<< HEAD
 		// try {
 		// fileWriter.close();
 		// } catch (IOException e) {
 		// // TODO Auto-generated catch block
 		// e.printStackTrace();
 		// }
+=======
+//		try {
+//			fileWriter.close();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+>>>>>>> ec607e575a4330d70dbc69ea9503fd666502315a
 
 		System.out.println(sCount + " " + mapCount);
 		System.out.println("running time: " + (System.nanoTime() - startTime)
@@ -1119,7 +1166,7 @@ public class TestTravelTimeDebug {
 		//String methodType = "CP2";
 		String methodType = "CPBest";
 		System.out.println("---" + methodType + "---" + direc);
-		for (String type : Arrays.asList("travelTime")) {// ,"wind"£¬"temp","temp9","press","wind","windDir","windMax","rh","rad")){
+		for (String type : Arrays.asList("travelTime")) {// ,"wind"ï¿½ï¿½"temp","temp9","press","wind","windDir","windMax","rh","rad")){
 			String folder = "data/trafficData/I90_TravelTime/"
 					+ direc.toLowerCase() + type
 					+ "_APDM/";
@@ -1225,8 +1272,7 @@ public class TestTravelTimeDebug {
 					if (allResultList.get(i).Stations.size() < 2) {
 
 						singleWriterOutTop
-								.write(i
-										+ " "
+								.write(i+ " "
 										+ ArrayUtils
 												.toString(
 														allResultList.get(i).changedVarList)
@@ -1247,10 +1293,16 @@ public class TestTravelTimeDebug {
 										+ ","
 										+ Collections.max(allResultList.get(i).timeSlots)
 										+ "\n");
+						allWriterOut
+						.write("S "+allResultList.get(i).score
+								+ " "
+								+ ArrayUtils.toString(allResultList.get(i).Stations)
+								+ " "
+								+ ArrayUtils.toString(allResultList.get(i).timeSlots)
+								+ " " + allResultList.get(i).date + "\n");
 					} else {
 						multiWriterOutTop
-								.write(i
-										+ " "
+								.write(i+ " "
 										+ ArrayUtils
 												.toString(
 														allResultList.get(i).changedVarList)
@@ -1271,16 +1323,17 @@ public class TestTravelTimeDebug {
 										+ ","
 										+ Collections.max(allResultList.get(i).timeSlots)
 										+ "\n");
+						allWriterOut
+						.write("M "+allResultList.get(i).score
+								+ " "
+								+ ArrayUtils.toString(allResultList.get(i).Stations)
+								+ " "
+								+ ArrayUtils.toString(allResultList.get(i).timeSlots)
+								+ " " + allResultList.get(i).date + "\n");
 
 					}
 
-					allWriterOut
-							.write(allResultList.get(i).score
-									+ " "
-									+ ArrayUtils.toString(allResultList.get(i).Stations)
-									+ " "
-									+ ArrayUtils.toString(allResultList.get(i).timeSlots)
-									+ " " + allResultList.get(i).date + "\n");
+					
 					allWriterOutTop
 							.write(i
 									+ " "
@@ -1335,7 +1388,7 @@ public class TestTravelTimeDebug {
 
 	public static void main(String[] args) {
 
-		List<Integer> maxWin = (List<Integer>) Arrays.asList(12);// ,24,36);//,12,18,24,30,36);
+		List<Integer> maxWin = (List<Integer>) Arrays.asList(24);// ,24,36);//,12,18,24,30,36);
 		List<Integer> ss = (List<Integer>) Arrays.asList(5);
 
 		for (int mwin : maxWin) {
