@@ -95,8 +95,8 @@ def plotCaseDaysSingleStation():
 #         print i,c  
     root="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/"
     mWin=24
-    ex="E621"
-    dir="E621"
+    ex="W621"
+    dir="W621"
     #dir='E'
     for SM in ['multi']:
         if not os.path.exists(root+ex+"-"+str(mWin)+"/"):
@@ -129,7 +129,7 @@ def plotCaseDaysSingleStation():
                 var_type= VARTYPE[varypeIdx]
                 
                 fileName=rootpath+"/"+dates+".txt"
-                print str(SM)+" "+str(top)+" "+fileName.split("/")[-1]+" "+dir
+                print str(SM)+" "+str(top)+" "+fileName.split("/")[-1]+" "+dir +str(mWin)
                 
                 drawVarPlot(fileName,var_type,dates,sta_names,result[3],top,vals,colors,SM,dir,ex,root,mWin)
            
