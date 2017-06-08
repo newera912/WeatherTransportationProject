@@ -695,20 +695,20 @@ public class TestTravelTimeDebug {
 	public static void testSingleFile23ChangePointDebug(String singleFile,
 			String resultFileName, int mwin, int sss) {
 		long startTime = System.nanoTime();
-		// FileWriter fileWriter = null;
+		FileWriter fileWriter = null;
 
 		APDMInputFormat apdm = new APDMInputFormat(singleFile);
 		TransWeatherRealGraph graph = new TransWeatherRealGraph(apdm);
 		String[] paths = singleFile.split("/");
 		String date = paths[paths.length - 1].split("_")[0];
-		// try {
-		//
-		// fileWriter = new FileWriter(resultFileName, false);
-		// // fileWriter.write("[Score] [Station index] [Time slots] \n");
-		// } catch (IOException e1) {
-		// // TODO Auto-generated catch block
-		// e1.printStackTrace();
-		// }
+		try {
+
+			fileWriter = new FileWriter(resultFileName, false);
+			// fileWriter.write("[Score] [Station index] [Time slots] \n");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		// TransWeatherGraph graph = new TransWeatherGraph(apdm,"grid");
 		if (verboseLevel > 0) {
 			System.out.println("X: "
@@ -907,28 +907,27 @@ public class TestTravelTimeDebug {
 		for (int i = 0; i < cutOff && i < filResultList.size(); i++)
 
 		{
-			// try {
-			// // System.out.println(entry.getKey()+" "+entry.getValue());
-			// fileWriter
-			// .write(filResultList.get(i).score
-			// + " "
-			// + Arrays.toString(
-			// filResultList.get(i).Stations.toArray())
-			// .replace("{", "").replace("}", "")
-			// + " "
-			// + Arrays.toString(
-			// filResultList.get(i).timeSlots.toArray())
-			// .replace("{", "").replace("}", "")
-			// + " " + date + "\n");//
+			try {
+				// System.out.println(entry.getKey()+" "+entry.getValue());
+				fileWriter.write(filResultList.get(i).score
+						+ " "
+						+ Arrays.toString(
+								filResultList.get(i).Stations.toArray())
+								.replace("{", "").replace("}", "")
+						+ " "
+						+ Arrays.toString(
+								filResultList.get(i).timeSlots.toArray())
+								.replace("{", "").replace("}", "") + " " + date
+						+ "\n");//
 
 			allResultList.add(filResultList.get(i));
 			if (filResultList.get(i).Stations.size() > 1) {
 				mapCount++;
 			}
-			// } catch (IOException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			if (mapCount > 19) {
 				break;
@@ -936,12 +935,12 @@ public class TestTravelTimeDebug {
 
 		}
 
-		// try {
-		// fileWriter.close();
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
+		try {
+			fileWriter.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		System.out.println(sCount + " " + mapCount);
 		System.out.println("running time: " + (System.nanoTime() - startTime)
@@ -1364,15 +1363,7 @@ public class TestTravelTimeDebug {
 		allResultList = new ArrayList<ResultItem>();
 
 		List<String> caseDates = (List<String>) Arrays.asList("20160811");
-		// List<String> caseDates=(List)
-		// Arrays.asList("20160301","20160302","20160308","20160309","20160312","20160313","20160324","20160325","20160328","20160405","20160412","20160419","20160421","20160514","20160529","20160621","20160628","20160813","20160911","20160922");
-		// List<String> caseDates = (List) Arrays.asList("20160301", "20160302",
-		// "20160303", "20160304", "20160305", "20160306", "20160307",
-		// "20160308", "20160309", "20160310", "20160311", "20160312",
-		// "20160313", "20160314", "20160315", "20160316", "20160317",
-		// "20160318", "20160319", "20160320", "20160321", "20160322",
-		// "20160323", "20160324", "20160325", "20160326", "20160327",
-		// "20160328", "20160329", "20160330", "20160331");
+
 		int count = 0;
 		String direc = "W";
 		String ex = "W621Debug";
@@ -1400,9 +1391,9 @@ public class TestTravelTimeDebug {
 							.toString()).mkdirs();
 				}
 
-//				if (!caseDates.contains(fileName.split("_")[0])) {
-//					continue;
-//				}
+				if (!caseDates.contains(fileName.split("_")[0])) {
+					continue;
+				}
 				// if (!fileName.split("_")[0].startsWith("201604")) {
 				// continue;
 				// }
@@ -1418,10 +1409,9 @@ public class TestTravelTimeDebug {
 					System.out.println("---CP2---");
 					testSingleFileTwoChangePoint(folder + apdmFile.getName(),
 							outFile, maxwin, sss);
-
 				}else {
-
-					testSingleFile23ChangePoint(folder + apdmFile.getName(),
+					testSingleFile23ChangePointDebug(
+							folder + apdmFile.getName(),
 							outFile, maxwin, sss);
 
 				}
@@ -1600,7 +1590,7 @@ public class TestTravelTimeDebug {
 
 	public static void main(String[] args) {
 
-		List<Integer> maxWin = (List<Integer>) Arrays.asList(24);// ,24,36);//,12,18,24,30,36);
+		List<Integer> maxWin = (List<Integer>) Arrays.asList(12);// ,24,36);//,12,18,24,30,36);
 		List<Integer> ss = (List<Integer>) Arrays.asList(5);
 
 		for (int mwin : maxWin) {
