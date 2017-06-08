@@ -579,11 +579,11 @@ public class TestTravelTimeNewMethod {
 						fileWriter.write(filResultList.get(i).score
 								+ " "
 								+ Arrays.toString(
-										resultList.get(i).Stations.toArray())
+										filResultList.get(i).Stations.toArray())
 										.replace("{", "").replace("}", "")
 								+ " "
 								+ Arrays.toString(
-										resultList.get(i).timeSlots.toArray())
+										filResultList.get(i).timeSlots.toArray())
 										.replace("{", "").replace("}", "")
 								+ " " + date + "\n");//
 						allResultList.add(filResultList.get(i));
@@ -640,7 +640,7 @@ public class TestTravelTimeNewMethod {
 		// String methodType="CP";
 		//String methodType = "CP2";
 		String methodType = "CPBest";
-		for (String type : Arrays.asList("travelTime")) {// ,"wind"£¬"temp","temp9","press","wind","windDir","windMax","rh","rad")){
+		for (String type : Arrays.asList("travelTime")) {// ,"wind"ï¿½ï¿½"temp","temp9","press","wind","windDir","windMax","rh","rad")){
 			String folder = "data/trafficData/I90_TravelTime/w" + type
 					+ "_APDM/";
 			String fileName = "";

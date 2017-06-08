@@ -913,16 +913,18 @@ public class TestTravelTimeDebug {
 //						.write(filResultList.get(i).score
 //								+ " "
 //								+ Arrays.toString(
-//										resultList.get(i).Stations.toArray())
+//										filResultList.get(i).Stations.toArray())
 //										.replace("{", "").replace("}", "")
 //								+ " "
 //								+ Arrays.toString(
-//										resultList.get(i).timeSlots.toArray())
+//										filResultList.get(i).timeSlots.toArray())
 //										.replace("{", "").replace("}", "")
 //								+ " " + date + "\n");//
+				
 				allResultList.add(filResultList.get(i));
-				mapCount++;
-
+				if(filResultList.get(i).Stations.size()>1){
+					mapCount++;
+				}
 //			} catch (IOException e) {
 //				// TODO Auto-generated catch block
 //				e.printStackTrace();
@@ -942,8 +944,7 @@ public class TestTravelTimeDebug {
 		// }
 
 		System.out.println(sCount + " " + mapCount);
-		System.out.println("running time: " + (System.nanoTime() - startTime)
-				/ 1e9);
+		System.out.println("running time: " + (System.nanoTime() - startTime)/1e9);
 
 	}
 
@@ -1116,10 +1117,8 @@ public class TestTravelTimeDebug {
 		// "20160323", "20160324", "20160325", "20160326", "20160327",
 		// "20160328", "20160329", "20160330", "20160331");
 		int count = 0;
-		String direc = "E";
-		String ex = "E621";
-		// String methodType="CP";
-		//String methodType = "CP2";
+		String direc = "W";
+		String ex = "W621";
 		String methodType = "CPBest";
 		System.out.println("---" + methodType + "---" + direc);
 		for (String type : Arrays.asList("travelTime")) {// ,"wind"��"temp","temp9","press","wind","windDir","windMax","rh","rad")){
