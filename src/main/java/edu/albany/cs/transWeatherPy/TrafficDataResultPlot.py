@@ -19,7 +19,7 @@ def loadTop(fileName):
     return results        
                               
 
-def drawVarPlot(fileName,varType,dates,sta_names,time_region,topN,vals,colors,SM,dir,ex): 
+def drawVarPlot(fileName,varType,dates,sta_names,time_region,topN,vals,colors,SM,dir,ex,root,mWin): 
     
     
     day_data=[]
@@ -55,7 +55,7 @@ def drawVarPlot(fileName,varType,dates,sta_names,time_region,topN,vals,colors,SM
         plt.ylim([0.0,1800])
     else:
         plt.ylim([0.0,y_max+100])
-    if dir=='E':
+    if dir[0]=='E':
         plt.title("Top"+str(topN)+" "+dates+" "+varType+" I90 to East")
     else:
         plt.title("Top"+str(topN)+" "+dates+" "+varType+" I90 to West")
@@ -74,17 +74,12 @@ def drawVarPlot(fileName,varType,dates,sta_names,time_region,topN,vals,colors,SM
 
     #plt.plot(X,day_data2[i][2],'r-',linewidth='1.0', markersize=5,label='Temp '+sta_names[int(day_data2[i][0])]+day_data2[i][0]) 
     
-    if len(ex)>0:
-        if SM=="single":        
-            fig.savefig('F:/workspace/git/Graph-MP/outputs/trafficData/travelTime_CaseStudy/CPBest/'+dir+'/'+ex+dir+'_single_'+str(topN)+'_'+varType+'_'+dates+'.png', dpi=300,bbox_extra_artists=(lgd,), bbox_inches='tight')
-        else:
-            fig.savefig('F:/workspace/git/Graph-MP/outputs/trafficData/travelTime_CaseStudy/CPBest/'+dir+'/'+ex+dir+'_multi_'+str(topN)+'_'+varType+'_'+dates+'.png', dpi=300,bbox_extra_artists=(lgd,), bbox_inches='tight')
-    else:          
-        if SM=="single":        
-            fig.savefig('F:/workspace/git/Graph-MP/outputs/trafficData/travelTime_CaseStudy/CPBest/'+dir+'/s/'+ex+dir+'_single_'+str(topN)+'_'+varType+'_'+dates+'.png', dpi=300,bbox_extra_artists=(lgd,), bbox_inches='tight')
-        else:
-            fig.savefig('F:/workspace/git/Graph-MP/outputs/trafficData/travelTime_CaseStudy/CPBest/'+dir+'/m/'+ex+dir+'_multi_'+str(topN)+'_'+varType+'_'+dates+'.png', dpi=300,bbox_extra_artists=(lgd,), bbox_inches='tight')
-        
+            
+    if SM=="single":        
+        fig.savefig(root+ex+"-"+str(mWin)+"/"+ex+'_single_'+str(topN)+'_'+varType+'_'+dates+'.png', dpi=300,bbox_extra_artists=(lgd,), bbox_inches='tight')
+    else:
+        fig.savefig(root+ex+"-"+str(mWin)+"/"+ex+'_multi_'+str(topN)+'_'+varType+'_'+dates+'.png', dpi=300,bbox_extra_artists=(lgd,), bbox_inches='tight')
+    
     fig.clf()   
                         
 def plotCaseDaysSingleStation():
@@ -98,11 +93,15 @@ def plotCaseDaysSingleStation():
             colors.append(hex) 
 #     for i,c in enumerate(colors):
 #         print i,c  
-    ex=""
-    dir="E5"
+    root="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/"
+    mWin=24
+    ex="E621"
+    dir="E621"
     #dir='E'
-    for SM in ['multi','single']:
-        topResults=loadTop("F:/workspace/git/Graph-MP/outputs/trafficData/travelTime_CaseStudy/CPBest/5/"+ex+"I90traffic"+dir+"AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_12_filter_TIncld_0.7_Top_"+SM+".txt")
+    for SM in ['multi']:
+        if not os.path.exists(root+ex+"-"+str(mWin)+"/"):
+            os.makedirs(root+ex+"-"+str(mWin)+"/")
+        topResults=loadTop(root+"5/"+ex+"I90traffic_AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_"+str(mWin)+"_filter_TIncld_0.7_Top_"+SM+".txt")
         VARTYPE={0:"travelTime"}
         topk=0
         for result in topResults:
@@ -118,10 +117,10 @@ def plotCaseDaysSingleStation():
             for i in range(len(vals)):
                 sta_names[i]="TMC_"
             
-            if dir=='W5':
-                rootpath="F:/workspace/git/Graph-MP/data/trafficData/I90_TravelTime/TravelTimeToWest/"
+            if dir[0]=='W':
+                rootpath="F:/workspace/git/WeatherTransportationProject/data/trafficData/I90_TravelTime/TravelTimeToWest/"
             else:
-                rootpath="F:/workspace/git/Graph-MP/data/trafficData/I90_TravelTime/TravelTimeToEast/"
+                rootpath="F:/workspace/git/WeatherTransportationProject/data/trafficData/I90_TravelTime/TravelTimeToEast/"
 
             
             
@@ -132,7 +131,7 @@ def plotCaseDaysSingleStation():
                 fileName=rootpath+"/"+dates+".txt"
                 print str(SM)+" "+str(top)+" "+fileName.split("/")[-1]+" "+dir
                 
-                drawVarPlot(fileName,var_type,dates,sta_names,result[3],top,vals,colors,SM,dir,ex)
+                drawVarPlot(fileName,var_type,dates,sta_names,result[3],top,vals,colors,SM,dir,ex,root,mWin)
            
 plotCaseDaysSingleStation()                     
         
