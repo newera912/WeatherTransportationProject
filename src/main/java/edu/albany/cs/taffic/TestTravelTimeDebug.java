@@ -692,6 +692,262 @@ public class TestTravelTimeDebug {
 		return tempDiff;
 	}
 
+	public static void testSingleFile23ChangePointDebug(String singleFile,
+			String resultFileName, int mwin, int sss) {
+		long startTime = System.nanoTime();
+		FileWriter fileWriter = null;
+
+		APDMInputFormat apdm = new APDMInputFormat(singleFile);
+		TransWeatherRealGraph graph = new TransWeatherRealGraph(apdm);
+		String[] paths = singleFile.split("/");
+		String date = paths[paths.length - 1].split("_")[0];
+		try {
+
+			fileWriter = new FileWriter(resultFileName, false);
+			// fileWriter.write("[Score] [Station index] [Time slots] \n");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		// TransWeatherGraph graph = new TransWeatherGraph(apdm,"grid");
+		if (verboseLevel > 0) {
+			System.out.println("X: "
+					+ Arrays.toString(Arrays.copyOf(graph.x, 5)));
+			System.out.println("mean: "
+					+ Arrays.toString(Arrays.copyOf(graph.mu, 5)));
+			System.out.println("std: "
+					+ Arrays.toString(Arrays.copyOf(graph.sigma, 5)));
+			System.out
+					.println("trueSubGraphSize: " + graph.trueSubGraph.length);
+			Utils.stop();
+		}
+
+		/* Graph-MP Parameters */
+		int s = sss;
+		int g = 1;
+		double B = s - g + 0.0D;
+		int t = 3;
+
+		double[][] X = graph.x;
+		double[] mean = graph.mu;
+		double[] c = new double[X.length];
+		double[] b = new double[X.length];
+		double[] hist_base = new double[X.length];
+		Arrays.fill(b, 1.0D);
+
+		/* Time Windows Parameters */
+		int histStaPoint = 6;
+		int sCount = 0;
+		int maxWin = mwin;
+
+		/* Changing Pattern Result */
+
+		ArrayList<ResultItem> resultList = new ArrayList<ResultItem>();
+
+		if (verboseLevel > 0) {
+
+			System.out
+					.println("X: " + Arrays.toString(Arrays.copyOf(X[0], 10)));
+			System.out
+					.println("Y: " + Arrays.toString(Arrays.copyOf(mean, 10)));
+			for (int i : apdm.data.trueSubGraphNodes) {
+				System.out.print(X[i] + " ");
+			}
+			System.out.println();
+			for (int i : apdm.data.trueSubGraphNodes) {
+				System.out.print(mean[i] + " ");
+			}
+
+			System.out.println();
+		}
+		System.out.println("s=" + s + " MaxWinSize=" + maxWin);
+
+		/*
+		 * Generate all possible time window, window_size >=2 and less than
+		 * maxWin
+		 */
+		for (int i = 72; i < X[0].length - 48; i++) {
+			for (int j = 72; j < i + 1; j++) {
+				if (i - j + 1 < 3 || i - j + 1 > maxWin) {
+					continue;
+				}
+				// if(i-j+1!=12){
+				// continue;
+				// }
+				sCount++;
+
+				Arrays.fill(c, 0.0D);
+				Arrays.fill(hist_base, 0.0D);
+
+				int idx = 0;
+
+				// double[] winMean= new double[X.length];
+				int[] S = new int[i - j + 1];
+
+				for (int k = j; k < i + 1; k++) {
+					S[idx] = k;
+					idx++;
+				}
+
+				/* Set historical starting point */
+				int starIdx = 0;
+				if (S[0] > histStaPoint) {
+					starIdx = S[0] - histStaPoint;
+				}
+
+				for (int q = 0; q < X.length; q++) {
+					double temp = 0.0D;
+					for (int p = starIdx; p < S[0]; p++) {
+						temp = temp + X[q][p];
+					}
+					if (S[0] == 0) {
+						hist_base[q] = X[q][0];
+					} else {
+						hist_base[q] = temp / (S[0] - starIdx);
+
+					}
+				}
+
+				/** Changing point detection **/
+				/** Checking there one or two changing points in the window */
+				for (int q = 0; q < X.length; q++) {
+					double average = getWindowAverage(X[q], S);
+					c[q] = (average - hist_base[q] > 0) ? average
+							- hist_base[q] : 0.0D;
+
+					// if (S.length == 3) {
+					// c[q] = Math.abs(X[q][S[1]] - hist_base[q]);
+					// } else if (S.length == 4) {
+					// c[q] = Math.abs((X[q][S[1]] + X[q][S[2]]) / 2.0
+					// - hist_base[q]);
+					// } else {
+					// double tempDiff1 = OneBreakingPoint(X[q], S,
+					// hist_base[q]);
+					// double tempDiff2 = TwoBreakingPoint(X[q], S,
+					// hist_base[q]);
+					//
+					// if (tempDiff1 > tempDiff2) {
+					// // if (S[S.length - 1] == 287) {
+					// // Utils.stop();
+					// // System.out.format("temp1 %f %d %d %d\n", tempDiff1,
+					// // q, S[0], S[S.length - 1]);
+					// // }
+					// c[q] = Math.abs(average - hist_base[q]);
+					//
+					// } else {
+					// // if (S[S.length - 1] == 287) {
+					// // Utils.stop();
+					// // System.out.format("temp2 %f %d %d %d\n", tempDiff2,
+					// // q, S[0], S[S.length - 1]);
+					// // }
+					// c[q] = Math.abs(average - hist_base[q]);
+					//
+					// }
+					// }
+					// double winSum = 0.0D;
+					// for (int k = S[0]; k <= S[S.length - 1]; k++) {
+					// winSum += X[q][k];
+					// }
+					//
+					// double win_mean = winSum / S.length;
+					// c[q] = Math.abs(hist_base[q] - win_mean);
+
+				}// q
+
+				/***********************************************/
+
+				// para1 : b para2: c
+				Function func = new EMSStat(b, c);
+				GraphMP graphMP = new GraphMP(graph, s, g, B, t, func, c);
+				// System.out.println("XX:"+Arrays.toString(XX));
+				int debug = 0;
+				if (debug == 1) {
+					System.out
+							.println("----------------------------------------------\n"
+									+ i + " " + j + " " + Arrays.toString(S));
+					System.out.println("XX:" + Arrays.toString(c));
+					System.out.println("XXNorm:" + Arrays.toString(hist_base));
+					System.out.println("Result:"
+							+ ArrayUtils.toString(graphMP.resultNodes_Tail));
+					System.out.println("Time Slots:" + ArrayUtils.toString(S));
+					;
+				}
+
+				double score = graphMP.funcValue;
+				ArrayList<Integer> Stations = new ArrayList<Integer>();
+				ArrayList<Integer> timeSlots = new ArrayList<Integer>();
+
+				for (Integer staIdx : graphMP.resultNodes_Tail) {
+					Stations.add(staIdx);
+				}
+				for (int slotIdx : S) {
+					timeSlots.add(slotIdx);
+				}
+
+				ResultItem resItem = new ResultItem(resIndex, score, date,
+						Stations, timeSlots);
+				// Utils.stop();
+				// if (Stations.contains(17) && Stations.contains(18)) {
+				// System.out.println(score + " " + timeSlots.toString());
+				// }
+				resultList.add(resItem);
+				resIndex++;
+
+			}// j
+
+		}// i
+
+		Collections.sort(resultList, new ResultItem().comparator);
+		ArrayList<ResultItem> filResultList = filterResult(resultList);
+		// Iterator<Entry<Double, String>> it = resultMap.entrySet().iterator();
+		// Entry<Double, String> entry;
+		int mapCount = 0;
+		int cutOff = 100;
+		// for(int i=0;i<cutOff && i<filResultList.size();i++)
+		for (int i = 0; i < cutOff && i < filResultList.size(); i++)
+
+		{
+			try {
+				// System.out.println(entry.getKey()+" "+entry.getValue());
+				fileWriter.write(filResultList.get(i).score
+						+ " "
+						+ Arrays.toString(
+								filResultList.get(i).Stations.toArray())
+								.replace("{", "").replace("}", "")
+						+ " "
+						+ Arrays.toString(
+								filResultList.get(i).timeSlots.toArray())
+								.replace("{", "").replace("}", "") + " " + date
+						+ "\n");//
+
+			allResultList.add(filResultList.get(i));
+			if (filResultList.get(i).Stations.size() > 1) {
+				mapCount++;
+			}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			if (mapCount > 19) {
+				break;
+			}
+
+		}
+
+		try {
+			fileWriter.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		System.out.println(sCount + " " + mapCount);
+		System.out.println("running time: " + (System.nanoTime() - startTime)
+				/ 1e9);
+
+	}
+
 	public static void testSingleFile23ChangePoint(String singleFile,
 			String resultFileName, int mwin, int sss) {
 		long startTime = System.nanoTime();
@@ -1106,22 +1362,14 @@ public class TestTravelTimeDebug {
 		long startTimeAll = System.nanoTime();
 		allResultList = new ArrayList<ResultItem>();
 
-		List<String> caseDates = (List<String>) Arrays.asList("201604");
-		// List<String> caseDates=(List)
-		// Arrays.asList("20160301","20160302","20160308","20160309","20160312","20160313","20160324","20160325","20160328","20160405","20160412","20160419","20160421","20160514","20160529","20160621","20160628","20160813","20160911","20160922");
-		// List<String> caseDates = (List) Arrays.asList("20160301", "20160302",
-		// "20160303", "20160304", "20160305", "20160306", "20160307",
-		// "20160308", "20160309", "20160310", "20160311", "20160312",
-		// "20160313", "20160314", "20160315", "20160316", "20160317",
-		// "20160318", "20160319", "20160320", "20160321", "20160322",
-		// "20160323", "20160324", "20160325", "20160326", "20160327",
-		// "20160328", "20160329", "20160330", "20160331");
+		List<String> caseDates = (List<String>) Arrays.asList("20160811");
+
 		int count = 0;
 		String direc = "W";
-		String ex = "W621";
+		String ex = "W621Debug";
 		String methodType = "CPBest";
 		System.out.println("---" + methodType + "---" + direc);
-		for (String type : Arrays.asList("travelTime")) {// ,"wind"��"temp","temp9","press","wind","windDir","windMax","rh","rad")){
+		for (String type : Arrays.asList("travelTime")) {// ,"wind","temp","temp9","press","wind","windDir","windMax","rh","rad")){
 			String folder = "data/trafficData/I90_TravelTime/"
 					+ direc.toLowerCase() + type
 					+ "_APDM/";
@@ -1143,9 +1391,9 @@ public class TestTravelTimeDebug {
 							.toString()).mkdirs();
 				}
 
-//				if (!caseDates.contains(fileName.split("_")[0])) {
-//					continue;
-//				}
+				if (!caseDates.contains(fileName.split("_")[0])) {
+					continue;
+				}
 				// if (!fileName.split("_")[0].startsWith("201604")) {
 				// continue;
 				// }
@@ -1161,10 +1409,9 @@ public class TestTravelTimeDebug {
 					System.out.println("---CP2---");
 					testSingleFileTwoChangePoint(folder + apdmFile.getName(),
 							outFile, maxwin, sss);
-
 				}else {
-
-					testSingleFile23ChangePoint(folder + apdmFile.getName(),
+					testSingleFile23ChangePointDebug(
+							folder + apdmFile.getName(),
 							outFile, maxwin, sss);
 
 				}
@@ -1343,7 +1590,7 @@ public class TestTravelTimeDebug {
 
 	public static void main(String[] args) {
 
-		List<Integer> maxWin = (List<Integer>) Arrays.asList(24);// ,24,36);//,12,18,24,30,36);
+		List<Integer> maxWin = (List<Integer>) Arrays.asList(12);// ,24,36);//,12,18,24,30,36);
 		List<Integer> ss = (List<Integer>) Arrays.asList(5);
 
 		for (int mwin : maxWin) {
