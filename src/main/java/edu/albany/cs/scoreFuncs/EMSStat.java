@@ -1,15 +1,14 @@
 package edu.albany.cs.scoreFuncs;
 
-import edu.albany.cs.base.ArrayIndexSort;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.stat.StatUtils;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.stat.StatUtils;
+
+import edu.albany.cs.base.ArrayIndexSort;
 
 /**
  * EMSStat Elevated Mean Scan Statistic Please see Section 5 in our paper.
@@ -82,6 +81,7 @@ public class EMSStat implements Function {
 		}
 		double sigmaX = StatUtils.sum(x);
 		double sigmaCX = new ArrayRealVector(x).dotProduct(new ArrayRealVector(c));
+
 		if (sigmaX <= 0.0D) {
 			System.out.println("funcValue error ...");
 			System.exit(0);
@@ -121,6 +121,14 @@ public class EMSStat implements Function {
 		return getFuncValue(x);
 	}
 
+	public double getFuncValue(ArrayList<Integer> S) {
+		double[] x = new double[n];
+		Arrays.fill(x, 0.0D);
+		for (int i : S) {
+			x[i] = 1.0D;
+		}
+		return getFuncValue(x);
+	}
 	@Override
 	public BigDecimal[] getGradientBigDecimal(BigDecimal[] x) {
 		double[] xD = new double[n];

@@ -1,20 +1,20 @@
 package edu.albany.cs.graphMP;
 
-import edu.albany.cs.base.Utils;
-import edu.albany.cs.graph.TransWeatherGraph;
-import edu.albany.cs.graph.TransWeatherRealGraph;
-import edu.albany.cs.headApprox.HeadApprox;
-import edu.albany.cs.scoreFuncs.EMSStat2;
-import edu.albany.cs.scoreFuncs.EMSStat;
-import edu.albany.cs.scoreFuncs.Function;
-import edu.albany.cs.tailApprox.TailApprox;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.math3.stat.StatUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
+import edu.albany.cs.base.Utils;
+import edu.albany.cs.graph.TransWeatherGraph;
+import edu.albany.cs.graph.TransWeatherRealGraph;
+import edu.albany.cs.headApprox.HeadApprox;
+import edu.albany.cs.scoreFuncs.EMSStat;
+import edu.albany.cs.scoreFuncs.EMSStat2;
+import edu.albany.cs.scoreFuncs.Function;
+import edu.albany.cs.tailApprox.TailApprox;
 
 /**
  * Algorithm 1 : Graph-Mp Aglorithm in our IJCAI paper.
@@ -147,7 +147,10 @@ public class GraphMP {
 			resultNodes_Tail = Utils.getIntArrayFromIntegerList(tail.bestForest.nodesInF);
 		}
 		resultNodes_supportX = getSupportNodes(x);
-		funcValue = function.getFuncValue(x);
+		// TODO
+		// funcValue = function.getFuncValue(x);
+		funcValue = function.getFuncValue(resultNodes_Tail);
+
 		runTime = (System.nanoTime() - startTime) / 1e9;
 		return x;
 	}

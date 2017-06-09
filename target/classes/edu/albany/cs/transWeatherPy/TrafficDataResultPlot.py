@@ -94,11 +94,11 @@ def plotCaseDaysSingleStation():
 #     for i,c in enumerate(colors):
 #         print i,c  
     root="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/"
-    mWin=24
-    ex="W621"
+    mWin=12
+    ex="W621Debug"
     dir="W621"
     #dir='E'
-    for SM in ['multi']:
+    for SM in ['multi','single']:
         if not os.path.exists(root+ex+"-"+str(mWin)+"/"):
             os.makedirs(root+ex+"-"+str(mWin)+"/")
         topResults=loadTop(root+"5/"+ex+"I90traffic_AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_"+str(mWin)+"_filter_TIncld_0.7_Top_"+SM+".txt")
