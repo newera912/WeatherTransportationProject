@@ -1,42 +1,28 @@
 package edu.albany.cs.transWeather;
 
-import java.awt.Window;
-
-import org.apache.commons.math3.stat.StatUtils;
-
-import java.util.List;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map.Entry;
+import java.util.List;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.math3.stat.StatUtils;
 
-import com.google.common.collect.TreeMultimap;
-
 import edu.albany.cs.apdmIO.APDMInputFormat;
 import edu.albany.cs.base.Utils;
-import edu.albany.cs.graph.TransWeatherGraph;
 import edu.albany.cs.graph.TransWeatherRealGraph;
 import edu.albany.cs.graphMP.GraphMP;
 import edu.albany.cs.scoreFuncs.EMSStat;
 import edu.albany.cs.scoreFuncs.EMSStat2;
 import edu.albany.cs.scoreFuncs.Function;
-import edu.albany.cs.scoreFuncs.ScoreFunctionFactory;
-import edu.albany.cs.scoreFuncs.Stat;
+
 //import edu.albany.cs.scoreFuncs.MultiSourceProtestScanStat;
 
 public class TransWeatherMultiVarRealdataTest {

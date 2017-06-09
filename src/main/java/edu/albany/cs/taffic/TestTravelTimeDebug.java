@@ -885,10 +885,11 @@ public class TestTravelTimeDebug {
 				}
 
 				ResultItem resItem = new ResultItem(resIndex, score, date,
-						Stations, timeSlots);
-				// Utils.stop();
-				// if (Stations.contains(17) && Stations.contains(18)) {
+						Stations, timeSlots, c);
+
+				// if (Stations.contains(17) && timeSlots.contains(235)) {
 				// System.out.println(score + " " + timeSlots.toString());
+				// Utils.stop();
 				// }
 				resultList.add(resItem);
 				resIndex++;
@@ -898,11 +899,12 @@ public class TestTravelTimeDebug {
 		}// i
 
 		Collections.sort(resultList, new ResultItem().comparator);
-		ArrayList<ResultItem> filResultList = filterResult(resultList);
+		// ArrayList<ResultItem> filResultList = filterResult(resultList);
+		ArrayList<ResultItem> filResultList = resultList;
 		// Iterator<Entry<Double, String>> it = resultMap.entrySet().iterator();
 		// Entry<Double, String> entry;
 		int mapCount = 0;
-		int cutOff = 100;
+		int cutOff = 200;
 		// for(int i=0;i<cutOff && i<filResultList.size();i++)
 		for (int i = 0; i < cutOff && i < filResultList.size(); i++)
 
@@ -918,6 +920,7 @@ public class TestTravelTimeDebug {
 						+ Arrays.toString(
 								filResultList.get(i).timeSlots.toArray())
 								.replace("{", "").replace("}", "") + " " + date
+						+ filResultList.get(i).c.toString()
 						+ "\n");//
 
 			allResultList.add(filResultList.get(i));
@@ -929,7 +932,7 @@ public class TestTravelTimeDebug {
 				e.printStackTrace();
 			}
 
-			if (mapCount > 19) {
+			if (mapCount > 49) {
 				break;
 			}
 
@@ -1016,7 +1019,7 @@ public class TestTravelTimeDebug {
 
 			System.out.println();
 		}
-		System.out.println("s=" + s + " MaxWinSize=" + maxWin);
+		System.out.print("s=" + s + " MaxWinSize=" + maxWin + " ");
 
 		/*
 		 * Generate all possible time window, window_size >=2 and less than
@@ -1199,7 +1202,7 @@ public class TestTravelTimeDebug {
 		// e.printStackTrace();
 		// }
 
-		System.out.println(sCount + " " + mapCount);
+		System.out.print(sCount + " " + mapCount + " ");
 		System.out.println("running time: " + (System.nanoTime() - startTime)/1e9);
 
 	}
@@ -1353,8 +1356,8 @@ public class TestTravelTimeDebug {
 		}// i
 
 		filResultItems.removeAll(removeIdxList);
-		System.out.println("size: " + origSize + " - " + removeIdxList.size()
-				+ " = " + filResultItems.size());
+		System.out.print("Filter size: " + origSize + " - "
+				+ removeIdxList.size() + " = " + filResultItems.size() + " ");
 		return filResultItems;
 	}
 
@@ -1369,6 +1372,7 @@ public class TestTravelTimeDebug {
 		String ex = "W621Debug";
 		String methodType = "CPBest";
 		System.out.println("---" + methodType + "---" + direc);
+		int fcount = 0;
 		for (String type : Arrays.asList("travelTime")) {// ,"wind","temp","temp9","press","wind","windDir","windMax","rh","rad")){
 			String folder = "data/trafficData/I90_TravelTime/"
 					+ direc.toLowerCase() + type
@@ -1397,7 +1401,8 @@ public class TestTravelTimeDebug {
 				// if (!fileName.split("_")[0].startsWith("201604")) {
 				// continue;
 				// }
-				System.out.println(type + " " + fileName);
+				System.out.print(fcount + " " + type + " " + fileName + " ");
+				fcount++;
 				String outFile = "outputs/trafficData/" + type + "_CaseStudy/"
 						+ methodType + "/" + sss + "/prf1/"
 						+ apdmFile.getName();
@@ -1410,7 +1415,7 @@ public class TestTravelTimeDebug {
 					testSingleFileTwoChangePoint(folder + apdmFile.getName(),
 							outFile, maxwin, sss);
 				}else {
-					testSingleFile23ChangePointDebug(
+					testSingleFile23ChangePoint(
 							folder + apdmFile.getName(),
 							outFile, maxwin, sss);
 

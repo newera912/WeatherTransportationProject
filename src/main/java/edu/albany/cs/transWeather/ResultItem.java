@@ -134,22 +134,24 @@ public class ResultItem {
 				}
 			}
 		};
+		this.c = new ArrayList<Double>();
 		for (int i : Stations) {
 			// System.out.print(c[i] + " ");
+			this.c.add((double) Math.round(c[i]));
 			tempAvg += c[i];
 			tempList.add(i);
 		}
 
-		double avg_change = 1.0D * tempAvg / Stations.size();
-		// Remove the staions changing value is lower than average changing
-		// value;
-		// System.out.println("\nAvg-- " + avg_change);
-		// System.out.println(ArrayUtils.toString(this.Stations));
-		for (int i : tempList) {
-			if (c[i] < avg_change) {
-				this.Stations.remove(new Integer(i));
-			}
-		}
+		// double avg_change = 1.0D * tempAvg / Stations.size();
+		// // Remove the staions changing value is lower than average changing
+		// // value;
+		// // System.out.println("\nAvg-- " + avg_change);
+		// // System.out.println(ArrayUtils.toString(this.Stations));
+		// for (int i : tempList) {
+		// if (c[i] < avg_change) {
+		// this.Stations.remove(new Integer(i));
+		// }
+		// }
 		// System.out.println(ArrayUtils.toString(this.Stations));
 
 
