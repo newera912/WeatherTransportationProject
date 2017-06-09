@@ -1019,7 +1019,7 @@ public class TestTravelTimeDebug {
 
 			System.out.println();
 		}
-		System.out.print("s=" + s + " MaxWinSize=" + maxWin + " ");
+		System.out.print("[s=" + s + " MaxWinSize=" + maxWin + "] ");
 
 		/*
 		 * Generate all possible time window, window_size >=2 and less than
@@ -1202,8 +1202,8 @@ public class TestTravelTimeDebug {
 		// e.printStackTrace();
 		// }
 
-		System.out.print(sCount + " " + mapCount + " ");
-		System.out.println("running time: " + (System.nanoTime() - startTime)/1e9);
+		System.out.print("["+sCount + " " + mapCount + "]==> ");
+		System.out.println("Time: " + (System.nanoTime() - startTime)/1e9);
 
 	}
 
@@ -1356,8 +1356,8 @@ public class TestTravelTimeDebug {
 		}// i
 
 		filResultItems.removeAll(removeIdxList);
-		System.out.print("Filter size: " + origSize + " - "
-				+ removeIdxList.size() + " = " + filResultItems.size() + " ");
+		System.out.print("[Filter: " + origSize + " - "
+				+ removeIdxList.size() + " = " + filResultItems.size() + "] ");
 		return filResultItems;
 	}
 
@@ -1368,8 +1368,8 @@ public class TestTravelTimeDebug {
 		List<String> caseDates = (List<String>) Arrays.asList("20160811");
 
 		int count = 0;
-		String direc = "W";
-		String ex = "W621Debug";
+		String direc = "E";
+		String ex = "E621";
 		String methodType = "CPBest";
 		System.out.println("---" + methodType + "---" + direc);
 		int fcount = 0;
@@ -1395,13 +1395,13 @@ public class TestTravelTimeDebug {
 							.toString()).mkdirs();
 				}
 
-				if (!caseDates.contains(fileName.split("_")[0])) {
-					continue;
-				}
+//				if (!caseDates.contains(fileName.split("_")[0])) {
+//					continue;
+//				}
 				// if (!fileName.split("_")[0].startsWith("201604")) {
 				// continue;
 				// }
-				System.out.print(fcount + " " + type + " " + fileName + " ");
+				System.out.print("["+fcount + " " + type + " " + fileName + "] ");
 				fcount++;
 				String outFile = "outputs/trafficData/" + type + "_CaseStudy/"
 						+ methodType + "/" + sss + "/prf1/"
@@ -1595,7 +1595,7 @@ public class TestTravelTimeDebug {
 
 	public static void main(String[] args) {
 
-		List<Integer> maxWin = (List<Integer>) Arrays.asList(12);// ,24,36);//,12,18,24,30,36);
+		List<Integer> maxWin = (List<Integer>) Arrays.asList(24);// ,24,36);//,12,18,24,30,36);
 		List<Integer> ss = (List<Integer>) Arrays.asList(5);
 
 		for (int mwin : maxWin) {
