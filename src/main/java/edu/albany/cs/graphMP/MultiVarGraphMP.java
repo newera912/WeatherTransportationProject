@@ -9,7 +9,7 @@ import edu.albany.cs.scoreFuncs.EMSStat;
 import edu.albany.cs.scoreFuncs.Function;
 import edu.albany.cs.tailApprox.TailApprox;
 import edu.albany.cs.transWeather.MultiVarData;
-import edu.albany.cs.transWeather.MultiVarTransWeatherTest.mvNode;
+import edu.albany.cs.transWeather.Multi8VarTransWeatherTest.mvNode;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.math3.stat.StatUtils;
