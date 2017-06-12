@@ -95,7 +95,7 @@ def plotCaseDaysSingleStation():
 #         print i,c  
     root="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/"
     mWin=24
-    ex="W621"
+    ex="W621ABS"
     dir="W621"
     #dir='E'
     for SM in ['multi']:

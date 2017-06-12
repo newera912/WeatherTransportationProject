@@ -1,22 +1,16 @@
 package edu.albany.cs.graphMP;
 
-import edu.albany.cs.base.Utils;
-import edu.albany.cs.graph.TransWeatherGraph;
-import edu.albany.cs.graph.TransWeatherRealGraph;
-import edu.albany.cs.headApprox.HeadApprox;
-import edu.albany.cs.scoreFuncs.EMSStat2;
-import edu.albany.cs.scoreFuncs.EMSStat;
-import edu.albany.cs.scoreFuncs.Function;
-import edu.albany.cs.tailApprox.TailApprox;
-import edu.albany.cs.transWeather.MultiVarData;
-import edu.albany.cs.transWeather.Multi8VarTransWeatherTest.mvNode;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.math3.stat.StatUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
+import edu.albany.cs.base.Utils;
+import edu.albany.cs.headApprox.HeadApprox;
+import edu.albany.cs.tailApprox.TailApprox;
+import edu.albany.cs.transWeather.mvNode;
 
 /**
  * Algorithm 1 : Graph-Mp Aglorithm in our IJCAI paper.

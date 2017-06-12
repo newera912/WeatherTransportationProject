@@ -1,12 +1,10 @@
 package edu.albany.cs.transWeather;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import edu.albany.cs.apdmIO.APDMInputFormat;
 import edu.albany.cs.graph.TransWeatherRealGraph;
-import edu.albany.cs.transWeather.Multi8VarTransWeatherTest.mvNode;
 
 public class MultiVarData {
 	public Map<Integer,APDMInputFormat> apdmList=null;
