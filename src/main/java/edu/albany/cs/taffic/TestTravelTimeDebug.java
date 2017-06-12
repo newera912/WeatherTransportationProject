@@ -1368,8 +1368,8 @@ public class TestTravelTimeDebug {
 		List<String> caseDates = (List<String>) Arrays.asList("20160811");
 
 		int count = 0;
-		String direc = "E";
-		String ex = "E621";
+		String direc = "W";
+		String ex = "W621ABS";
 		String methodType = "CPBest";
 		System.out.println("---" + methodType + "---" + direc);
 		int fcount = 0;
