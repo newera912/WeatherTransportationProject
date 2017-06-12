@@ -1071,7 +1071,7 @@ public class TestTravelTimeDebug {
 				/** Checking there one or two changing points in the window */
 				for (int q = 0; q < X.length; q++) {
 					double average = getWindowAverage(X[q], S);
-					c[q] = Math.abs(average - hist_base[q]);// > 0) ? average
+					c[q] = average - hist_base[q];// > 0) ? average
 							//- hist_base[q] : 0.0D;
 
 					// if (S.length == 3) {
@@ -1369,7 +1369,7 @@ public class TestTravelTimeDebug {
 
 		int count = 0;
 		String direc = "W";
-		String ex = "W621ABS";
+		String ex = "W621diff";
 		String methodType = "CPBest";
 		System.out.println("---" + methodType + "---" + direc);
 		int fcount = 0;
@@ -1595,7 +1595,7 @@ public class TestTravelTimeDebug {
 
 	public static void main(String[] args) {
 
-		List<Integer> maxWin = (List<Integer>) Arrays.asList(24);// ,24,36);//,12,18,24,30,36);
+		List<Integer> maxWin = (List<Integer>) Arrays.asList(12);// ,24,36);//,12,18,24,30,36);
 		List<Integer> ss = (List<Integer>) Arrays.asList(5);
 
 		for (int mwin : maxWin) {
