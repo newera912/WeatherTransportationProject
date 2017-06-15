@@ -87,7 +87,9 @@ public class ResultItem {
 		
 	}
 	
-	public ResultItem(int index,double score,int[] changedVarList,String date,ArrayList<Integer> Stations,ArrayList<Integer> timeSlots,ArrayList<ResultItem> groundTrue) {
+	public ResultItem(int index, double score, int[] changedVarList,
+			String date, ArrayList<Integer> Stations,
+			ArrayList<Integer> timeSlots) {
 		this.index=index;
 		this.score=score;
 		this.date=date;
@@ -244,6 +246,16 @@ public class ResultItem {
 		 System.out.print(ArrayUtils.toString(resultItem.date));
 		 
 	 }
+
+	public static void printItem(int top, ResultItem resultItem, boolean varList) {
+		System.out.print("\nTop#" + top + " " + resultItem.index + " "
+				+ Math.round(resultItem.score) + " ");
+		System.out.print(ArrayUtils.toString(resultItem.Stations) + " ");
+		System.out.print(ArrayUtils.toString(resultItem.changedVarList) + " ");
+		System.out.print(ArrayUtils.toString(resultItem.timeSlots));
+		System.out.print(ArrayUtils.toString(resultItem.date));
+
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		

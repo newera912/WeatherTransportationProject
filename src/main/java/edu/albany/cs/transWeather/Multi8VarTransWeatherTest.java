@@ -40,14 +40,15 @@ public class Multi8VarTransWeatherTest {
 
 
 	
-	public static void testSingleFileChangePoint(String[] filePaths, String resultFileName,String gtFileName,String prf1File,int mwin,int sss) {
+	public static void testSingleFileChangePoint(String[] filePaths,
+			String resultFileName, String prf1File, int mwin, int sss) {
 		long startTime = System.nanoTime();		
 		
 		ArrayList<mvNode> mvNodes=new ArrayList<mvNode>();
 		Multi8VarTransWeatherTest mvTW=new Multi8VarTransWeatherTest();
 		
 		
-		MultiVarData mvData=new MultiVarData(filePaths);
+		MultiVarData mvData = new MultiVarData(filePaths, 8);
 		for(Map.Entry<Integer,TransWeatherRealGraph> entry : mvData.twGraphList.entrySet()){			
 			mvNodes.add(new mvNode(entry.getValue()));
 		}
@@ -87,7 +88,7 @@ public class Multi8VarTransWeatherTest {
 		double[] w={1.0D,1.0D,15.0D};	/*Result and Gound-True */		//TreeMap<Double,String> resultMap = new TreeMap<Double,String>(Collections.reverseOrder());		ArrayList<ResultItem> resultList = new ArrayList<ResultItem>();
 		
 		ArrayList<ResultItem> resultList = new ArrayList<ResultItem>();
-		ArrayList<ResultItem> trueResult=getGroundTruthRI(gtFileName);
+		// ArrayList<ResultItem> trueResult=getGroundTruthRI(gtFileName);
 				
 		//double[] win_mean=null;
 
@@ -262,7 +263,8 @@ public class Multi8VarTransWeatherTest {
 					timeSlots.add(slotIdx);
 				}
 				
-				ResultItem resItem=new ResultItem(resIndex,score,changedVarList, date, Stations, timeSlots,trueResult);
+				ResultItem resItem = new ResultItem(resIndex, score,
+						changedVarList, date, Stations, timeSlots);
 				resultList.add(resItem);
 				resIndex++;
 				
@@ -889,7 +891,8 @@ public class Multi8VarTransWeatherTest {
 			
 			if(methodType.equals("CP")){
 				System.out.println("---CP---");
-				testSingleFileChangePoint(filePath, outFile,"outputs/mesonetPlots/multi_CaseStudy/true_values3.txt",prf1File,maxwin,sss);
+				testSingleFileChangePoint(filePath, outFile, prf1File, maxwin,
+						sss);
 			}else{
 				System.out.println("---CP3---");
 				//testSingleFileChangePoint2(folderTemp+fileName,folderWind+fileName, outFile,"outputs/mesonetPlots/multi_CaseStudy/true_values3.txt",prf1File,maxwin,sss);

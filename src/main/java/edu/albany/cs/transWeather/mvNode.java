@@ -2,10 +2,12 @@ package edu.albany.cs.transWeather;
 import edu.albany.cs.graph.TransWeatherRealGraph;
 import edu.albany.cs.scoreFuncs.Function;
 
-/**
- * Multi variable Node class
+/****************************************************************************************
+ * \ Multi variable Node class A data structure to store each node's
+ * multi-variable information on current time window
  * 
- */
+ * \
+ ****************************************************************************************/
 
 public class mvNode {
 	public int numNodes = 0;

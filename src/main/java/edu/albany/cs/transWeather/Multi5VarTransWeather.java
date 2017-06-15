@@ -28,7 +28,7 @@ import edu.albany.cs.scoreFuncs.Function;
 
 //import edu.albany.cs.scoreFuncs.MultiSourceProtestScanStat;
 
-public class Multi6VarTransWeather {
+public class Multi5VarTransWeather {
 
 	public static int verboseLevel = 0;
 	public static ArrayList<ResultItem> allResultList = new ArrayList<ResultItem>();
@@ -40,19 +40,18 @@ public class Multi6VarTransWeather {
 			put("wind", 10.64);
 			put("windMax", 18.31);
 			put("rh", 31.69);
-			put("rad", 765.65);
 		}
 	};
 
 	public static void testSingleFileChangePoint(String[] filePaths,
-			String resultFileName, String gtFileName, String prf1File,
+			String resultFileName, String prf1File,
 			int mwin, int sss) {
 		long startTime = System.nanoTime();
 
 		ArrayList<mvNode> mvNodes = new ArrayList<mvNode>();
-		Multi6VarTransWeather mvTW = new Multi6VarTransWeather();
+		Multi5VarTransWeather mvTW = new Multi5VarTransWeather();
 
-		MultiVarData mvData = new MultiVarData(filePaths);
+		MultiVarData mvData = new MultiVarData(filePaths, 5);
 		for (Map.Entry<Integer, TransWeatherRealGraph> entry : mvData.twGraphList
 				.entrySet()) {
 			mvNodes.add(new mvNode(entry.getValue()));
@@ -98,19 +97,10 @@ public class Multi6VarTransWeather {
 		int histStaPoint = 12;
 		int sCount = 0;
 		int maxWin = mwin;
-		double[] w = { 1.0D, 1.0D, 15.0D }; /* Result and Gound-True */// TreeMap<Double,String>
-																		// resultMap
-																		// = new
-																		// TreeMap<Double,String>(Collections.reverseOrder());
-																		// ArrayList<ResultItem>
-																		// resultList
-																		// = new
-																		// ArrayList<ResultItem>();
+
 
 		ArrayList<ResultItem> resultList = new ArrayList<ResultItem>();
-		ArrayList<ResultItem> trueResult = getGroundTruthRI(gtFileName);
 
-		// double[] win_mean=null;
 
 		if (verboseLevel > 0) {
 
@@ -129,13 +119,13 @@ public class Multi6VarTransWeather {
 
 		/* Generate Time Windows Parameters */
 
-		System.out.println("s=" + s + " MaxWinSize=" + maxWin);
+		System.out.print("[s=" + s + " MaxWinSize=" + maxWin + "] ");
 		/*
 		 * Generate all possible time window, window_size >=2 and less than
 		 * maxWin
 		 */
-		for (int i = 0; i < mvNodes.get(1).X[0].length - 12; i++) {
-			for (int j = 0; j < i + 1; j++) {
+		for (int i = 72; i < mvNodes.get(1).X[0].length - 48; i++) {
+			for (int j = 72; j < i + 1; j++) {
 				if (i - j + 1 < 3 || i - j + 1 > maxWin) {
 					continue;
 				}
@@ -297,7 +287,7 @@ public class Multi6VarTransWeather {
 				}
 
 				ResultItem resItem = new ResultItem(resIndex, score,
-						changedVarList, date, Stations, timeSlots, trueResult);
+						changedVarList, date, Stations, timeSlots);
 				resultList.add(resItem);
 				resIndex++;
 
@@ -322,9 +312,9 @@ public class Multi6VarTransWeather {
 
 		}
 
-		System.out.println(sCount + " " + mapCount);
-		System.out.println("running time: " + (System.nanoTime() - startTime)
-				/ 1e9);
+		System.out.print("[" + sCount + " " + mapCount + "] ");
+		System.out.print("Running time: " + (System.nanoTime() - startTime)
+				/ 1e9 + "]");
 
 	}
 
@@ -922,13 +912,13 @@ public class Multi6VarTransWeather {
 		String methodType = "CP";
 
 		// "temp","temp9","press","wind","windDir","windMax","rh","rad"
-		String[] var_types = { "temp", "temp9", "press", "wind", "windDir",
-				"windMax", "rh", "rad" };
+		String[] var_types = { "temp", "temp9", "wind", "windMax", "rh" };
 
 		// String folder="data/mesonet_data/trans/";
 		boolean fileExistForAllVar = true;
 		String fileName = "";
 		String[] filePath = null;
+		int fileCount = 0;
 		for (File apdmFile : new File("data/mesonet_data/" + var_types[0]
 				+ "_APDM/").listFiles()) {
 			fileName = apdmFile.getName();
@@ -967,18 +957,18 @@ public class Multi6VarTransWeather {
 				System.out.println("false.....");
 				continue;
 			}
-			System.out.println("multi " + fileName);
+			System.out.print(fileCount + " [Multi " + fileName + "] ");
+			fileCount++;
 			String outFile = "outputs/mesonetPlots/multi_CaseStudy/"
 					+ methodType + "/" + sss + "/" + apdmFile.getName();
 			String prf1File = "outputs/mesonetPlots/multi_CaseStudy/"
 					+ methodType + "/" + sss + "/prf1/" + fileName;
 
 			if (methodType.equals("CP")) {
-				System.out.println("---CP---");
+				// System.out.println("---CP---");
 				testSingleFileChangePoint(
 						filePath,
 						outFile,
-						"outputs/mesonetPlots/multi_CaseStudy/true_values3.txt",
 						prf1File, maxwin, sss);
 			} else {
 				System.out.println("---CP3---");
@@ -991,7 +981,8 @@ public class Multi6VarTransWeather {
 		if (!fileExistForAllVar) {
 
 		}
-		ArrayList<ResultItem> groundTrueItems = getGroundTruthRI("outputs/mesonetPlots/multi_CaseStudy/true_values3.txt");
+		// ArrayList<ResultItem> groundTrueItems =
+		// getGroundTruthRI("outputs/mesonetPlots/multi_CaseStudy/true_values3.txt");
 		ArrayList<ResultItem> resultItems = new ArrayList<ResultItem>();
 
 		FileWriter allWriter = null;
@@ -1025,7 +1016,7 @@ public class Multi6VarTransWeather {
 
 		int mapCountAll = 0;
 		for (int i = 0; i < allResultList.size(); i++) {
-			ResultItem.printItem(i + 1, allResultList.get(i));
+			ResultItem.printItem(i + 1, allResultList.get(i), true);
 			resultItems.add(allResultList.get(i));
 			try {
 				allWriterOut
