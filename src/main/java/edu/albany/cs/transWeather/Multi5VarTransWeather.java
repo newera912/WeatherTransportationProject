@@ -925,9 +925,9 @@ public class Multi5VarTransWeather {
 			if (!fileName.split("_")[0].startsWith(month)) {
 				continue;
 			}
-			if (!caseDates.contains(fileName.split("_")[0])) {
-				continue;
-			}
+			// if (!caseDates.contains(fileName.split("_")[0])) {
+			// continue;
+			// }
 			filePath = new String[var_types.length];
 			for (int i = 0; i < var_types.length; i++) {
 				filePath[i] = "data/mesonet_data/" + var_types[i] + "_APDM/"
@@ -990,14 +990,14 @@ public class Multi5VarTransWeather {
 		FileWriter allWriterOutTop = null;
 		String prf1Filepath = sss + "/prf1/AllYearEvent_multi_PRF1_result-"
 				+ methodType + "_baseMeanDiff_20_s_" + sss + "_wMax_" + maxwin
-				+ "_filter_TIncld_0.720160412.txt";
+				+ "_filter_TIncld_0.7.txt";
 		String resultFilepath = sss + "/AllYearEvent_multiGraphMP_TopK_result-"
 				+ methodType + "_baseMeanDiff_20_s_" + sss + "_wMax_" + maxwin
-				+ "_filter_TIncld_0.720160412.txt";
+				+ "_filter_TIncld_0.7.txt";
 		String resultFilepath2 = sss
 				+ "/AllYearEvent_multiGraphMP_TopK_result-" + methodType
 				+ "_baseMeanDiff_20_s_" + sss + "_wMax_" + maxwin
-				+ "_filter_TIncld_0.720160412_Top.txt";
+				+ "_filter_TIncld_0.7_Top.txt";
 		try {
 			allWriter = new FileWriter("outputs/mesonetPlots/multi_CaseStudy/"
 					+ methodType + "/" + prf1Filepath, false);

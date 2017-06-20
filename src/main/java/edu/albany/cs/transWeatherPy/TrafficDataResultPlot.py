@@ -94,8 +94,8 @@ def plotCaseDaysSingleStation():
 #     for i,c in enumerate(colors):
 #         print i,c  
     root="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/"
-    mWin=12
-    ex="W621diff"
+    mWin=30
+    ex="W621"
     dir="W621"
     #dir='E'
     for SM in ['multi']:
