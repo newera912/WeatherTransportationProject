@@ -54,7 +54,7 @@ def main():
             
     rel_max_dist=20
     
-    evetnFileName="FWholeYearWETevents_New.txt"
+    evetnFileName="WholeYearWETevents_New.txt"
     weatherEvent0=[]
     trafficEvent0=[]
     sta_loc=Set()
@@ -111,27 +111,27 @@ def main():
     for timeThreshold in timeThresholds:        
         for r in radius:
             t0=time.time()
-            sys.stdout.write("r=%d timeRadius=%d "%(r,timeThreshold))
+            print("r=%d timeRadius=%d "%(r,timeThreshold))
             testStatisticsScore=PIC(weatherEvent0,trafficEvent0,r,timeThreshold,pair_dist)            
             sys.stdout.write("TestScore=%f "%(testStatisticsScore))    
                
-#             above=0.0
-#             for i in range(ite):
-#                 tempAll=AllEvent
-#                 
-#                 random.shuffle(tempAll)
-#                 weatherEvent=tempAll[:weatherEventNum]
-#                 trafficEvent=tempAll[weatherEventNum:]           
-#                                
-#                 #score=PIC(weatherEvent,trafficEvent,r,timeThreshold)
-#                 score=1.0
-#                 if testStatisticsScore<=score:
-#                     above+=1.0
-#                 if i%100==0:
-#                     print 'i=',i
-#             print "%d %d %f %f "%(timeThreshold,r,1.0*above/ite,above)
-#             output.write(str(timeThreshold)+" "+str(r)+" "+ str(1.0*above/ite)+" "+str(above))
-#             output.flush()
+            above=0.0
+            for i in range(ite):
+                tempAll=AllEvent
+                 
+                random.shuffle(tempAll)
+                weatherEvent=tempAll[:weatherEventNum]
+                trafficEvent=tempAll[weatherEventNum:]           
+                                
+                score=PIC(weatherEvent,trafficEvent,r,timeThreshold)
+                #score=1.0
+                if testStatisticsScore<=score:
+                    above+=1.0
+                if i%100==0:
+                    sys.stdout.write('i='+str(i)+" ")
+            print("%d %d %f %f "%(timeThreshold,r,1.0*above/ite,above))
+            output.write(str(timeThreshold)+" "+str(r)+" "+ str(1.0*above/ite)+" "+str(above))
+            output.flush()
             sys.stdout.write(" ",time.time()-t0,'sec ....',"\n")
 
     output.close()
