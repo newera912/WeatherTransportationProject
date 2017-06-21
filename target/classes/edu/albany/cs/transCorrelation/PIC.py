@@ -32,20 +32,14 @@ def calcDistance(Lat_A, Lng_A, Lat_B, Lng_B):
 
 def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
     pic=0.0
-    for wev in tqdm(weatherEvent):
+    for wev in tqdm(weatherEvent,):
         for tev in trafficEvent:
             pairs=str(min(tev[4],wev[4]))+"_"+str(min(tev[4],wev[4]))           
-            if np.abs(tev[3]-wev[3])>timeThreshold or not pair_dist.has_key(pairs):                                
+            if np.abs(tev[3]-wev[3])>timeThreshold:                                
                 continue
-            
-#             try:
-#                 pair_distance=calcDistance(wev[1],wev[2],tev[1],tev[2])
-#             except:
-#                 
-#                 if wev[1]==tev[1] and wev[2]==tev[2]:
-#                     continue
-#                 pair_distance=0.0
-#                               
+            if not pair_dist.has_key(pairs):
+                continue
+                      
             if pair_dist[pairs]<=r:
                 #print r,pair_distance
                 pic+=1.0            
@@ -119,7 +113,7 @@ def main():
             t0=time.time()
             sys.stdout.write("r=%d timeRadius=%d "%(r,timeThreshold))
             testStatisticsScore=PIC(weatherEvent0,trafficEvent0,r,timeThreshold,pair_dist)            
-            sys.stdout.write("TestScore=%d "%(np.round(testStatisticsScore)))    
+            sys.stdout.write("TestScore=%f "%(testStatisticsScore))    
                
 #             above=0.0
 #             for i in range(ite):
@@ -138,7 +132,7 @@ def main():
 #             print "%d %d %f %f "%(timeThreshold,r,1.0*above/ite,above)
 #             output.write(str(timeThreshold)+" "+str(r)+" "+ str(1.0*above/ite)+" "+str(above))
 #             output.flush()
-            sys.stdout.write(" "+time.time()-t0,'sec ....'+"\n")
+            sys.stdout.write(" ",time.time()-t0,'sec ....',"\n")
 
     output.close()
 if __name__ =='__main__':
