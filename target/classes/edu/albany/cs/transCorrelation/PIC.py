@@ -1,6 +1,5 @@
 import numpy as np
 from math import *
-import matplotlib.pyplot as plt
 import numpy as np
 import random,time
 from sets import Set
