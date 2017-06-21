@@ -54,7 +54,7 @@ def main():
             
     rel_max_dist=20
     
-    evetnFileName="F:/workspace/git/WeatherTransportationProject/data/events/WholeYearWETevents_New.txt"
+    evetnFileName="FWholeYearWETevents_New.txt"
     weatherEvent0=[]
     trafficEvent0=[]
     sta_loc=Set()
