@@ -1,5 +1,6 @@
 import numpy as np
 from math import *
+import matplotlib.pyplot as plt
 import numpy as np
 import random,time
 from sets import Set
@@ -47,7 +48,7 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
 
 
 def main():
-    ite=1
+    ite=1000
     output=open("PICResult.txt","a+")   
     
             
@@ -67,9 +68,9 @@ def main():
                 sta_loc.add((int(terms[4]),float(terms[1]),float(terms[2])))
             else:
                 trafficEvent0.append((int(terms[0]),float(terms[1]),float(terms[2]),int(terms[3]),int(terms[4])))
-                tmc_loc.add((int(terms[4]),float(terms[1]),float(terms[2])))
-        
-     
+                tmc_loc.add((int(terms[4]),float(terms[1]),float(terms[2])))      
+  
+    
     AllEvent=weatherEvent0+trafficEvent0
     weatherEventNum=len(weatherEvent0)
     trafficEventNum=len(trafficEvent0)
@@ -110,28 +111,28 @@ def main():
     for timeThreshold in timeThresholds:        
         for r in radius:
             t0=time.time()
-            sys.stdout.write("r=%d timeRadius=%d "%(r,timeThreshold))
+            print("r=%d timeRadius=%d "%(r,timeThreshold))
             testStatisticsScore=PIC(weatherEvent0,trafficEvent0,r,timeThreshold,pair_dist)            
-            sys.stdout.write("TestScore=%f "%(testStatisticsScore))    
+                
                
-#             above=0.0
-#             for i in range(ite):
-#                 tempAll=AllEvent
-#                 
-#                 random.shuffle(tempAll)
-#                 weatherEvent=tempAll[:weatherEventNum]
-#                 trafficEvent=tempAll[weatherEventNum:]           
-#                                
-#                 #score=PIC(weatherEvent,trafficEvent,r,timeThreshold)
-#                 score=1.0
-#                 if testStatisticsScore<=score:
-#                     above+=1.0
+            above=0.0
+            for i in range(ite):
+                tempAll=AllEvent
+                 
+                random.shuffle(tempAll)
+                weatherEvent=tempAll[:weatherEventNum]
+                trafficEvent=tempAll[weatherEventNum:]           
+                                
+                score=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
+                #score=1.0
+                if testStatisticsScore<=score:
+                    above+=1.0
 #                 if i%100==0:
-#                     print 'i=',i
-#             print "%d %d %f %f "%(timeThreshold,r,1.0*above/ite,above)
-#             output.write(str(timeThreshold)+" "+str(r)+" "+ str(1.0*above/ite)+" "+str(above))
-#             output.flush()
-            sys.stdout.write(" ",time.time()-t0,'sec ....',"\n")
+#                     sys.stdout.write('i='+str(i)+" ")
+            sys.stdout.write("\n%d %f %f \n"%(testStatisticsScore,above,1.0*above/ite))
+            output.write(str(timeThreshold)+" "+str(r)+" "+str(above)+" "+ str(1.0*above/ite)+"\n")
+            output.flush()
+             
 
     output.close()
 if __name__ =='__main__':
