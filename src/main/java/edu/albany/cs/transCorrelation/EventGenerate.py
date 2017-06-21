@@ -1,3 +1,4 @@
+import numpy as np
 
 def getWeatherEvent(fileName):
     weatherEvents=[]
@@ -18,11 +19,11 @@ def getWeatherEvent(fileName):
                     weatherEvents.append((sta,time))
     return weatherEvents
     
-def getTrafficEvent(fileName):
+def getTrafficEvent(fileName,start_index,max_event):
     trafficEvents=[]
     with open(fileName,"r") as wF:
         for count,line in enumerate(wF.readlines()):
-            if count>300:
+            if count>max_event or count <start_index:
                 continue
             terms=line.strip().split(" ")            
             tmcs=map(int,terms[2].split(","))
@@ -58,7 +59,7 @@ def getTrafficAccident(fileName):
             trafficEvents.append((terms[0],tmcID[terms[1]],terms[2]))
     return trafficEvents    
 
-def main2():
+def main():
     root="F:/workspace/git/Graph-MP/data/trafficData/I90_TravelTime/"
     tmcLoc="I90EastTMCLatLon.txt"    
     """read TMC and stations information"""
@@ -96,43 +97,33 @@ def main2():
     
     print weatherEvents
     
-    trafficFielName="F:/workspace/git/Graph-MP/outputs/trafficData/travelTime_CaseStudy/CPBest/15/I90trafficEAllYearEvent_TopK_result_baseMeanDiff_20_s_15_wMax_12_filter_TIncld_0.7_Top_multi.txt"
-    trafficEventsE=getTrafficEvent(trafficFielName)
+    trafficFielName="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/5/E621I90traffic_AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_18_filter_TIncld_0.7_Top_multi.txt"
+    trafficEventsE=getTrafficEvent(trafficFielName,0,300)
     
-    trafficFielName="F:/workspace/git/Graph-MP/outputs/trafficData/travelTime_CaseStudy/CPBest/15/I90trafficWAllYearEvent_TopK_result_baseMeanDiff_20_s_15_wMax_12_filter_TIncld_0.7_Top_multi.txt"
-    trafficEventsW=getTrafficEvent(trafficFielName)
+    trafficFielName="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/5/E621I90traffic_AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_18_filter_TIncld_0.7_Top_single.txt"
+    trafficEventsE+=getTrafficEvent(trafficFielName,50,150)
+    
+    trafficFielName="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/5/W621I90traffic_AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_18_filter_TIncld_0.7_Top_multi.txt"
+    trafficEventsW=getTrafficEvent(trafficFielName,0,300)
+    
+    trafficFielName="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/5/W621I90traffic_AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_18_filter_TIncld_0.7_Top_single.txt"
+    trafficEventsW+=getTrafficEvent(trafficFielName,50,150)
     
     print len(weatherEvents),len(trafficEventsE)+len(trafficEventsW)
-    statOutTMC=open("F:/workspace/git/Graph-MP/data/events/stat_tmc.txt","w")
-    statOutW=open("F:/workspace/git/Graph-MP/data/events/stat_w.txt","w")
-    with open("F:/workspace/git/Graph-MP/data/events/WholeYearWETevents_New.txt","w") as output:
+    statOutTMC=open("F:/workspace/git/WeatherTransportationProject/data/events/stat_tmc.txt","w")
+    statOutW=open("F:/workspace/git/WeatherTransportationProject/data/events/stat_w.txt","w")
+    with open("F:/workspace/git/WeatherTransportationProject/data/events/WholeYearWETevents_New.txt","w") as output:
         for event in weatherEvents:
-            output.write("0 "+str(station[event[0]][0])+" "+str(station[event[0]][1])+" "+str(event[1])+"\n")
+            output.write("0 "+str(station[event[0]][0])+" "+str(station[event[0]][1])+" "+str(event[1])+" "+str("1"+"%02d"%event[0])+"\n")
             statOutW.write("")
         for event in trafficEventsE:
-            output.write("1 "+str(tmcsE[event[0]][0])+" "+str(tmcsE[event[0]][1])+" "+str(event[1])+"\n")
+            output.write("1 "+str(round(tmcsE[event[0]][0]))+" "+str(round(tmcsE[event[0]][1]))+" "+str(event[1])+" "+str("2"+"%02d"%event[0])+"\n")
         for event in trafficEventsW:
-            output.write("1 "+str(tmcsW[event[0]][0])+" "+str(tmcsW[event[0]][1])+" "+str(event[1])+"\n")   
+            output.write("1 "+str(round(tmcsW[event[0]][0]))+" "+str(round(tmcsW[event[0]][1]))+" "+str(event[1])+" "+str("3"+"%02d"%event[0])+"\n")   
             
-def main():
-    weatherFileName="F:/workspace/git/Graph-MP/outputs/mesonetPlots/multi_CaseStudy/CP/2/AllYearEvent_multiGraphMP_TopK_result-CP_baseMeanDiff_20_s_2_wMax_18_filter_TIncld_0.7_Top.txt"
-    weatherEvents=getWeatherEvent(weatherFileName)
-    
-    print weatherEvents
-    
-    trafficFielName="F:/workspace/git/Graph-MP/outputs/trafficData/travelTime_CaseStudy/CPBest/15/I90trafficEAllYearEvent_TopK_result_baseMeanDiff_20_s_15_wMax_12_filter_TIncld_0.7_Top_multi.txt"
-    trafficEvents=getTrafficEvent(trafficFielName)
-    with open("F:/workspace/git/Graph-MP/data/events/WholeYearI90East_events.txt","w") as output:
-        for event in weatherEvents:
-            output.write("0 "+str(event[0])+" "+str(event[1])+"\n")
-        for event in trafficEventsE:
-            output.write("1 "+str(tmcsE[event[0]][0])+" "+str(tmcsE[event[0]][1])+" "+str(event[1])+"\n")
-        for event in trafficEventsW:
-            output.write("1 "+str(tmcsW[event[0]][0])+" "+str(tmcsW[event[0]][1])+" "+str(event[1])+"\n")    
-        
-    
-    
-    
+
+def round(x):    
+    return np.round(100.0*x)/100.0    
 
 if __name__ =='__main__':
-    main2()
+    main()
