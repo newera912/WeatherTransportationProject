@@ -131,19 +131,19 @@ def main():
                 
                
             above=0.0
-#             for i in range(ite):
-#                 tempAll=AllEvent
-#                  
-#                 random.shuffle(tempAll)
-#                 weatherEvent=tempAll[:weatherEventNum]
-#                 trafficEvent=tempAll[weatherEventNum:]           
-#                                 
-#                 score=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
-#                 #score=1.0
-#                 if testStatisticsScore<=score:
-#                     above+=1.0
-# #                 if i%100==0:
-# #                     sys.stdout.write('i='+str(i)+" ")
+            for i in range(ite):
+                tempAll=AllEvent
+                  
+                random.shuffle(tempAll)
+                weatherEvent=tempAll[:weatherEventNum]
+                trafficEvent=tempAll[weatherEventNum:]           
+                                 
+                score=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
+                #score=1.0
+                if testStatisticsScore<=score:
+                    above+=1.0
+#                 if i%100==0:
+#                     sys.stdout.write('i='+str(i)+" ")
             sys.stdout.write("\n%d %f %f \n"%(testStatisticsScore,above,1.0*above/ite))
             output.write(str(timeThreshold)+" "+str(r)+" "+str(above)+" "+ str(1.0*above/ite)+"\n")
             output.flush()
