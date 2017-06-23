@@ -58,6 +58,7 @@ def main():
     trafficEvent0=[]
     sta_loc=Set()
     tmc_loc=Set()
+    
     with open(evetnFileName,"r") as eF:
         for line in eF.readlines():
             terms=line.strip().split()
@@ -111,7 +112,7 @@ def main():
         for r in radius:
             t0=time.time()
             print("r=%d timeRadius=%d "%(r,timeThreshold))
-            testStatisticsScore=PIC(weatherEvent0,trafficEvent0,r,timeThreshold,pair_dist)            
+            testStatisticsScore=PIC(weatherEvent0,trafficEvent0,r,timeThreshold,pair_dist)    
                 
                
             above=0.0
