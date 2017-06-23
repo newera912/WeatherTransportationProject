@@ -31,29 +31,45 @@ def calcDistance(Lat_A, Lng_A, Lat_B, Lng_B):
 
 def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
     pic=0.0
-    for wev in tqdm(weatherEvent,):
+    for wev in weatherEvent:
         for tev in trafficEvent:
-            pairs=str(min(tev[4],wev[4]))+"_"+str(max(tev[4],wev[4]))           
-            if np.abs(tev[3]-wev[3])>timeThreshold:                                
-                continue
+            tempPIC=0.0
+            pairs=str(min(tev[5],wev[5]))+"_"+str(max(tev[5],wev[5]))
             if not pair_dist.has_key(pairs):
+                continue 
+            if pair_dist[pairs]>r:
                 continue
+            overlap=getOverlap([wev[3],wev[4]], [tev[3],tev[4]])
+            if overlap>0:
+                tempPIC=1.0
+            elif wev[4]<tev[3] and wev[4]+timeThreshold>=tev[3]:
+                tempPIC=1.0
+            elif tev[4]<wev[3] and tev[4]+timeThreshold>=wev[4]:
+                tempPIC=1.0
+            if tempPIC>0.0:
+                #print "Dist<",round(pair_dist[pairs]),"Station-ID:",wev[5]%100,wev[3]/1000,wev[3]%1000,"~",wev[4]%1000,"| TMC-ID:",tev[5]%100,tev[3]/1000,tev[3]%1000,"~",tev[4]%1000
+                print round(pair_dist[pairs]),wev[5]%100,wev[3]/1000,wev[3]%1000,"~",wev[4]%1000,tev[5]%100,tev[3]/1000,tev[3]%1000,"~",tev[4]%1000
+                
+            pic+=tempPIC
+                
+            
+                
                       
-            if pair_dist[pairs]<=r:
-                #print r,pair_distance
-                pic+=1.0            
     return pic
 
+def getOverlap(a, b):
+    return max(0, min(a[1], b[1]) - max(a[0], b[0]))
 
+def round(x):    
+    return np.round(100.0*x)/100.0  
 
 def main():
     ite=1000
-    output=open("PICResult.txt","a+")   
-    
+    output=open("PICResultBlock.txt","a+")      
             
     rel_max_dist=20
     
-    evetnFileName="WholeYearWETevents_New.txt"
+    evetnFileName="WholeYearWETevents_Blocks.txt"
     weatherEvent0=[]
     trafficEvent0=[]
     sta_loc=Set()
@@ -63,11 +79,11 @@ def main():
             terms=line.strip().split()
             #terms=map(int,terms) 
             if int(terms[0])==0:                
-                weatherEvent0.append((int(terms[0]),float(terms[1]),float(terms[2]),int(terms[3]),int(terms[4])))
-                sta_loc.add((int(terms[4]),float(terms[1]),float(terms[2])))
+                weatherEvent0.append((int(terms[0]),float(terms[1]),float(terms[2]),int(terms[3]),int(terms[4]),int(terms[5])))
+                sta_loc.add((int(terms[5]),float(terms[1]),float(terms[2])))
             else:
-                trafficEvent0.append((int(terms[0]),float(terms[1]),float(terms[2]),int(terms[3]),int(terms[4])))
-                tmc_loc.add((int(terms[4]),float(terms[1]),float(terms[2])))      
+                trafficEvent0.append((int(terms[0]),float(terms[1]),float(terms[2]),int(terms[3]),int(terms[4]),int(terms[5])))
+                tmc_loc.add((int(terms[5]),float(terms[1]),float(terms[2])))      
   
     
     AllEvent=weatherEvent0+trafficEvent0
@@ -84,7 +100,7 @@ def main():
             dist=calcDistance(a[1], a[2],b[1],b[2])
         if dist>rel_max_dist:
             continue               
-        pair_dist[str(min(a,b))+"_"+str(max(a,b))]=dist
+        pair_dist[str(min(a[0],b[0]))+"_"+str(max(a[0],b[0]))]=dist
         
     for (a,b) in itertools.combinations(tmc_loc, 2):
         if a[1]==b[1] and a[2]==b[2]:
@@ -93,7 +109,7 @@ def main():
             dist=calcDistance(a[1], a[2],b[1],b[2])
         if dist>rel_max_dist:
             continue              
-        pair_dist[str(min(a,b))+"_"+str(max(a,b))]=dist 
+        pair_dist[str(min(a[0],b[0]))+"_"+str(max(a[0],b[0]))]=dist
         
     for (a,b) in list(itertools.product( sta_loc,tmc_loc)):
         if a[1]==b[1] and a[2]==b[2]:
@@ -102,7 +118,7 @@ def main():
             dist=calcDistance(a[1], a[2],b[1],b[2])
         if dist>rel_max_dist:
             continue              
-        pair_dist[str(min(a,b))+"_"+str(max(a,b))]=dist 
+        pair_dist[str(min(a[0],b[0]))+"_"+str(max(a[0],b[0]))]=dist
     print "All-pairs",len(pair_dist)   
     timeThresholds=[2,3,4,5]  
     radius=[5,10,15,20]  #5,9,13,17,21,25   
@@ -115,19 +131,19 @@ def main():
                 
                
             above=0.0
-            for i in range(ite):
-                tempAll=AllEvent
-                 
-                random.shuffle(tempAll)
-                weatherEvent=tempAll[:weatherEventNum]
-                trafficEvent=tempAll[weatherEventNum:]           
-                                
-                score=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
-                #score=1.0
-                if testStatisticsScore<=score:
-                    above+=1.0
-#                 if i%100==0:
-#                     sys.stdout.write('i='+str(i)+" ")
+#             for i in range(ite):
+#                 tempAll=AllEvent
+#                  
+#                 random.shuffle(tempAll)
+#                 weatherEvent=tempAll[:weatherEventNum]
+#                 trafficEvent=tempAll[weatherEventNum:]           
+#                                 
+#                 score=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
+#                 #score=1.0
+#                 if testStatisticsScore<=score:
+#                     above+=1.0
+# #                 if i%100==0:
+# #                     sys.stdout.write('i='+str(i)+" ")
             sys.stdout.write("\n%d %f %f \n"%(testStatisticsScore,above,1.0*above/ite))
             output.write(str(timeThreshold)+" "+str(r)+" "+str(above)+" "+ str(1.0*above/ite)+"\n")
             output.flush()

@@ -33,7 +33,7 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
     pic=0.0
     for wev in tqdm(weatherEvent,):
         for tev in trafficEvent:
-            pairs=str(min(tev[4],wev[4]))+"_"+str(min(tev[4],wev[4]))           
+            pairs=str(min(tev[4],wev[4]))+"_"+str(max(tev[4],wev[4]))           
             if np.abs(tev[3]-wev[3])>timeThreshold:                                
                 continue
             if not pair_dist.has_key(pairs):
