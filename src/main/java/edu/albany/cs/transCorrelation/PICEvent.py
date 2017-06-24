@@ -63,11 +63,11 @@ def round(x):
 
 def main():
     ite=1000
-    output=open("PICResultBlockSimu.txt","a+")      
+    output=open("PICResultWTTop100Evetns.txt","a+")      
             
     rel_max_dist=20
     
-    evetnFileName="RealNetworkSimuEventsBlocks.txt"
+    evetnFileName="WholeYearWETevents_Blocks100.txt"
     weatherEvent0=[]
     trafficEvent0=[]
     sta_loc=Set()
