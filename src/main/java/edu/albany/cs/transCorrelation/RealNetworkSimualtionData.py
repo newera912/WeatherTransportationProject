@@ -90,7 +90,8 @@ def perdelta(start, end, delta):
     while curr < end:
         yield curr
         curr += delta
-def Case1():
+
+def Case1Event():
     root="F:/workspace/git/Graph-MP/data/trafficData/I90_TravelTime/"
     tmcLoc="I90EastTMCLatLon.txt"    
     """read TMC and stations information"""
@@ -150,8 +151,100 @@ def Case1():
     
     for d in true_dates:
         for s in true_stations:
-            start_times=random.randrange(75, 235)
             for t in stat_tmc[s]:
+                start_time=random.randrange(75, 235)            
+                weatherEvents.append((s,d+"%03d"%(start_time),d+"%03d"%(start_time+3)))
+                trafficEvents.append((t,d+"%03d"%(start_time),d+"%03d"%(start_time+3)))
+    print len(weatherEvents)
+    print len(trafficEvents)          
+    
+    for d in random.sample(wDates,30):
+        for s in random.sample(station.keys(),5):
+            start_time=random.randrange(75, 235)
+            weatherEvents.append((s,d+"%03d"%(start_time),d+"%03d"%(start_time+3)))
+    for d in random.sample(tDates,15):
+        for t in random.sample(tmcsE.keys(),5):
+            start_time=random.randrange(75, 235)
+            trafficEvents.append((t,d+"%03d"%(start_time),d+"%03d"%(start_time+3)))
+    for d in random.sample(tDates,15):
+        for t in random.sample(tmcsW.keys(),5):
+            start_time=random.randrange(75, 235)
+            trafficEvents.append((t,d+"%03d"%(start_time),d+"%03d"%(start_time+3)))
+    print len(weatherEvents)
+    print len(trafficEvents)                  
+    with open("RealNetworkSimuEventsBlocks.txt","w") as output:
+        for event in weatherEvents:
+            output.write("0 "+str(station[event[0]][0])+" "+str(station[event[0]][1])+" "+str(event[1])+" "+str(event[2])+" "+str(event[0])+"\n")
+            
+        for event in trafficEvents:
+            if tmcsE.has_key(event[0]):
+                output.write("1 "+str(round(tmcsE[event[0]][0]))+" "+str(round(tmcsE[event[0]][1]))+" "+str(event[1])+" "+str(event[2])+" "+str(event[0])+"\n")
+            else:
+                output.write("1 "+str(round(tmcsW[event[0]][0]))+" "+str(round(tmcsW[event[0]][1]))+" "+str(event[1])+" "+str(event[2])+" "+str(event[0])+"\n")
+    
+
+def Case1():
+    root="F:/workspace/git/Graph-MP/data/trafficData/I90_TravelTime/"
+    tmcLoc="I90EastTMCLatLon.txt"    
+    """read TMC and stations information"""
+    
+    station={}    
+    tmcsE={}
+    tmcIDE={}
+    tmcsW={}
+    tmcIDW={}
+    # stationID={}
+    with open(root+"StationLatLong.txt","r") as sF:
+        for i,line in enumerate(sF.readlines()):
+            line=line.strip().split()
+            station[i+100]=(float(line[1]),float(line[2]))
+           
+    
+    
+    with open(root+"I90EastTMCLatLon.txt","r") as tF:
+        for j,line in enumerate(tF.readlines()):
+            line=line.strip().split()
+            tmcsE[j+200]=(float(line[1]),float(line[2]))
+            
+           
+    
+    with open(root+"I90WestTMCLatLon.txt","r") as tF:
+        for j,line in enumerate(tF.readlines()):
+            line=line.strip().split()
+            tmcsW[j+300]=(float(line[1]),float(line[2]))
+            
+    stat_tmc=defaultdict(list) 
+    for stat in station.keys():
+        for te in tmcsE.keys():
+            if calcDistance(station[stat][0], station[stat][1], tmcsE[te][0], tmcsE[te][1])<=10:
+                stat_tmc[stat].append(te)   
+        for te in tmcsW.keys():
+            if calcDistance(station[stat][0], station[stat][1], tmcsW[te][0], tmcsW[te][1])<=10:
+                stat_tmc[stat].append(te)
+    for k,v in stat_tmc.items():
+        print k,v 
+    true_stations=[100,102,103]
+    true_dates=["20160301","20160401","20160501","20160601","20160701","20160801","20160901"]  
+    
+    dates=[]
+    for result in perdelta(date(2016, 3, 1), date(2016, 9, 30), timedelta(days=1)):
+        d=str(result).replace("-","")
+        if d not in true_dates:
+            dates.append(d)
+#         else:
+#             print d
+    random.shuffle(dates)
+    wDates=dates[:103]
+    tDates=dates[103:]
+#     print wDates
+#     print tDates
+    weatherEvents=[]
+    trafficEvents=[]
+    
+    for d in true_dates:
+        for s in true_stations:            
+            for t in stat_tmc[s]:
+                start_times=random.randrange(75, 235)
                 for start_time in range(start_times,start_times+3):
                     weatherEvents.append((s,d+"%03d"%(start_time)))
                     trafficEvents.append((t,d+"%03d"%(start_time)))
@@ -184,38 +277,8 @@ def Case1():
                 output.write("1 "+str(round(tmcsE[event[0]][0]))+" "+str(round(tmcsE[event[0]][1]))+" "+str(event[1])+" "+str(event[0])+"\n")
             else:
                 output.write("1 "+str(round(tmcsW[event[0]][0]))+" "+str(round(tmcsW[event[0]][1]))+" "+str(event[1])+" "+str(event[0])+"\n")
-            
-                
-            
-            
-        
     
-    
-#     weatherFileName="F:/workspace/git/Graph-MP/outputs/mesonetPlots/multi_CaseStudy/CP/2/AllYearEvent_multiGraphMP_TopK_result-CP_baseMeanDiff_20_s_2_wMax_18_filter_TIncld_0.7_Top.txt"
-#     weatherEvents=getWeatherEvent(weatherFileName)
-#     
-#     print weatherEvents
-#     
-#     trafficFielName="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/5/E621I90traffic_AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_18_filter_TIncld_0.7_Top_multi.txt"
-#     trafficEventsE=getTrafficEvent(trafficFielName,0,300)
-#        
-#     trafficFielName="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/5/W621I90traffic_AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_18_filter_TIncld_0.7_Top_multi.txt"
-#     trafficEventsW=getTrafficEvent(trafficFielName,0,300)
-#     
-#  
-#     
-#     print len(weatherEvents),len(trafficEventsE)+len(trafficEventsW)
-#     statOutTMC=open("F:/workspace/git/WeatherTransportationProject/data/events/stat_tmc.txt","w")
-#     statOutW=open("F:/workspace/git/WeatherTransportationProject/data/events/stat_w.txt","w")
-#     with open(6,"w") as output:
-#         for event in weatherEvents:
-#             output.write("0 "+str(station[event[0]][0])+" "+str(station[event[0]][1])+" "+str(event[1])+" "+str("1"+"%02d"%event[0])+"\n")
-#             statOutW.write("")
-#         for event in trafficEventsE:
-#             output.write("1 "+str(round(tmcsE[event[0]][0]))+" "+str(round(tmcsE[event[0]][1]))+" "+str(event[1])+" "+str("2"+"%02d"%event[0])+"\n")
-#         for event in trafficEventsW:
-#             output.write("1 "+str(round(tmcsW[event[0]][0]))+" "+str(round(tmcsW[event[0]][1]))+" "+str(event[1])+" "+str("3"+"%02d"%event[0])+"\n")   
-#             
+           
 
 def round(x):    
     return np.round(100.0*x)/100.0    

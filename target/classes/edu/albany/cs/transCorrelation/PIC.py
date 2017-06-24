@@ -48,8 +48,7 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
 
 def main():
     ite=10
-    output=open("PICResultRealNetworkSimu.txt","a+")   
-    
+    output=open("PICResultRealNetworkSimu.txt","a+")      
             
     rel_max_dist=20
     

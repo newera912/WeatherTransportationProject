@@ -69,7 +69,7 @@ def main():
             
     rel_max_dist=20
     
-    evetnFileName="WholeYearWETevents_Blocks.txt"
+    evetnFileName="WholeYearWETevents_Blocks100.txt"
     weatherEvent0=[]
     trafficEvent0=[]
     sta_loc=Set()
@@ -148,7 +148,7 @@ def main():
             output.write(str(timeThreshold)+" "+str(r)+" "+str(above)+" "+ str(1.0*above/ite)+"\n")
             output.flush()
              
-
+    
     output.close()
 if __name__ =='__main__':
     main()
