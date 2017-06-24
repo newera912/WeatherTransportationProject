@@ -46,10 +46,10 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
                 tempPIC=1.0
             elif tev[4]<wev[3] and tev[4]+timeThreshold>=wev[4]:
                 tempPIC=1.0
-            if tempPIC>0.0:
-                #print "Dist<",round(pair_dist[pairs]),"Station-ID:",wev[5]%100,wev[3]/1000,wev[3]%1000,"~",wev[4]%1000,"| TMC-ID:",tev[5]%100,tev[3]/1000,tev[3]%1000,"~",tev[4]%1000
-                print round(pair_dist[pairs]),wev[5]%100,wev[3]/1000,wev[3]%1000,"~",wev[4]%1000,tev[5]%100,tev[3]/1000,tev[3]%1000,"~",tev[4]%1000
-                
+#             if tempPIC>0.0:
+#                 #print "Dist<",round(pair_dist[pairs]),"Station-ID:",wev[5]%100,wev[3]/1000,wev[3]%1000,"~",wev[4]%1000,"| TMC-ID:",tev[5]%100,tev[3]/1000,tev[3]%1000,"~",tev[4]%1000
+#                 print round(pair_dist[pairs]),wev[5]%100,wev[3]/1000,wev[3]%1000,"~",wev[4]%1000,tev[5]%100,tev[3]/1000,tev[3]%1000,"~",tev[4]%1000
+#                 
             pic+=tempPIC
                 
             
@@ -131,7 +131,7 @@ def main():
                 
                
             above=0.0
-            for i in range(ite):
+            for i in tqdm(range(ite)):
                 tempAll=AllEvent
                   
                 random.shuffle(tempAll)
