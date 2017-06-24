@@ -4,7 +4,7 @@ def getWeatherEvent(fileName):
     weatherEvents=[]
     with open(fileName,"r") as wF:
         for count,line in enumerate(wF.readlines()):
-            if count>150:
+            if count>100:
                 continue
             terms=line.strip().split(" ")            
             stations=map(int,terms[2].split(","))
