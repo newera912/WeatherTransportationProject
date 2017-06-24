@@ -39,13 +39,12 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
                 continue 
             if pair_dist[pairs]>r:
                 continue
-            overlap=getOverlap([wev[3],wev[4]], [tev[3],tev[4]])
-            if overlap>0:
+            
+            if wev[3]<=tev[3] and tev[3]<=wev[4]:
                 tempPIC=1.0
             elif wev[4]<tev[3] and wev[4]+timeThreshold>=tev[3]:
                 tempPIC=1.0
-            elif tev[4]<wev[3] and tev[4]+timeThreshold>=wev[4]:
-                tempPIC=1.0
+            
 #             if tempPIC>0.0:
 #                 #print "Dist<",round(pair_dist[pairs]),"Station-ID:",wev[5]%100,wev[3]/1000,wev[3]%1000,"~",wev[4]%1000,"| TMC-ID:",tev[5]%100,tev[3]/1000,tev[3]%1000,"~",tev[4]%1000
 #                 print round(pair_dist[pairs]),wev[5]%100,wev[3]/1000,wev[3]%1000,"~",wev[4]%1000,tev[5]%100,tev[3]/1000,tev[3]%1000,"~",tev[4]%1000
@@ -57,8 +56,7 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
                       
     return pic
 
-def getOverlap(a, b):
-    return max(0, min(a[1], b[1]) - max(a[0], b[0]))
+
 
 def round(x):    
     return np.round(100.0*x)/100.0  

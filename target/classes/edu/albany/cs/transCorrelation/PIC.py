@@ -34,7 +34,7 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
     for wev in weatherEvent:
         for tev in trafficEvent:
             pairs=str(min(tev[4],wev[4]))+"_"+str(max(tev[4],wev[4]))       
-            if np.abs(tev[3]-wev[3])>timeThreshold:                                               
+            if tev[3]-wev[3]>timeThreshold:                                               
                 continue
             if not pair_dist.has_key(pairs):
                 continue
@@ -47,15 +47,9 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
 
 
 def main():
-<<<<<<< HEAD
     ite=1000
     output=open("PICResult100.txt","a+")   
-    
-=======
-    ite=10
-    output=open("PICResultRealNetworkSimu.txt","a+")      
->>>>>>> e54a2bc04ea74ba5e11a62caf68e61d5389f6fd3
-            
+  
     rel_max_dist=20
     
     evetnFileName="WholeYearWETevents_100.txt"
