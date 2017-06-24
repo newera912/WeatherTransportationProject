@@ -107,7 +107,7 @@ def main():
     print len(weatherEvents),len(trafficEventsE)+len(trafficEventsW)
     statOutTMC=open("F:/workspace/git/WeatherTransportationProject/data/events/stat_tmc.txt","w")
     statOutW=open("F:/workspace/git/WeatherTransportationProject/data/events/stat_w.txt","w")
-    with open("WholeYearWETevents_100.txt","w") as output:
+    with open("WholeYearWETeventsBlocks_100.txt","w") as output:
         for event in weatherEvents:
             output.write("0 "+str(station[event[0]][0])+" "+str(station[event[0]][1])+" "+str(event[1])+" "+str("1"+"%02d"%event[0])+"\n")
             statOutW.write("")
