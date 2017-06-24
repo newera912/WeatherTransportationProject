@@ -65,11 +65,11 @@ def round(x):
 
 def main():
     ite=1000
-    output=open("PICResultBlock.txt","a+")      
+    output=open("PICResultBlockSimu.txt","a+")      
             
     rel_max_dist=20
     
-    evetnFileName="WholeYearWETevents_Blocks100.txt"
+    evetnFileName="RealNetworkSimuEventsBlocks.txt"
     weatherEvent0=[]
     trafficEvent0=[]
     sta_loc=Set()
@@ -128,7 +128,8 @@ def main():
             t0=time.time()
             print("r=%d timeRadius=%d "%(r,timeThreshold))
             testStatisticsScore=PIC(weatherEvent0,trafficEvent0,r,timeThreshold,pair_dist)            
-                
+            output.write(str(testStatisticsScore)+" | ")
+            output.flush()   
                
             above=0.0
             for i in tqdm(range(ite)):
@@ -139,11 +140,15 @@ def main():
                 trafficEvent=tempAll[weatherEventNum:]           
                                  
                 score=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
+                output.write(str(score)+" ")
+                output.flush()
                 #score=1.0
                 if testStatisticsScore<=score:
                     above+=1.0
 #                 if i%100==0:
 #                     sys.stdout.write('i='+str(i)+" ")
+            output.write("\n")
+            output.flush()
             sys.stdout.write("\n%d %f %f \n"%(testStatisticsScore,above,1.0*above/ite))
             output.write(str(timeThreshold)+" "+str(r)+" "+str(above)+" "+ str(1.0*above/ite)+"\n")
             output.flush()
