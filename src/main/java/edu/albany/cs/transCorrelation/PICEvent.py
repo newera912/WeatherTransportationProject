@@ -33,6 +33,8 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
     pic=0.0
     for wev in weatherEvent:
         for tev in trafficEvent:
+            if tev[0]==wev[0]:
+                continue
             tempPIC=0.0
             pairs=str(min(tev[5],wev[5]))+"_"+str(max(tev[5],wev[5]))
             if not pair_dist.has_key(pairs):
