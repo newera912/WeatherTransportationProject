@@ -33,6 +33,8 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
     pic=0.0
     for wev in weatherEvent:
         for tev in trafficEvent:
+            if wev[0]==tev[0]:
+                continue
             pairs=str(min(tev[4],wev[4]))+"_"+str(max(tev[4],wev[4]))       
             if tev[3]-wev[3]>timeThreshold:                                               
                 continue
@@ -48,8 +50,8 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
 
 def main():
     ite=1000
-    output=open("PICResult100.txt","a+")   
-  
+    output=open("PICResult100.txt","a+")
+ 
     rel_max_dist=20
     
     evetnFileName="WholeYearWETevents_100.txt"
