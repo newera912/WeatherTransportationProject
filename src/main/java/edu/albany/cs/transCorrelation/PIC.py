@@ -31,7 +31,7 @@ def calcDistance(Lat_A, Lng_A, Lat_B, Lng_B):
 
 def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
     pic=0.0
-    for wev in tqdm(weatherEvent,):
+    for wev in weatherEvent:
         for tev in trafficEvent:
             pairs=str(min(tev[4],wev[4]))+"_"+str(max(tev[4],wev[4]))           
             if np.abs(tev[3]-wev[3])>timeThreshold:                                
@@ -48,12 +48,12 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
 
 def main():
     ite=1000
-    output=open("PICResult.txt","a+")   
+    output=open("PICResult_RealNetWrokEvetn.txt","a+")   
     
             
     rel_max_dist=20
     
-    evetnFileName="WholeYearWETevents_New.txt"
+    evetnFileName="RealNetworkSimuEvents.txt"
     weatherEvent0=[]
     trafficEvent0=[]
     sta_loc=Set()
@@ -106,17 +106,19 @@ def main():
         pair_dist[str(min(a,b))+"_"+str(max(a,b))]=dist 
     print "All-pairs",len(pair_dist)   
     timeThresholds=[2,3,4,5]  
-    radius=[5,10,15,20]  #5,9,13,17,21,25   
+    radius=[10,15,20]  #5,9,13,17,21,25   
     
     for timeThreshold in timeThresholds:        
         for r in radius:
             t0=time.time()
             print("r=%d timeRadius=%d "%(r,timeThreshold))
             testStatisticsScore=PIC(weatherEvent0,trafficEvent0,r,timeThreshold,pair_dist)    
-                
+            print "TestScore=",testStatisticsScore
+            output.write(str(testStatisticsScore))  
+            output.flush() 
                
             above=0.0
-            for i in range(ite):
+            for i in tqdm(range(ite)):
                 tempAll=AllEvent
                  
                 random.shuffle(tempAll)
@@ -127,8 +129,9 @@ def main():
                 #score=1.0
                 if testStatisticsScore<=score:
                     above+=1.0
-#                 if i%100==0:
-#                     sys.stdout.write('i='+str(i)+" ")
+                if i%100==0:
+                    output.write(str(timeThreshold)+" "+str(r)+" "+str(above)+" "+ str(1.0*above/ite)+"\n")
+                    output.flush()
             sys.stdout.write("\n%d %f %f \n"%(testStatisticsScore,above,1.0*above/ite))
             output.write(str(timeThreshold)+" "+str(r)+" "+str(above)+" "+ str(1.0*above/ite)+"\n")
             output.flush()
