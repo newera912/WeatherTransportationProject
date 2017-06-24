@@ -175,7 +175,7 @@ def Case1():
                 trafficEvents.append((t,d+"%03d"%(start_time)))
     print len(weatherEvents)
     print len(trafficEvents)                  
-    with open("RealNetworkSimuEvents","w") as output:
+    with open("RealNetworkSimuEvents000","w") as output:
         for event in weatherEvents:
             output.write("0 "+str(station[event[0]][0])+" "+str(station[event[0]][1])+" "+str(event[1])+" "+str(event[0])+"\n")
             

@@ -31,10 +31,10 @@ def calcDistance(Lat_A, Lng_A, Lat_B, Lng_B):
 
 def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
     pic=0.0
-    for wev in tqdm(weatherEvent,):
+    for wev in weatherEvent:
         for tev in trafficEvent:
-            pairs=str(min(tev[4],wev[4]))+"_"+str(max(tev[4],wev[4]))           
-            if np.abs(tev[3]-wev[3])>timeThreshold:                                
+            pairs=str(min(tev[4],wev[4]))+"_"+str(max(tev[4],wev[4]))       
+            if np.abs(tev[3]-wev[3])>timeThreshold:                                               
                 continue
             if not pair_dist.has_key(pairs):
                 continue
@@ -47,13 +47,13 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
 
 
 def main():
-    ite=1000
-    output=open("PICResult.txt","a+")   
+    ite=10
+    output=open("PICResultRealNetworkSimu.txt","a+")   
     
             
     rel_max_dist=20
     
-    evetnFileName="WholeYearWETevents_New.txt"
+    evetnFileName="RealNetworkSimuEvents.txt"
     weatherEvent0=[]
     trafficEvent0=[]
     sta_loc=Set()
@@ -85,7 +85,7 @@ def main():
             dist=calcDistance(a[1], a[2],b[1],b[2])
         if dist>rel_max_dist:
             continue               
-        pair_dist[str(min(a,b))+"_"+str(max(a,b))]=dist
+        pair_dist[str(min(a[0],b[0]))+"_"+str(max(a[0],b[0]))]=dist
         
     for (a,b) in itertools.combinations(tmc_loc, 2):
         if a[1]==b[1] and a[2]==b[2]:
@@ -94,7 +94,7 @@ def main():
             dist=calcDistance(a[1], a[2],b[1],b[2])
         if dist>rel_max_dist:
             continue              
-        pair_dist[str(min(a,b))+"_"+str(max(a,b))]=dist 
+        pair_dist[str(min(a[0],b[0]))+"_"+str(max(a[0],b[0]))]=dist 
         
     for (a,b) in list(itertools.product( sta_loc,tmc_loc)):
         if a[1]==b[1] and a[2]==b[2]:
@@ -103,18 +103,18 @@ def main():
             dist=calcDistance(a[1], a[2],b[1],b[2])
         if dist>rel_max_dist:
             continue              
-        pair_dist[str(min(a,b))+"_"+str(max(a,b))]=dist 
-    print "All-pairs",len(pair_dist)   
+        pair_dist[str(min(a[0],b[0]))+"_"+str(max(a[0],b[0]))]=dist 
+    print "All-pairs",len(pair_dist)  
     timeThresholds=[2,3,4,5]  
     radius=[5,10,15,20]  #5,9,13,17,21,25   
     
     for timeThreshold in timeThresholds:        
         for r in radius:
             t0=time.time()
-            print("r=%d timeRadius=%d "%(r,timeThreshold))
+            print("Geo Radius=%d Time Radius=%d "%(r,timeThreshold))
             testStatisticsScore=PIC(weatherEvent0,trafficEvent0,r,timeThreshold,pair_dist)    
                 
-               
+            sys.stdout.write("Random permutation PIC scores: ")   
             above=0.0
             for i in range(ite):
                 tempAll=AllEvent
@@ -124,12 +124,13 @@ def main():
                 trafficEvent=tempAll[weatherEventNum:]           
                                 
                 score=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
+                sys.stdout.write(str(score)+" ")
                 #score=1.0
                 if testStatisticsScore<=score:
                     above+=1.0
 #                 if i%100==0:
 #                     sys.stdout.write('i='+str(i)+" ")
-            sys.stdout.write("\n%d %f %f \n"%(testStatisticsScore,above,1.0*above/ite))
+            sys.stdout.write("\nTest Statistics PIC=%d p-value=%f \n\n"%(testStatisticsScore,1.0*above/ite))
             output.write(str(timeThreshold)+" "+str(r)+" "+str(above)+" "+ str(1.0*above/ite)+"\n")
             output.flush()
              
