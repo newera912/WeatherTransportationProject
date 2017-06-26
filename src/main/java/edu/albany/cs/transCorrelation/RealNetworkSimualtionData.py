@@ -142,8 +142,8 @@ def Case1Event():
 #         else:
 #             print d
     random.shuffle(dates)
-    wDates=dates[:103]
-    tDates=dates[103:]
+    wDates=dates
+    tDates=dates
 #     print wDates
 #     print tDates
     weatherEvents=[]
@@ -172,7 +172,7 @@ def Case1Event():
             trafficEvents.append((t,d+"%03d"%(start_time),d+"%03d"%(start_time+3)))
     print len(weatherEvents)
     print len(trafficEvents)                  
-    with open("RealNetworkSimuEventsBlocks.txt","w") as output:
+    with open("RealNetworkSimuEventsRandom.txt","w") as output:
         for event in weatherEvents:
             output.write("0 "+str(station[event[0]][0])+" "+str(station[event[0]][1])+" "+str(event[1])+" "+str(event[2])+" "+str(event[0])+"\n")
             
@@ -234,8 +234,8 @@ def Case1():
 #         else:
 #             print d
     random.shuffle(dates)
-    wDates=dates[:103]
-    tDates=dates[103:]
+    wDates=dates
+    tDates=dates
 #     print wDates
 #     print tDates
     weatherEvents=[]
@@ -268,7 +268,7 @@ def Case1():
                 trafficEvents.append((t,d+"%03d"%(start_time)))
     print len(weatherEvents)
     print len(trafficEvents)                  
-    with open("RealNetworkSimuEvents000","w") as output:
+    with open("RealNetworkSimuEventsRandom","w") as output:
         for event in weatherEvents:
             output.write("0 "+str(station[event[0]][0])+" "+str(station[event[0]][1])+" "+str(event[1])+" "+str(event[0])+"\n")
             

@@ -33,25 +33,26 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
     pic=0.0
     for wev in weatherEvent:
         for tev in trafficEvent:
+            
             if wev[0]==tev[0]:
                 continue
             pairs=str(min(tev[4],wev[4]))+"_"+str(max(tev[4],wev[4]))       
-            if tev[3]-wev[3]>timeThreshold:                                               
+            if tev[3]-wev[3]>timeThreshold or tev[3]-wev[3]<0:                                                              
                 continue
             if not pair_dist.has_key(pairs):
                 continue
                       
             if pair_dist[pairs]<=r:
-                #print r,pair_distance
-                pic+=1.0            
+                pic+=1.0  
+                      
     return pic
 
 
 
 def main():
-    ite=1000
-    output=open("PICResult100.txt","a+")
- 
+    ite=10
+    output=open("PICResult100.txt","a+") 
+
     rel_max_dist=20
     
     evetnFileName="WholeYearWETevents_100.txt"
@@ -115,7 +116,8 @@ def main():
             print("Geo Radius=%d Time Radius=%d "%(r,timeThreshold))
             testStatisticsScore=PIC(weatherEvent0,trafficEvent0,r,timeThreshold,pair_dist)    
             print testStatisticsScore
-            #sys.stdout.write("Random permutation PIC scores: ")   
+            output.write(str(testStatisticsScore)+" | ")
+            output.flush()   
             above=0.0
             for i in tqdm(range(ite)):
                 tempAll=AllEvent
@@ -125,8 +127,8 @@ def main():
                 trafficEvent=tempAll[weatherEventNum:]           
                                 
                 score=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
-                #sys.stdout.write(str(score)+" ")
-                #score=1.0
+                output.write(str(score)+" ")
+                output.flush()
                 if testStatisticsScore<=score:
                     above+=1.0
 #                 if i%100==0:
