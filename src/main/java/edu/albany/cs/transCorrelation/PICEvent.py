@@ -96,7 +96,11 @@ def round(x):
 
 def main():
     ite=1000
+<<<<<<< HEAD
     output=open("PICResultEventDebug3.txt","a+")      
+=======
+    output=open("PICResultWTTop100Evetns.txt","a+")      
+>>>>>>> 740d0a2883ccc45f2ae3e738e76c17fe0c23ed4f
             
     rel_max_dist=25
     
