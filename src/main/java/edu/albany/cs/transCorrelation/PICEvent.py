@@ -31,45 +31,76 @@ def calcDistance(Lat_A, Lng_A, Lat_B, Lng_B):
 
 def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
     pic=0.0
+    
+    locOnly=0.0
+    timeOnly=0.0
+    timeAll=0.0
+    locAll=0.0
+    nothing=0.0
     for wev in weatherEvent:
         for tev in trafficEvent:
-            if tev[0]==wev[0]:
-                continue
+#             if tev[0]==wev[0]:
+#                 continue
+            #print "\n\n____________________________Start_______________________________________{} {} {} {}".format(pic,locOnly,timeOnly,nothing)
             tempPIC=0.0
             pairs=str(min(tev[5],wev[5]))+"_"+str(max(tev[5],wev[5]))
             if not pair_dist.has_key(pairs):
                 continue 
+            
             if pair_dist[pairs]>r:
-                continue
-            
-            if wev[3]<=tev[3] and tev[3]<=wev[4]:
-                tempPIC=1.0
-            elif wev[4]<tev[3] and wev[4]+timeThreshold>=tev[3]:
-                tempPIC=1.0
-            
-            if tempPIC>0.0:
-                #print "Dist<",round(pair_dist[pairs]),"Station-ID:",wev[5]%100,wev[3]/1000,wev[3]%1000,"~",wev[4]%1000,"| TMC-ID:",tev[5]%100,tev[3]/1000,tev[3]%1000,"~",tev[4]%1000
-                print round(pair_dist[pairs]),wev[5]%100,wev[3]/1000,wev[3]%1000,"~",wev[4]%1000,tev[5],tev[3]/1000,tev[3]%1000,"~",tev[4]%1000
-                 
+                if wev[3]<=tev[3] and tev[3]<=wev[4]:
+#                     print "Time...."
+                    timeOnly+=1.0
+                    timeAll+=1.0
+                elif wev[4]<tev[3] and wev[4]+timeThreshold>=tev[3]:
+#                     print "Time...."
+                    timeOnly+=1.0
+                    timeAll+=1.0
+                else:
+#                     print "Nothing...."
+                    nothing+=1.0
+            else:
+                locAll+=1.0
+                if wev[3]<=tev[3] and tev[3]<=wev[4]:
+#                     print "Loc and Time...."
+                    tempPIC=1.0
+                    timeAll+=1.0
+                elif wev[4]<tev[3] and wev[4]+timeThreshold>=tev[3]:
+#                     print "Loc and Time...."
+                    tempPIC=1.0
+                    timeAll+=1.0
+                else:
+#                     print "Loc ...."
+                    locOnly+=1.0
+                    continue
             pic+=tempPIC
-                
+            #print "________________________________End_____________________________________{} {} {} {}\n\n".format(pic,locOnly,timeOnly,nothing)
+            if tempPIC>0.0:
+                print "Dist<",round(pair_dist[pairs],2),"Station-ID:",wev[5],wev[3]/1000,wev[3]%1000,"~",wev[4]%1000,"| TMC-ID:",tev[5],tev[3]/1000,tev[3]%1000,"~",tev[4]%1000
+#                 print round(pair_dist[pairs]),wev[5]%100,wev[3]/1000,wev[3]%1000,"~",wev[4]%1000,tev[5],tev[3]/1000,tev[3]%1000,"~",tev[4]%1000
+#             if pic>timeOnly:
+#                 print wev,tev
+#                 print "{} {} : {} {} {} {} {} {}\n\n".format(r,timeThreshold,pic,locOnly,timeOnly,nothing,timeAll,locAll)
+#                 raw_input("Press Enter to continue...")     
             
                 
+            
+#     print("Pair match counts\nSatisfy the Location-and-Time constrain:{}\nSatisfy the Only Location constrain:{}\nSatisfy the Only Time constrain{}".format(pic,locOnly,timeOnly))            
                       
-    return pic
+    return pic,locOnly,timeOnly,nothing,timeAll,locAll
 
 
 
-def round(x):    
-    return np.round(100.0*x)/100.0  
+def round(x,a):    
+    return np.round(10.0**a*x)/10.0**a  
 
 def main():
-    ite=1000
-    output=open("PICResultWTTop100Evetns.txt","a+")      
-            
-    rel_max_dist=20
+    ite=10
+    output=open("PICResultEventDebug150.txt","a+")      
+ 
+    rel_max_dist=40
     
-    evetnFileName="WholeYearWETevents_Blocks100.txt"
+    evetnFileName="WholeYearWETevents_Blocks150.txt"
     weatherEvent0=[]
     trafficEvent0=[]
     sta_loc=Set()
@@ -120,40 +151,44 @@ def main():
             continue              
         pair_dist[str(min(a[0],b[0]))+"_"+str(max(a[0],b[0]))]=dist
     print "All-pairs",len(pair_dist)   
-    timeThresholds=[2,3,4,5]  
-    radius=[5,10,15,20]  #5,9,13,17,21,25   
-    
-    for timeThreshold in timeThresholds:        
-        for r in radius:
+    timeThresholds=[5]
+    radius=[40]  #5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,   
+    result=np.zeros((len(radius),len(timeThresholds)))
+    for j,timeThreshold in enumerate(timeThresholds):        
+        for k,r in enumerate(radius):
             t0=time.time()
             print("r=%d timeRadius=%d "%(r,timeThreshold))
-            testStatisticsScore=PIC(weatherEvent0,trafficEvent0,r,timeThreshold,pair_dist)            
-            output.write(str(testStatisticsScore)+" | ")
+            testStatisticsScore,locOnly,timeOnly,nothing,timeAll,locAll=PIC(weatherEvent0,trafficEvent0,r,timeThreshold,pair_dist)            
+            output.write(str(testStatisticsScore)+" "+str(locOnly)+" "+str(locAll)+" "+str(timeOnly)+" "+str(timeAll)+" | ")
             output.flush()   
                
             above=0.0
-#             for i in tqdm(range(ite)):
-#                 tempAll=AllEvent
-#                   
-#                 random.shuffle(tempAll)
-#                 weatherEvent=tempAll[:weatherEventNum]
-#                 trafficEvent=tempAll[weatherEventNum:]           
-#                                  
-#                 score=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
-#                 output.write(str(score)+" ")
-#                 output.flush()
-#                 #score=1.0
-#                 if testStatisticsScore<=score:
-#                     above+=1.0
-#                 if i%100==0:
-#                     sys.stdout.write('i='+str(i)+" ")
+            for i in tqdm(range(ite)):
+                tempAll=AllEvent
+                    
+                random.shuffle(tempAll)
+                weatherEvent=tempAll[:weatherEventNum]
+                trafficEvent=tempAll[weatherEventNum:]           
+                                   
+                score,locOnly,timeOnly,nothing,timeAll,locAll=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
+                output.write("("+str(score)+" "+str(locOnly)+" "+str(locAll)+" "+str(timeOnly)+" "+str(timeAll)+") ")
+                output.flush()
+                #score=1.0
+                if testStatisticsScore<=score:
+                    above+=1.0
+                if i%100==0:
+                    sys.stdout.write('i='+str(i)+" ")
             output.write("\n")
             output.flush()
+            result[k][j]=round((1.0*above/ite),3)
             sys.stdout.write("\n%d %f %f \n"%(testStatisticsScore,above,1.0*above/ite))
-            output.write(str(timeThreshold)+" "+str(r)+" "+str(above)+" "+ str(1.0*above/ite)+"\n")
+            output.write(str(timeThreshold)+" "+str(r)+" "+str(testStatisticsScore)+" "+str(above)+" "+ str(round((1.0*above/ite),3))+"\n")
             output.flush()
              
-    
+    output.write(result)
     output.close()
+    print result
+    for d in result:
+        print d
 if __name__ =='__main__':
     main()
