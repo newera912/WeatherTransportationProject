@@ -50,20 +50,8 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
 
 
 def main():
-<<<<<<< HEAD
-    ite=10
-    output=open("PICResult100.txt","a+") 
-
-=======
     ite=1000
-<<<<<<< HEAD
-
-    output=open("PICResult100.txt","a+") 
-=======
     output=open("PICResult100.txt","a+")
- 
->>>>>>> 1b0ad5d575c1f94fce52309e9b56cda42eb36725
->>>>>>> 740d0a2883ccc45f2ae3e738e76c17fe0c23ed4f
     rel_max_dist=20
     
     evetnFileName="WholeYearWETevents_100.txt"
