@@ -98,21 +98,21 @@ def main():
     print weatherEvents
     
     trafficFielName="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/5/E621I90traffic_AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_18_filter_TIncld_0.7_Top_multi.txt"
-    trafficEventsE=getTrafficEvent(trafficFielName,0,35)
+    trafficEventsE=getTrafficEvent(trafficFielName,0,30)
     
-#     trafficFielName="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/5/E621I90traffic_AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_18_filter_TIncld_0.7_Top_single.txt"
-#     trafficEventsE+=getTrafficEvent(trafficFielName,50,150)
+    trafficFielName="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/5/E621I90traffic_AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_18_filter_TIncld_0.7_Top_single.txt"
+    trafficEventsE+=getTrafficEvent(trafficFielName,140,190)
     
     trafficFielName="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/5/W621I90traffic_AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_18_filter_TIncld_0.7_Top_multi.txt"
-    trafficEventsW=getTrafficEvent(trafficFielName,0,35)
+    trafficEventsW=getTrafficEvent(trafficFielName,0,30)
     
-#     trafficFielName="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/5/W621I90traffic_AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_18_filter_TIncld_0.7_Top_single.txt"
-#     trafficEventsW+=getTrafficEvent(trafficFielName,50,150)
+    trafficFielName="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/5/W621I90traffic_AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_18_filter_TIncld_0.7_Top_single.txt"
+    trafficEventsW+=getTrafficEvent(trafficFielName,160,210)
     
     print len(weatherEvents),len(trafficEventsE)+len(trafficEventsW)
     statOutTMC=open("F:/workspace/git/WeatherTransportationProject/data/events/stat_tmc.txt","w")
     statOutW=open("F:/workspace/git/WeatherTransportationProject/data/events/stat_w.txt","w")
-    with open("WholeYearWETevents_Blocks100_35.txt","w") as output:
+    with open("WholeYearWETevents_Blocks100_30.txt","w") as output:
         for event in weatherEvents:
             output.write("0 "+str(station[event[0]][0])+" "+str(station[event[0]][1])+" "+str(event[1])+" "+str(event[2])+" "+str("1"+"%02d"%event[0])+"\n")
             

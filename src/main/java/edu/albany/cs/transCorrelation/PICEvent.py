@@ -100,7 +100,7 @@ def main():
  
     rel_max_dist=40
     
-    evetnFileName="WholeYearWETevents_Blocks100_35.txt"
+    evetnFileName="WholeYearWETevents_Blocks100_30.txt"
     weatherEvent0=[]
     trafficEvent0=[]
     sta_loc=Set()
