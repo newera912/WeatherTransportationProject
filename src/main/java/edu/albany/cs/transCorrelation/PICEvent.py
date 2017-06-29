@@ -96,11 +96,11 @@ def round(x,a):
 
 def main():
     ite=10
-    output=open("PICResultEventDebug150.txt","a+")      
+    output=open("PICResultEventDebug100_35.txt","a+")      
  
     rel_max_dist=40
     
-    evetnFileName="WholeYearWETevents_Blocks150.txt"
+    evetnFileName="WholeYearWETevents_Blocks100_35.txt"
     weatherEvent0=[]
     trafficEvent0=[]
     sta_loc=Set()
