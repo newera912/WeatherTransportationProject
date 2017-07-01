@@ -98,16 +98,16 @@ def main():
     print weatherEvents
     
     trafficFielName="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/5/E621I90traffic_AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_18_filter_TIncld_0.7_Top_multi.txt"
-    trafficEventsE=getTrafficEvent(trafficFielName,0,100)
+    trafficEventsE=getTrafficEvent(trafficFielName,0,50)
     
     
     trafficFielName="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/5/W621I90traffic_AllYearEvent_TopK_result_baseMeanDiff_20_s_5_wMax_18_filter_TIncld_0.7_Top_multi.txt"
-    trafficEventsW=getTrafficEvent(trafficFielName,0,100)
+    trafficEventsW=getTrafficEvent(trafficFielName,0,50)
     
     print len(weatherEvents),len(trafficEventsE)+len(trafficEventsW)
     statOutTMC=open("F:/workspace/git/WeatherTransportationProject/data/events/stat_tmc.txt","w")
     statOutW=open("F:/workspace/git/WeatherTransportationProject/data/events/stat_w.txt","w")
-    with open("WholeYearWETeventsBlocks_100.txt","w") as output:
+    with open("WholeYearWETevent_100_50.txt","w") as output:
         for event in weatherEvents:
             output.write("0 "+str(station[event[0]][0])+" "+str(station[event[0]][1])+" "+str(event[1])+" "+str("1"+"%02d"%event[0])+"\n")
             statOutW.write("")
