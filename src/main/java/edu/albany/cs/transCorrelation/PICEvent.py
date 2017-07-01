@@ -75,8 +75,8 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
                     continue
             pic+=tempPIC
             #print "________________________________End_____________________________________{} {} {} {}\n\n".format(pic,locOnly,timeOnly,nothing)
-            if tempPIC>0.0:
-                print "Dist<",round(pair_dist[pairs],2),"Station-ID:",wev[5],wev[3]/1000,wev[3]%1000,"~",wev[4]%1000,"| TMC-ID:",tev[5],tev[3]/1000,tev[3]%1000,"~",tev[4]%1000
+#             if tempPIC>0.0:
+#                 #print "Dist<",round(pair_dist[pairs]),"Station-ID:",wev[5]%100,wev[3]/1000,wev[3]%1000,"~",wev[4]%1000,"| TMC-ID:",tev[5]%100,tev[3]/1000,tev[3]%1000,"~",tev[4]%1000
 #                 print round(pair_dist[pairs]),wev[5]%100,wev[3]/1000,wev[3]%1000,"~",wev[4]%1000,tev[5],tev[3]/1000,tev[3]%1000,"~",tev[4]%1000
 #             if pic>timeOnly:
 #                 print wev,tev
@@ -96,13 +96,15 @@ def round(x,a):
 
 def main():
     ite=10
-    output=open("PICResultEventDebug100_35.txt","a+")      
+    output=open("PICResultEventDebug300.txt","a+")      
  
-    rel_max_dist=40
+    rel_max_dist=30
     
-    evetnFileName="WholeYearWETevents_Blocks100_30.txt"
+    evetnFileName="WholeYearWETevents_Blocks100.txt"
     weatherEvent0=[]
     trafficEvent0=[]
+    timeAll0=[]
+    locAll0=[]
     sta_loc=Set()
     tmc_loc=Set()
     with open(evetnFileName,"r") as eF:
@@ -112,9 +114,13 @@ def main():
             if int(terms[0])==0:                
                 weatherEvent0.append((int(terms[0]),float(terms[1]),float(terms[2]),int(terms[3]),int(terms[4]),int(terms[5])))
                 sta_loc.add((int(terms[5]),float(terms[1]),float(terms[2])))
+                timeAll0.append((int(terms[3]),int(terms[4])))
+                locAll0.append((float(terms[1]),float(terms[2])))
             else:
                 trafficEvent0.append((int(terms[0]),float(terms[1]),float(terms[2]),int(terms[3]),int(terms[4]),int(terms[5])))
-                tmc_loc.add((int(terms[5]),float(terms[1]),float(terms[2])))      
+                tmc_loc.add((int(terms[5]),float(terms[1]),float(terms[2])))
+                timeAll0.append((int(terms[3]),int(terms[4])))
+                locAll0.append((float(terms[1]),float(terms[2])))      
   
     
     AllEvent=weatherEvent0+trafficEvent0
@@ -150,9 +156,10 @@ def main():
         if dist>rel_max_dist:
             continue              
         pair_dist[str(min(a[0],b[0]))+"_"+str(max(a[0],b[0]))]=dist
-    print "All-pairs",len(pair_dist)   
-    timeThresholds=[5]
-    radius=[40]  #5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,   
+    print "All-pairs",len(pair_dist) 
+      
+    timeThresholds=[1,2,3,4,5]  
+    radius=[5,10,15,20,25,30]  #5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,   
     result=np.zeros((len(radius),len(timeThresholds)))
     for j,timeThreshold in enumerate(timeThresholds):        
         for k,r in enumerate(radius):
@@ -165,11 +172,20 @@ def main():
             above=0.0
             for i in tqdm(range(ite)):
                 tempAll=AllEvent
-                    
+#                 tempTime=timeAll0
+                tempLoc=locAll0
+                   
                 random.shuffle(tempAll)
-                weatherEvent=tempAll[:weatherEventNum]
-                trafficEvent=tempAll[weatherEventNum:]           
-                                   
+                #random.shuffle(tempTime)
+                random.shuffle(tempLoc)
+                weatherEvent=[]
+                trafficEvent=[]
+                for i,event in enumerate(tempAll):
+                    if event[0]==0:
+                        weatherEvent.append((event[0],tempLoc[i][0],tempLoc[i][1],event[3],event[4],event[5]))
+                    else:
+                        trafficEvent.append((event[0],tempLoc[i][0],tempLoc[i][1],event[3],event[4],event[5]))
+                                
                 score,locOnly,timeOnly,nothing,timeAll,locAll=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
                 output.write("("+str(score)+" "+str(locOnly)+" "+str(locAll)+" "+str(timeOnly)+" "+str(timeAll)+") ")
                 output.flush()
@@ -185,7 +201,7 @@ def main():
             output.write(str(timeThreshold)+" "+str(r)+" "+str(testStatisticsScore)+" "+str(above)+" "+ str(round((1.0*above/ite),3))+"\n")
             output.flush()
              
-    output.write(result)
+    output.write(results)
     output.close()
     print result
     for d in result:
