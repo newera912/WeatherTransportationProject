@@ -50,6 +50,7 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
 
 
 def main():
+
     ite=1000
     output=open("PICResult100.txt","a+")
     rel_max_dist=20
