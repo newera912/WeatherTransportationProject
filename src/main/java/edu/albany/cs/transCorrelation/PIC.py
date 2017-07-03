@@ -28,14 +28,15 @@ def calcDistance(Lat_A, Lng_A, Lat_B, Lng_B):
     distance =distance/ 1.609344 
     return distance
 
-
-def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
+def PIC_Density(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
+    intervals=[(i,i+5) for i in range(0,r,5)]
     pic=0.0
+    pairIntervals=np.zeros(len(intervals))
     for wev in weatherEvent:
         for tev in trafficEvent:
             
-            if wev[0]==tev[0]:
-                continue
+#             if wev[0]==tev[0]:
+#                 continue
             pairs=str(min(tev[4],wev[4]))+"_"+str(max(tev[4],wev[4]))       
             if tev[3]-wev[3]>timeThreshold or tev[3]-wev[3]<0:                                                              
                 continue
@@ -43,24 +44,59 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
                 continue
                       
             if pair_dist[pairs]<=r:
+                dd=int(pair_dist[pairs]/5)
+                #print dd,len(pairIntervals)
+                pairIntervals[dd]+=1.0
+                    
                 pic+=1.0  
                       
-    return pic
+    return pic,pairIntervals
+
+def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
+    pic=0.0
+    pairType=np.zeros(4)
+    for wev in weatherEvent:
+        for tev in trafficEvent:
+            
+#             if wev[0]==tev[0]:
+#                 continue
+            pairs=str(min(tev[4],wev[4]))+"_"+str(max(tev[4],wev[4]))       
+            if tev[3]-wev[3]>timeThreshold or tev[3]-wev[3]<0:                                                              
+                continue
+            if not pair_dist.has_key(pairs):
+                continue
+                      
+            if pair_dist[pairs]<=r:
+                if tev[0]!=wev[0] and wev[0]==0:
+                    pairType[0]+=1.0
+                elif tev[0]!=wev[0] and wev[0]==1:
+                    pairType[1]+=1.0
+                elif tev[0]==wev[0] and wev[0]==1:
+                    pairType[2]+=1.0
+                elif tev[0]==wev[0] and wev[0]==0:
+                    pairType[3]+=1.0
+                    
+                pic+=1.0  
+                      
+    return pic,pairType
 
 
 
 def main():
 
-    ite=1000
-    output=open("PICResult100.txt","a+")
-    rel_max_dist=20
+    ite=10
+    output=open("PICResult100_density.txt","a+")
+    timeThresholds=[1,2,3,4,5]  
+    radius=[50]  #5,9,13,17,21,25  5,10,15,20,25,30,35,40,45,50,55,60
+    rel_max_dist=np.max(radius)
     
-    evetnFileName="WholeYearWETevents_100.txt"
+    evetnFileName="WholeYearWETevent_100_50.txt"
     weatherEvent0=[]
     trafficEvent0=[]
     sta_loc=Set()
     tmc_loc=Set()
-    
+    lat=[]
+    lon=[]
     with open(evetnFileName,"r") as eF:
         for line in eF.readlines():
             terms=line.strip().split()
@@ -80,18 +116,18 @@ def main():
     print "Traffic Event:",len(trafficEvent0)
     
     pair_dist={}
-    for (a,b) in itertools.combinations(sta_loc, 2):
+    for (a,b) in itertools.combinations_with_replacement(sta_loc, 2):
         if a[1]==b[1] and a[2]==b[2]:
-            dist=0
+            dist=0.0
         else:
             dist=calcDistance(a[1], a[2],b[1],b[2])
         if dist>rel_max_dist:
             continue               
         pair_dist[str(min(a[0],b[0]))+"_"+str(max(a[0],b[0]))]=dist
         
-    for (a,b) in itertools.combinations(tmc_loc, 2):
+    for (a,b) in itertools.combinations_with_replacement(tmc_loc, 2):
         if a[1]==b[1] and a[2]==b[2]:
-            dist=0
+            dist=0.0
         else:
             dist=calcDistance(a[1], a[2],b[1],b[2])
         if dist>rel_max_dist:
@@ -100,23 +136,22 @@ def main():
         
     for (a,b) in list(itertools.product( sta_loc,tmc_loc)):
         if a[1]==b[1] and a[2]==b[2]:
-            dist=0
+            dist=0.0
         else:
             dist=calcDistance(a[1], a[2],b[1],b[2])
         if dist>rel_max_dist:
             continue              
         pair_dist[str(min(a[0],b[0]))+"_"+str(max(a[0],b[0]))]=dist 
     print "All-pairs",len(pair_dist)  
-    timeThresholds=[2,3,4,5]  
-    radius=[5,10,15,20]  #5,9,13,17,21,25   
+    
     
     for timeThreshold in timeThresholds:        
         for r in radius:
             t0=time.time()
             print("Geo Radius=%d Time Radius=%d "%(r,timeThreshold))
-            testStatisticsScore=PIC(weatherEvent0,trafficEvent0,r,timeThreshold,pair_dist)    
+            testStatisticsScore,pairType=PIC(weatherEvent0,trafficEvent0,r,timeThreshold,pair_dist)    
             print testStatisticsScore
-            output.write(str(testStatisticsScore)+" | ")
+            output.write("("+str(testStatisticsScore)+","+str(pairType)+") | ")
             output.flush()   
             above=0.0
             for i in tqdm(range(ite)):
@@ -126,13 +161,15 @@ def main():
                 weatherEvent=tempAll[:weatherEventNum]
                 trafficEvent=tempAll[weatherEventNum:]           
                                 
-                score=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
-                output.write(str(score)+" ")
+                score,pairType=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
+                output.write("("+str(score)+" "+str(pairType)+") ")
                 output.flush()
                 if testStatisticsScore<=score:
                     above+=1.0
 #                 if i%100==0:
 #                     sys.stdout.write('i='+str(i)+" ")
+            output.write("\n")
+            output.flush()
             sys.stdout.write("\nTest Statistics PIC=%d p-value=%f \n\n"%(testStatisticsScore,1.0*above/ite))
             output.write(str(timeThreshold)+" "+str(r)+" "+str(above)+" "+ str(1.0*above/ite)+"\n")
             output.flush()
