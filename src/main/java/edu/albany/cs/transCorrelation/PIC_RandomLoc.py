@@ -29,6 +29,7 @@ def calcDistance(Lat_A, Lng_A, Lat_B, Lng_B):
     return distance
 
 
+
 def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
     pic=0.0
     pairType=np.zeros(4)
@@ -61,11 +62,11 @@ def round(x,a):
     return np.round(10.0**a*x)/10.0**a    
 
 def main():
-
     ite=10
-    output=open("PICResult100_density.txt","a+")
-    timeThresholds=[1,2,3,4,5]  
-    radius=[50]  #5,9,13,17,21,25  5,10,15,20,25,30,35,40,45,50,55,60
+    
+    timeThresholds=[3] 
+    output=open("PICResult100_RandomNetLocdebug"+str(timeThresholds[0])+".txt","a+") 
+    radius=[25]  #5,9,13,17,21,25  5,10,15,20,25,30,35,40,45,50,55,60
     rel_max_dist=np.max(radius)
     
     evetnFileName="WholeYearWETevent_100_50.txt"
@@ -73,10 +74,8 @@ def main():
     trafficEvent0=[]
     sta_loc=Set()
     tmc_loc=Set()
-    sta_lat=[]
-    sta_lon=[]
-    tmc_lat=[]
-    tmc_lon=[]
+    lat=[]
+    lon=[]
     with open(evetnFileName,"r") as eF:
         for line in eF.readlines():
             terms=line.strip().split()
@@ -84,17 +83,10 @@ def main():
             if int(terms[0])==0:                
                 weatherEvent0.append((int(terms[0]),float(terms[1]),float(terms[2]),int(terms[3]),int(terms[4])))
                 sta_loc.add((int(terms[4]),float(terms[1]),float(terms[2])))
-                sta_lat.append(float(terms[1]))
-                sta_lon.append(float(terms[2]))
             else:
                 trafficEvent0.append((int(terms[0]),float(terms[1]),float(terms[2]),int(terms[3]),int(terms[4])))
-                tmc_loc.add((int(terms[4]),float(terms[1]),float(terms[2])))    
-                tmc_lat.append(float(terms[1]))
-                tmc_lon.append(float(terms[2]))  
-    min_lat=round(np.min(sta_lat+tmc_lat),2)
-    max_lat=round(np.max(sta_lat+tmc_lat),2)
-    min_lon=round(np.min(tmc_lon),2)
-    max_lon=round(np.max(tmc_lon),2)
+                tmc_loc.add((int(terms[4]),float(terms[1]),float(terms[2])))      
+  
     
     AllEvent=weatherEvent0+trafficEvent0
     weatherEventNum=len(weatherEvent0)
@@ -103,7 +95,7 @@ def main():
     print "Traffic Event:",len(trafficEvent0)
     
     pair_dist={}
-    for (a,b) in itertools.combinations_with_replacement(sta_loc, 2):
+    for (a,b) in itertools.combinations(sta_loc, 2):
         if a[1]==b[1] and a[2]==b[2]:
             dist=0.0
         else:
@@ -112,7 +104,7 @@ def main():
             continue               
         pair_dist[str(min(a[0],b[0]))+"_"+str(max(a[0],b[0]))]=dist
         
-    for (a,b) in itertools.combinations_with_replacement(tmc_loc, 2):
+    for (a,b) in itertools.combinations(tmc_loc, 2):
         if a[1]==b[1] and a[2]==b[2]:
             dist=0.0
         else:
@@ -131,28 +123,33 @@ def main():
         pair_dist[str(min(a[0],b[0]))+"_"+str(max(a[0],b[0]))]=dist 
     print "All-pairs",len(pair_dist)  
     
-    
+    coordinates=list(sta_loc) + list(tmc_loc)
     for timeThreshold in timeThresholds:        
         for r in radius:
             t0=time.time()
             print("Geo Radius=%d Time Radius=%d "%(r,timeThreshold))
             testStatisticsScore,pairType=PIC(weatherEvent0,trafficEvent0,r,timeThreshold,pair_dist)    
             print testStatisticsScore
-            output.write("("+str(testStatisticsScore)+","+str(pairType)+") | ")
+            output.write(str(testStatisticsScore)+" ")
             output.flush()   
             above=0.0
-            for i in tqdm(range(ite)):
-                tempAll=AllEvent
-                tempAll=[(event[0],round(random.uniform(min_lat,max_lat),2),round(random.uniform(min_lon,max_lon),2),event[3],event[4]) for event in tempAll] 
-                #random.shuffle(tempAll)
-                weatherEvent=tempAll[:weatherEventNum]
-                trafficEvent=tempAll[weatherEventNum:]           
+            for i in tqdm(range(ite)):                
+                weatherEvent=[]
+                trafficEvent=[]
+                for event in weatherEvent0:
+                    lat_lon=random.choice(coordinates)                    
+                    weatherEvent.append((event[0],lat_lon[1],lat_lon[2],event[3],lat_lon[0])) 
+                for event in trafficEvent0:
+                    lat_lon=random.choice(coordinates)
+                    trafficEvent.append((event[0],lat_lon[1],lat_lon[2],event[3],lat_lon[0]))
+                          
                                 
-                score,pairType=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
-                output.write("("+str(score)+" "+str(pairType)+") ")
-                output.flush()
+                
                 if testStatisticsScore<=score:
                     above+=1.0
+                score,pairType=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
+                output.write(str(score)+"| ")
+                output.flush()
 #                 if i%100==0:
 #                     sys.stdout.write('i='+str(i)+" ")
             output.write("\n")

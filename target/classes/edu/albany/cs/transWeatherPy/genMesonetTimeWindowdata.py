@@ -4,8 +4,9 @@ import numpy as np
 sta_names={"BATA":0,"SBRI":1,"WATE":2,"JORD":3,"CSQR":4,"WEST":5,"COLD":6,"SPRA":7,"COBL":8,"STEP":9}
 mons=["201603","201604","201605","201606","201607","201608","201609"]
 mons=["201608"]
+mons=["201609","201610","201611","201612","201701","201702","201603","201604","201605","201606"]
 days=['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
-type={"wind":5}#"rad":8,"windDir":7,"windMax":6,"rh":4,"precip":10,"temp":2,"temp9":3,"wind":5}
+type={"rad":8,"windDir":7,"windMax":6,"rh":4,"precip":10,"temp":2,"temp9":3,"wind":5}
 #"press","windDir","windMax","rh","precip","temp","temp9","wind"
 import csv
 indict=np.zeros((10,217))
