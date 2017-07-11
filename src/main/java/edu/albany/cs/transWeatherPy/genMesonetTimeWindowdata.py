@@ -1,30 +1,49 @@
 from operator import itemgetter
 import numpy as np
-
+import csv,sys,os
+from datetime import date, timedelta
+root="/home/apdm01/workspace/git/WeatherTransportationProject/"
+#root="F:/workspace/git/WeatherTransportationProject/"
 sta_names={"BATA":0,"SBRI":1,"WATE":2,"JORD":3,"CSQR":4,"WEST":5,"COLD":6,"SPRA":7,"COBL":8,"STEP":9}
 mons=["201603","201604","201605","201606","201607","201608","201609"]
 mons=["201608"]
-mons=["201609","201610","201611","201612","201701","201702","201603","201604","201605","201606"]
+mons=["201609","201610","201611","201612","201701","201702","201703","201704","201705","201706"]
 days=['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
-type={"rad":8,"windDir":7,"windMax":6,"rh":4,"precip":10,"temp":2,"temp9":3,"wind":5}
+type={"temp":2,"temp9":3,"rad":8,"windDir":7,"windMax":6,"rh":4,"press":9,"wind":5} #old order
+type={"temp":4,"temp9":5,"rad":6,"windDir":11,"windMax":10,"rh":7,"press":8,"wind":9}
 #"press","windDir","windMax","rh","precip","temp","temp9","wind"
-import csv
-indict=np.zeros((10,217))
+
+dateList=[]
+d1 = date(2016, 9, 1)  # start date
+d2 = date(2017, 6, 30)  # end date
+delta = d2 - d1         # timedelta
+
+for j,i in enumerate(range(delta.days + 1)):
+    dateList.append(str(d1 + timedelta(days=i)).replace("-",""))
+    
+indict=np.zeros((10,len(dateList)))
 dateIdx={}
 dayIdx=0
 for k,v in type.items():
+    sys.stdout.write(k+" ")
+    if not os.path.exists(root+"data/mesonet_data/"+k+"/"):
+        os.makedirs(root+"data/mesonet_data/"+k+"/") 
     for mon in mons:
-        for day in days:
+        for day in days:            
             cur_date=mon+day
-            output=open("F:/workspace/git/WeatherTransportationProject/data/mesonet_data/"+k+"/"+cur_date+".txt","a+")
+            if cur_date in dateList:                               
+                output=open(root+"data/mesonet_data/"+k+"/"+cur_date+".txt","a+")
+            else:
+                continue
             data=[]
             if dateIdx.has_key(cur_date):
                 i=1
             else:
+                #print cur_date,dayIdx
                 dateIdx[cur_date]=dayIdx
                 dayIdx+=1
-            with open("F:/workspace/git/WeatherTransportationProject/data/output.txt","r") as oF:
-                
+            with open(root+"data/output.txt","r") as oF:
+                 
                 for line in oF.readlines():
                     sta_name=line.strip().split("-")[0]
                     if sta_name not in sta_names.keys():
@@ -32,9 +51,9 @@ for k,v in type.items():
                     if mon!=line.strip().split("-")[1][:-4]:
                         #print sta_name,mons,line.strip().split("-")[1][:-4]
                         continue
-                    
-                    fileName="F:/workspace/git/WeatherTransportationProject/data/data_request/"+line.strip()
-                    
+                     
+                    fileName=root+"data/data_request/"+line.strip()
+                     
                     sta_y_m=line.strip().split(".")[0]
                     #print sta_y_m
                     temp_line=""
@@ -59,7 +78,7 @@ for k,v in type.items():
                                 indict[sta_names[sta_name]][dateIdx[cur_date]]=0
                                 valueCheck=-1
                             else:
-                                
+                                 
                                 prev_value=tempr
                             #print tempr,d[1].strip()[:8],cur_date
                             temp_line+=str(tempr)+" "
@@ -70,16 +89,17 @@ for k,v in type.items():
 #                             indict[sta_names[sta_name]][dateIdx[cur_date]]=1
                         #print sta_name,cur_date,count   
                         data.append((sta_names[sta_name],temp_line+"\n"))
-            print cur_date
+            sys.stdout.write(cur_date+" ")
             #print data[0][0],data[0][1]
             data=sorted(data,key=itemgetter(0))
             #print data[0][0],data[1][0],data[2][0]
             for e in data:
                 output.write(str(e[0])+" "+e[1])                
             output.close
+    sys.stdout.write("\n")
 idxDate={v:k for k, v in dateIdx.items()}
 missDays=0
-for i in range(217):
+for i in range(len(dateList)):
     summ=0
     temp=idxDate[i]+" "
     for j in range(10):

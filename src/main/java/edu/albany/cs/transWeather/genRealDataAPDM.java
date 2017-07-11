@@ -270,7 +270,8 @@ public class genRealDataAPDM {
 	}
 
 	public void genAllRealDataAPDM() throws NumberFormatException, IOException{
-		for(String type:Arrays.asList("rad")){//"temp9","press","windDir","windMax","rh","wind")){		
+		for (String type : Arrays.asList("rad", "temp", "temp9", "press",
+				"windDir", "windMax", "rh", "wind")) {
 			
 			String rootFolder="data/mesonet_data/"+type+"/";
 			//String filePath="20160101/2016-01-01-00-RawHRRRGridData.txt";
@@ -315,7 +316,8 @@ public class genRealDataAPDM {
 //		System.out.println(lat[0][0]+" "+lons[1][0]);
 		//generateTestCase();
 		genRealDataAPDM tWgen=new genRealDataAPDM();
-		tWgen.genTrafficRealDataAPDM();
+		// tWgen.genTrafficRealDataAPDM();
+		tWgen.genAllRealDataAPDM();
 	}
 
 }
