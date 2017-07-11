@@ -217,16 +217,18 @@ public class genRealDataAPDM {
 	public double[] getData(String line){
 		double[] x=new double[line.split(" ").length-1];
 		String[] dStr=line.replace("\n", "").split(" ");
-		for(int i=1;i<=dStr.length-1;i++){
+
+		for (int i = 1; i < dStr.length; i++) {
 			x[i-1]=Double.parseDouble(dStr[i]);			
 		}
+
 		return x;
 	}
 	
 	public void genSignleAPDMFile(File rawFile,String rootFolder,String outFolder,String type) throws NumberFormatException, IOException{
 		
 		
-		double[][] data = new double[52][288];
+		double[][] data = new double[10][288];
 		double[] mean=new double[data.length];
 		double[] std=new double[data.length];
 		ArrayList<Edge> treEdges=null;
@@ -240,7 +242,8 @@ public class genRealDataAPDM {
 		
 	
 	
-		System.out.println(rawFile.getName().toString().split("\\.")[0]);
+		System.out.print(type + " "
+				+ rawFile.getName().toString().split("\\.")[0] + " ");
 		String fileName=rawFile.getName().split("\\.")[0];
 		String outFile=outFolder+fileName+"_APDM.txt";
 		int idx=0;
@@ -251,10 +254,12 @@ public class genRealDataAPDM {
 			data[idx]=getData(eachLine);
 			idx++;
 		}
+		System.out.println(data[0].length + " " + data.length);
 		
 		DescriptiveStatistics stats =null; 
 		 for (int i = 0; i < data.length; i++) {
 			 stats=new DescriptiveStatistics();
+
 			 for(int j=0;j<data[0].length;j++){
 				 stats.addValue(data[i][j]); 
 			 }
@@ -285,6 +290,7 @@ public class genRealDataAPDM {
 			for(File rawFile : new File(rootFolder).listFiles()){
 				genSignleAPDMFile(rawFile,rootFolder,outFolder,type);
 			}
+			System.out.print("\n");
 		}
 		
 	}
