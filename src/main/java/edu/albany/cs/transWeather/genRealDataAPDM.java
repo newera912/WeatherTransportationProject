@@ -13,6 +13,7 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 import edu.albany.cs.apdmIO.APDMInputFormat;
 import edu.albany.cs.base.Edge;
+import edu.albany.cs.base.Utils;
 //import org.ujmp.core.util.MathUtil;
 //import edu.uci.ics.jung.visualization.decorators.EdgeShape.Line;
 public class genRealDataAPDM {
@@ -217,16 +218,18 @@ public class genRealDataAPDM {
 	public double[] getData(String line){
 		double[] x=new double[line.split(" ").length-1];
 		String[] dStr=line.replace("\n", "").split(" ");
-		for(int i=1;i<=dStr.length-1;i++){
+		
+		for(int i=1;i<dStr.length;i++){
 			x[i-1]=Double.parseDouble(dStr[i]);			
 		}
+		
 		return x;
 	}
 	
 	public void genSignleAPDMFile(File rawFile,String rootFolder,String outFolder,String type) throws NumberFormatException, IOException{
 		
 		
-		double[][] data = new double[52][288];
+		double[][] data = new double[10][288];
 		double[] mean=new double[data.length];
 		double[] std=new double[data.length];
 		ArrayList<Edge> treEdges=null;
@@ -240,7 +243,7 @@ public class genRealDataAPDM {
 		
 	
 	
-		System.out.println(rawFile.getName().toString().split("\\.")[0]);
+		System.out.print(type+" "+rawFile.getName().toString().split("\\.")[0]+" ");
 		String fileName=rawFile.getName().split("\\.")[0];
 		String outFile=outFolder+fileName+"_APDM.txt";
 		int idx=0;
@@ -251,10 +254,12 @@ public class genRealDataAPDM {
 			data[idx]=getData(eachLine);
 			idx++;
 		}
+		System.out.println(data[0].length+" "+data.length);
 		
 		DescriptiveStatistics stats =null; 
 		 for (int i = 0; i < data.length; i++) {
 			 stats=new DescriptiveStatistics();
+			 
 			 for(int j=0;j<data[0].length;j++){
 				 stats.addValue(data[i][j]); 
 			 }
@@ -270,7 +275,8 @@ public class genRealDataAPDM {
 	}
 
 	public void genAllRealDataAPDM() throws NumberFormatException, IOException{
-		for(String type:Arrays.asList("rad")){//"temp9","press","windDir","windMax","rh","wind")){		
+		for (String type : Arrays.asList("rad", "temp", "temp9", "press",
+				"windDir", "windMax", "rh", "wind")) {
 			
 			String rootFolder="data/mesonet_data/"+type+"/";
 			//String filePath="20160101/2016-01-01-00-RawHRRRGridData.txt";
@@ -284,6 +290,7 @@ public class genRealDataAPDM {
 			for(File rawFile : new File(rootFolder).listFiles()){
 				genSignleAPDMFile(rawFile,rootFolder,outFolder,type);
 			}
+			System.out.print("\n");
 		}
 		
 	}
@@ -315,7 +322,8 @@ public class genRealDataAPDM {
 //		System.out.println(lat[0][0]+" "+lons[1][0]);
 		//generateTestCase();
 		genRealDataAPDM tWgen=new genRealDataAPDM();
-		tWgen.genTrafficRealDataAPDM();
+		// tWgen.genTrafficRealDataAPDM();
+		tWgen.genAllRealDataAPDM();
 	}
 
 }
