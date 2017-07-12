@@ -218,11 +218,7 @@ public class genRealDataAPDM {
 		double[] x=new double[line.split(" ").length-1];
 		String[] dStr=line.replace("\n", "").split(" ");
 		for (int i = 1; i < dStr.length; i++) {
-<<<<<<< HEAD
-			x[i-1]=Double.parseDouble(dStr[i]);
-=======
 			x[i - 1] = Double.parseDouble(dStr[i]);
->>>>>>> 63a3819aec2b224c52892d04a435dacc077fd160
 		}
 
 		return x;
