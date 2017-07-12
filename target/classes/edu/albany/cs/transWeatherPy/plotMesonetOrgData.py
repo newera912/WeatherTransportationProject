@@ -4,10 +4,10 @@ from matplotlib.lines import lineStyles
 
 Light_cnames={'mistyrose':'#FFE4E1','navajowhite':'#FFDEAD','seashell':'#FFF5EE','papayawhip':'#FFEFD5','blanchedalmond':'#FFEBCD','white':'#FFFFFF','mintcream':'#F5FFFA','antiquewhite':'#FAEBD7','moccasin':'#FFE4B5','ivory':'#FFFFF0','lightgoldenrodyellow':'#FAFAD2','lightblue':'#ADD8E6','floralwhite':'#FFFAF0','ghostwhite':'#F8F8FF','honeydew':'#F0FFF0','linen':'#FAF0E6','snow':'#FFFAFA','lightcyan':'#E0FFFF','cornsilk':'#FFF8DC','bisque':'#FFE4C4','aliceblue':'#F0F8FF','gainsboro':'#DCDCDC','lemonchiffon':'#FFFACD','lightyellow':'#FFFFE0','lavenderblush':'#FFF0F5','whitesmoke':'#F5F5F5','beige':'#F5F5DC','azure':'#F0FFFF','oldlace':'#FDF5E6'}
 def plot10seperate():
-    mons=["201603","201604","201605","201606","201607","201608",""]
+    mons=["201603","201604","201605","201606","201607","201608","201609","201610","201611","201612","201701","201702","201703","201704","201705","201706"]
     days=['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
     rootpath="F:/workspace/git/TranWeatherProject/data/mesonet_data/"
-    for mon in ["201604"]:
+    for mon in mons:
         for day in days:
             print mon+day
             fileName=rootpath+mon+day+".txt"
@@ -640,15 +640,17 @@ def plotCaseDaysSingleStation():
  
 
 def plotAllDays():
+    root="F:/workspace/git/WeatherTransportationProject/"
     #dates=["20160301","20160302","20160308","20160309","20160312","20160313","20160324","20160325","20160328","20160405","20160412","20160419","20160421","20160514","20160529","20160621","20160628","20160813","20160911","20160922"]
     dates=[]
-    mons=["201603","201604","201605","201606","201607","201608","201609"]
+    #"201603","201604","201605","201606","201607","201608"
+    mons=["201609","201610","201611","201612","201701","201702","201703","201704","201705","201706"]
     days=['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
     sta_names={0:"BATA",1:"SBRI",2:"WATE",3:"JORD",4:"CSQR",5:"WEST",6:"COLD",7:"SPRA",8:"COBL",9:"STEP"}
     var_types=["temp","temp9","press","wind","windDir","windMax","rh","rad"]
     #var_types=["wind"]
     for var_type in var_types:
-        rootpath="F:/workspace/git/Graph-MP/data/mesonet_data/"+var_type+"/"
+        rootpath=root+"data/mesonet_data/"+var_type+"/"
         #expRoot="F:/workspace/git/Graph-MP/data/mesonet_data/mesonetExpData/statExpData/"
         for mon in mons:
             for day in days:
@@ -742,7 +744,7 @@ def plotAllDays():
                 
                 #plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)
                 #plt.show()
-                fig.savefig('F:/workspace/git/Graph-MP/outputs/mesonetPlots/'+var_type+'_plots/'+str(mon+day)+'.png')
+                fig.savefig(root+'/outputs/mesonetPlots/'+var_type+'_plots/'+str(mon+day)+'.png')
                 plt.close()
 def plotTravTimeAllDays():
     import matplotlib
@@ -826,6 +828,6 @@ def plotTravTimeAllDays():
                 #plt.show()
                 fig.savefig('F:/workspace/git/Graph-MP/outputs/trafficData/'+var_type+'_plots/'+str(mon+day)+'.png')
                 plt.close()            
-plotTravTimeAllDays()                    
+plotAllDays()                    
         
 
