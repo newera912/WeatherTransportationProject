@@ -218,11 +218,7 @@ public class genRealDataAPDM {
 		double[] x=new double[line.split(" ").length-1];
 		String[] dStr=line.replace("\n", "").split(" ");
 		for (int i = 1; i < dStr.length; i++) {
-<<<<<<< HEAD
-			x[i-1]=Double.parseDouble(dStr[i]);
-=======
 			x[i - 1] = Double.parseDouble(dStr[i]);
->>>>>>> 63a3819aec2b224c52892d04a435dacc077fd160
 		}
 
 		return x;
@@ -278,16 +274,18 @@ public class genRealDataAPDM {
 	}
 
 	public void genAllRealDataAPDM() throws NumberFormatException, IOException{
+		String adjListFile="data/mesonet_data/edgeList.txt";
+		getAdjList(adjListFile);
 		for (String type : Arrays.asList("rad", "temp", "temp9", "press",
 				"windDir", "windMax", "rh", "wind")) {
 			
 			String rootFolder="data/mesonet_data/"+type+"/";
 			//String filePath="20160101/2016-01-01-00-RawHRRRGridData.txt";
-			String adjListFile="data/mesonet_data/edgeList.txt";
+			
 			String outFolder="data/mesonet_data/"+type+"_APDM/";
 			
 			/* get adjacent List of the graph */
-			getAdjList(adjListFile);
+			
 			System.out.println("Edge_size:"+this.edges.size());
 			
 			for(File rawFile : new File(rootFolder).listFiles()){

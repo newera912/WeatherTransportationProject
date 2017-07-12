@@ -965,7 +965,7 @@ public class TransWeatherRealDataTest {
 		//String truthFolder="data/mesonet_data/caseStudyTempGT/";
 		//String methodType="CP";
 		String methodType="CP3";
-		for(String type:Arrays.asList("rh", "rad")){//"temp", "temp9", "press", "wind", "windDir", "windMax", "rh", "rad")){		
+		for(String type:Arrays.asList("press")){//"temp", "temp9", "press", "wind", "windDir", "windMax", "rh", "rad")){		
 		String folder="data/mesonet_data/"+type+"_APDM/";
 		//String folder="data/mesonet_data/trans/";
 		String fileName="";
@@ -1037,29 +1037,7 @@ public class TransWeatherRealDataTest {
 //			e.printStackTrace();
 //		}
 	    
-	    getPRF1 prf1=null;
-	    int maxK=resultItems.size()<2000?resultItems.size():2000;
-		for(int i=10;i<maxK;i+=5){
-			prf1=new getPRF1(i, resultItems, groundTrueItems.size());
-			
-			/**Print the detected pattern list in TOp 100**/
-			if(i==115){
-			for(int r=0;r<i;r++){
-				System.out.println("R>"+resultItems.get(r).detectIdxList);
-			}
-			}
-			
-			
-			System.out.println(prf1.pre+" "+prf1.rec+" "+prf1.fscore);
-        	//System.out.print(entryAll.getKey()+" "+entryAll.getValue());
-        	try {
-				allWriter.write(i+" "+prf1.pre+" "+prf1.rec+" "+prf1.fscore+"\n");
-			
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}//		
-		}
+	   
 		
 		try {
 			allWriterOut.close();
