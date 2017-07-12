@@ -148,8 +148,10 @@ public class GraphMP {
 		}
 		resultNodes_supportX = getSupportNodes(x);
 		// TODO
-		// funcValue = function.getFuncValue(x);
-		funcValue = function.getFuncValue(resultNodes_Tail);
+		/** relaxed result */
+		funcValue = function.getFuncValue(x);
+		/** Original problem result */
+		// funcValue = function.getFuncValue(resultNodes_Tail);
 
 		runTime = (System.nanoTime() - startTime) / 1e9;
 		return x;

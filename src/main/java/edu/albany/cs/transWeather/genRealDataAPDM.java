@@ -218,11 +218,19 @@ public class genRealDataAPDM {
 	public double[] getData(String line){
 		double[] x=new double[line.split(" ").length-1];
 		String[] dStr=line.replace("\n", "").split(" ");
+<<<<<<< HEAD
+
+		for (int i = 1; i < dStr.length; i++) {
+			x[i-1]=Double.parseDouble(dStr[i]);			
+		}
+
+=======
 		
 		for(int i=1;i<dStr.length;i++){
 			x[i-1]=Double.parseDouble(dStr[i]);			
 		}
 		
+>>>>>>> 458803f8b55c92cfe4fcd4c6a87cf4497eade4d0
 		return x;
 	}
 	
@@ -243,7 +251,12 @@ public class genRealDataAPDM {
 		
 	
 	
+<<<<<<< HEAD
+		System.out.print(type + " "
+				+ rawFile.getName().toString().split("\\.")[0] + " ");
+=======
 		System.out.print(type+" "+rawFile.getName().toString().split("\\.")[0]+" ");
+>>>>>>> 458803f8b55c92cfe4fcd4c6a87cf4497eade4d0
 		String fileName=rawFile.getName().split("\\.")[0];
 		String outFile=outFolder+fileName+"_APDM.txt";
 		int idx=0;
@@ -254,12 +267,20 @@ public class genRealDataAPDM {
 			data[idx]=getData(eachLine);
 			idx++;
 		}
+<<<<<<< HEAD
+		System.out.println(data[0].length + " " + data.length);
+=======
 		System.out.println(data[0].length+" "+data.length);
+>>>>>>> 458803f8b55c92cfe4fcd4c6a87cf4497eade4d0
 		
 		DescriptiveStatistics stats =null; 
 		 for (int i = 0; i < data.length; i++) {
 			 stats=new DescriptiveStatistics();
+<<<<<<< HEAD
+
+=======
 			 
+>>>>>>> 458803f8b55c92cfe4fcd4c6a87cf4497eade4d0
 			 for(int j=0;j<data[0].length;j++){
 				 stats.addValue(data[i][j]); 
 			 }
