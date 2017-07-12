@@ -11,7 +11,7 @@ def timeToSlot(time):
 root="/home/apdm01/workspace/git/WeatherTransportationProject/"
 #root="F:/workspace/git/WeatherTransportationProject/"
 sta_names={"BATA":0,"SBRI":1,"WATE":2,"JORD":3,"CSQR":4,"WEST":5,"COLD":6,"SPRA":7,"COBL":8,"STEP":9}
-mons=["201603","201604","201605","201606","201607","201608"]
+mons=["201603","201604","201605","201606","201607","201608","201609","201610","201611","201612"]
 # mons=["201608"]
 # mons=["201609","201610","201611","201612","201701","201702","201703","201704","201705","201706"]
 days=['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
@@ -20,8 +20,8 @@ type={"temp":2,"temp9":3,"rad":8,"windDir":7,"windMax":6,"rh":4,"press":9,"wind"
 #"press","windDir","windMax","rh","precip","temp","temp9","wind"
 
 dateList=[]
-d1 = date(2016, 3, 1)  # start date
-d2 = date(2017, 8, 31)  # end date
+d1 = date(2016, 9, 1)  # start date
+d2 = date(2017, 6, 30)  # end date
 delta = d2 - d1         # timedelta
 
 for j,i in enumerate(range(delta.days + 1)):
@@ -95,6 +95,7 @@ for k,v in type.items():
 #                             indict[sta_names[sta_name]][dateIdx[cur_date]]=0
 #                         else:
 #                             indict[sta_names[sta_name]][dateIdx[cur_date]]=1
+
                         #print sta_name,cur_date,count
                         for j in range(len(temp_line)):                            
                             f=0
