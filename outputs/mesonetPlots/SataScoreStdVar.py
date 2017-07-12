@@ -21,6 +21,6 @@ for type in types:
     mad=round(madF(scores),2)
     min=round(np.min(scores),2)
     max=round(np.max(scores),2)
-    print "{} {} | {} {] {} {}".foramt(type,median+2*mad,median,mad,min,max)
+    print "{} {} | {} {} {} {}".format(type,median+2*mad,median,mad,min,max)
     
     
