@@ -20,8 +20,13 @@ type={"temp":2,"temp9":3,"rad":8,"windDir":7,"windMax":6,"rh":4,"press":9,"wind"
 #"press","windDir","windMax","rh","precip","temp","temp9","wind"
 
 dateList=[]
+<<<<<<< HEAD
+d1 = date(2016, 3, 1)  # start date
+d2 = date(2017, 8, 31)  # end date
+=======
 d1 = date(2016, 9, 1)  # start date
 d2 = date(2017, 6, 30)  # end date
+>>>>>>> a29ac963e094b6afdc75c72742207366e35d54c5
 delta = d2 - d1         # timedelta
 
 for j,i in enumerate(range(delta.days + 1)):
@@ -95,7 +100,10 @@ for k,v in type.items():
 #                             indict[sta_names[sta_name]][dateIdx[cur_date]]=0
 #                         else:
 #                             indict[sta_names[sta_name]][dateIdx[cur_date]]=1
+<<<<<<< HEAD
+=======
 
+>>>>>>> a29ac963e094b6afdc75c72742207366e35d54c5
                         #print sta_name,cur_date,count
                         for j in range(len(temp_line)):                            
                             f=0
