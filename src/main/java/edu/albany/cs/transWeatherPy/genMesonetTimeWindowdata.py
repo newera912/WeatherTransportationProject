@@ -2,7 +2,6 @@ from operator import itemgetter
 import numpy as np
 import csv,sys,os
 from datetime import date, timedelta
-<<<<<<< HEAD
 
 def timeToSlot(time):
     hour=int(time[:2])
@@ -23,22 +22,6 @@ type={"temp":2,"temp9":3,"rad":8,"windDir":7,"windMax":6,"rh":4,"press":9,"wind"
 dateList=[]
 d1 = date(2016, 3, 1)  # start date
 d2 = date(2017, 8, 31)  # end date
-=======
-root="/home/apdm01/workspace/git/WeatherTransportationProject/"
-#root="F:/workspace/git/WeatherTransportationProject/"
-sta_names={"BATA":0,"SBRI":1,"WATE":2,"JORD":3,"CSQR":4,"WEST":5,"COLD":6,"SPRA":7,"COBL":8,"STEP":9}
-mons=["201603","201604","201605","201606","201607","201608","201609"]
-mons=["201608"]
-mons=["201609","201610","201611","201612","201701","201702","201703","201704","201705","201706"]
-days=['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
-type={"temp":2,"temp9":3,"rad":8,"windDir":7,"windMax":6,"rh":4,"press":9,"wind":5} #old order
-type={"temp":4,"temp9":5,"rad":6,"windDir":11,"windMax":10,"rh":7,"press":8,"wind":9}
-#"press","windDir","windMax","rh","precip","temp","temp9","wind"
-
-dateList=[]
-d1 = date(2016, 9, 1)  # start date
-d2 = date(2017, 6, 30)  # end date
->>>>>>> 2c2c5f7e714c1a0bdc4c6fedc151ea7a2f128217
 delta = d2 - d1         # timedelta
 
 for j,i in enumerate(range(delta.days + 1)):
@@ -112,7 +95,6 @@ for k,v in type.items():
 #                             indict[sta_names[sta_name]][dateIdx[cur_date]]=0
 #                         else:
 #                             indict[sta_names[sta_name]][dateIdx[cur_date]]=1
-<<<<<<< HEAD
                         #print sta_name,cur_date,count
                         for j in range(len(temp_line)):                            
                             f=0
@@ -133,10 +115,6 @@ for k,v in type.items():
                             else:
                                 a=0    
                         data.append((sta_names[sta_name]," ".join(map(str,temp_line))+"\n"))
-=======
-                        #print sta_name,cur_date,count   
-                        data.append((sta_names[sta_name],temp_line+"\n"))
->>>>>>> 2c2c5f7e714c1a0bdc4c6fedc151ea7a2f128217
             sys.stdout.write(cur_date+" ")
             #print data[0][0],data[0][1]
             data=sorted(data,key=itemgetter(0))
