@@ -523,20 +523,12 @@ public class TransWeatherRealDataTest {
 	\*********************************/
 	public static void testSingleFileChangePoint2(String singleFile, String resultFileName,String gtFileName,String prf1File,int mwin,int sss) {
 		long startTime = System.nanoTime();
-		FileWriter fileWriter=null;
-		FileWriter prf1Writer=null;
+
 		APDMInputFormat apdm = new APDMInputFormat(singleFile);
 		TransWeatherRealGraph graph = new TransWeatherRealGraph(apdm);
 		String[] paths=singleFile.split("/");
 		String date=paths[paths.length-1].split("_")[0];
-		try {
-			prf1Writer = new FileWriter(prf1File, false);
-			fileWriter = new FileWriter(resultFileName, false);
-			//fileWriter.write("[Score] [Station index] [Time slots] \n");
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+
 		//TransWeatherGraph graph = new TransWeatherGraph(apdm,"grid");
 		if (verboseLevel > 0) {
 			System.out.println("X: " + Arrays.toString(Arrays.copyOf(graph.x, 5)));
@@ -733,27 +725,17 @@ public class TransWeatherRealDataTest {
 	    for(int i=0;i<cutOff && i<filResultList.size();i++)
 	    			
 	    {
-	        try {
-	        	//System.out.println(entry.getKey()+" "+entry.getValue());
-				fileWriter.write(filResultList.get(i).score+" "+Arrays.toString(resultList.get(i).Stations.toArray()).replace("{", "").replace("}", "")+" "+Arrays.toString(resultList.get(i).timeSlots.toArray()).replace("{", "").replace("}", "")+" "+date+"\n");//	
+			// System.out.println(entry.getKey()+" "+entry.getValue());
 				allResultList.add(filResultList.get(i));
 				mapCount++;
 				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
 	        if(mapCount>19){
 	        	break;
 	        }
 	                  
 	    } 
-	    try {
-			fileWriter.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 
 	 
 		//System.out.print("["+sCount+" "+mapCount+" ");		
