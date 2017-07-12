@@ -13,7 +13,6 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 import edu.albany.cs.apdmIO.APDMInputFormat;
 import edu.albany.cs.base.Edge;
-import edu.albany.cs.base.Utils;
 //import org.ujmp.core.util.MathUtil;
 //import edu.uci.ics.jung.visualization.decorators.EdgeShape.Line;
 public class genRealDataAPDM {
@@ -219,7 +218,11 @@ public class genRealDataAPDM {
 		double[] x=new double[line.split(" ").length-1];
 		String[] dStr=line.replace("\n", "").split(" ");
 		for (int i = 1; i < dStr.length; i++) {
+<<<<<<< HEAD
 			x[i-1]=Double.parseDouble(dStr[i]);
+=======
+			x[i - 1] = Double.parseDouble(dStr[i]);
+>>>>>>> 63a3819aec2b224c52892d04a435dacc077fd160
 		}
 
 		return x;
