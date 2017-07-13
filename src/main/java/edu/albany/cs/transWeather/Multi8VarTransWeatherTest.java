@@ -35,9 +35,9 @@ public class Multi8VarTransWeatherTest {
 	public static int resIndex = 0;
 	public static Map<String, Double> threshold = new HashMap<String, Double>() {
 		{
-			put("temp", 9.83);
-			put("temp9", 8.99);
-			put("press", 3.21);
+			put("temp", 14.22);
+			put("temp9", 16.92);
+			put("press", 16.9);
 			put("wind", 10.64);
 			put("windDir", 554.22);
 			put("windMax", 18.31);
