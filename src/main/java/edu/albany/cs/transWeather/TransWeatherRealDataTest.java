@@ -230,20 +230,12 @@ public class TransWeatherRealDataTest {
 	
 	public static void testSingleFileChangePoint(String singleFile, String resultFileName,String gtFileName,int mwin,int sss) {
 		long startTime = System.nanoTime();
-		FileWriter fileWriter=null;
 		///FileWriter prf1Writer=null;
 		APDMInputFormat apdm = new APDMInputFormat(singleFile);
 		TransWeatherRealGraph graph = new TransWeatherRealGraph(apdm);
 		String[] paths=singleFile.split("/");
 		String date=paths[paths.length-1].split("_")[0];
-		try {
-			//prf1Writer = new FileWriter(prf1File, false);
-			fileWriter = new FileWriter(resultFileName, false);
-			//fileWriter.write("[Score] [Station index] [Time slots] \n");
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+
 		//TransWeatherGraph graph = new TransWeatherGraph(apdm,"grid");
 		if (verboseLevel > 0) {
 			System.out.println("X: " + Arrays.toString(Arrays.copyOf(graph.x, 5)));
@@ -266,7 +258,7 @@ public class TransWeatherRealDataTest {
 		double[] b= new double[X.length]; // base, all set to zero
 		Arrays.fill(b, 1.0D);
 		double[] hist_base= new double[X.length];
-		int histStaPoint=12;
+		int histStaPoint = 6;
 		int sCount=0;
 		int maxWin=mwin;
 		/*Result and Gound-True */
@@ -294,7 +286,7 @@ public class TransWeatherRealDataTest {
 		
 		/*Generate Time Windows Parameters*/
 	    
-		System.out.println("s="+s+" MaxWinSize="+maxWin);
+		System.out.print("[s=" + s + " MaxWinSize=" + maxWin + "] ");
 		/* Generate all possible time window, window_size >=2 and less than maxWin*/
 		for (int i = 72; i <X[0].length - 48; i++) {
 			for (int j = 72; j < i + 1; j++) {
@@ -428,31 +420,24 @@ public class TransWeatherRealDataTest {
 	    for(int i=0;i<cutOff && i<filResultList.size();i++)
 	    			
 	    {
-	        try {
-	        	//System.out.println(entry.getKey()+" "+entry.getValue());
-				fileWriter.write(filResultList.get(i).score+" "+filResultList.get(i).subStatAvg+""+Arrays.toString(resultList.get(i).Stations.toArray()).replace("{", "").replace("}", "")+" "+Arrays.toString(resultList.get(i).timeSlots.toArray()).replace("{", "").replace("}", "")+" "+date+"\n");//	
+			// fileWriter.write(filResultList.get(i).score+" "+filResultList.get(i).subStatAvg+""+Arrays.toString(resultList.get(i).Stations.toArray()).replace("{",
+			// "").replace("}",
+			// "")+" "+Arrays.toString(resultList.get(i).timeSlots.toArray()).replace("{",
+			// "").replace("}", "")+" "+date+"\n");//
 				allResultList.add(filResultList.get(i));
 				mapCount++;
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
 	        if(mapCount>19){
 	        	break;
 	        }
 	                  
 	    } 
-	    try {
-			fileWriter.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 
 	 
-		System.out.println(sCount+" "+mapCount);		
-		System.out.println("running time: " + (System.nanoTime() - startTime) / 1e9);	
+		// System.out.println(sCount+" "+mapCount);
+		System.out.print("[running time: " + (System.nanoTime() - startTime)
+				/ 1e9 + "]");
 	
 	}
 	
@@ -964,8 +949,12 @@ public class TransWeatherRealDataTest {
 		int count=0;
 		//String truthFolder="data/mesonet_data/caseStudyTempGT/";
 		//String methodType="CP";
-		String methodType="CP3";
-		for(String type:Arrays.asList("windMax")){//"temp", "temp9", "press", "wind", "windDir", "windMax", "rh", "rad")){		
+		String methodType = "CP";
+		for (String type : Arrays.asList("temp", "temp9", "press", "wind",
+				"windDir", "windMax", "rh", "rad")) {// "temp", "temp9",
+														// "press", "wind",
+														// "windDir", "windMax",
+														// "rh", "rad")){
 		String folder="data/mesonet_data/"+type+"_APDM/";
 		//String folder="data/mesonet_data/trans/";
 		String fileName="";
@@ -983,7 +972,7 @@ public class TransWeatherRealDataTest {
 			String outFile="outputs/mesonetPlots/"+type+"_CaseStudy/"+methodType+"/"+sss+"/"+apdmFile.getName();
 			//String prf1File="outputs/mesonetPlots/"+type+"_CaseStudy/"+methodType+"/"+sss+"/prf1/"+fileName;
 			if(methodType.equals("CP")){
-				System.out.println("---CP---");
+					System.out.println("CP] ");
 				testSingleFileChangePoint(folder+apdmFile.getName(), outFile,"outputs/mesonetPlots/temp_CaseStudy/true_values3.txt",maxwin,sss);
 			}else{
 				System.out.print ("CP3] ");
@@ -998,8 +987,11 @@ public class TransWeatherRealDataTest {
 		
 		FileWriter allWriter = null;
 		FileWriter allWriterOut = null;
-		String prf1Filepath=sss+"/prf1/"+methodType+"_s_"+sss+"_wMax_"+maxwin+"_filter_TIncld_0.7.txt";
-		String resultFilepath=sss+"/"+methodType+"_s_"+sss+"_wMax_"+maxwin+"_filter_TIncld_0.7.txt";
+			String prf1Filepath = sss + "/prf1/" + type + "_" + methodType
+					+ "_s_" + sss + "_wMax_" + maxwin
+					+ "_filter_TIncld_0.7.txt";
+			String resultFilepath = sss + "/" + type + "_" + methodType + "_s_"
+					+ sss + "_wMax_" + maxwin + "_filter_TIncld_0.7.txt";
 		try {
 			//allWriter = new FileWriter("outputs/mesonetPlots/"+type+"_CaseStudy/"+methodType+"/"+prf1Filepath, false);
 			allWriterOut = new FileWriter("outputs/mesonetPlots/"+type+"_CaseStudy/"+methodType+"/"+resultFilepath, false);
