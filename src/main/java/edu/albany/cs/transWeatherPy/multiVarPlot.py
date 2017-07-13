@@ -31,11 +31,11 @@ def drawVarPlot(fileName,varType,mon,day,sta_names,time_region,topN,relatedVar):
     X=[i for i in range(0,len(day_data[0][2]))]  
     label=[(str(i)+"\n"+str(i*5/60)+"h") for i in range(0,len(day_data[0][2])+1,12)]
     labelY=[str(i) for i in range(0,100+1,5)]
-    #print sta_names[int(day_data[0][0])]
-    #print day_data[i3][2] 
+    print sta_names[int(day_data[0][0])]
+    print day_data[2][2] 
     
     fig=plt.figure(1) 
-    color=['b','r','k','g','y','c','','m','#B47CC7','#FBC15E','#e5ee38']        
+    color=['b','r','k','g','y','c','','m',"#B47CC7","#FBC15E","#e5ee38"]        
    
     for i in relatedVar:        
         plt.plot(X,day_data[i][2],color=color[i],linewidth='1.2', markersize=5,label=sta_names[int(day_data[i][0])]+day_data[i][0])               
@@ -53,7 +53,6 @@ def drawVarPlot(fileName,varType,mon,day,sta_names,time_region,topN,relatedVar):
     plt.xlabel('Time from 00:00 ~23:59,every 5min')
 
     plt.grid()
-    
     #plt.xlim([0.2,0.0])
     plt.legend(loc='best',fontsize=12)
    
@@ -64,7 +63,7 @@ def drawVarPlot(fileName,varType,mon,day,sta_names,time_region,topN,relatedVar):
     
     
     #plt.plot(X,day_data2[i][2],'r-',linewidth='1.0', markersize=5,label='Temp '+sta_names[int(day_data2[i][0])]+day_data2[i][0]) 
-    fig.savefig('F:/workspace/git/WeatherTransportationProject/outputs/mesonetPlots/multi_CaseStudy/mvPlotsNew/Months/DayTime'+str(topN)+'_'+varType+'_'+str(mon+day)+'.png', dpi=300)
+    fig.savefig('F:/workspace/git/WeatherTransportationProject/outputs/mesonetPlots/multi_CaseStudy/mvPlotsNew/MarDec/DayTime'+str(topN)+'_'+varType+'_'+str(mon+day)+'.png', dpi=300)
     fig.clf()   
                         
 def plotCaseDaysSingleStation():
@@ -73,7 +72,7 @@ def plotCaseDaysSingleStation():
     
     topResults=loadTop("F:/workspace/git/WeatherTransportationProject/outputs/mesonetPlots/multi_CaseStudy/CP/2/AllYearEvent_multiGraphMP_TopK_result-CP_baseMeanDiff_20_s_2_wMax_18_filter_TIncld_0.7_Top.txt")
     #VARTYPE={0:"temp",1:"temp9",2:"press",3:"wind",4:"windDir",5:"windMax",6:"rh",7:"rad"}
-    VARTYPE={0:"temp",1:"temp9",2:"wind",3:"windMax",4:"rh"}
+    VARTYPE={0:"temp",1:"temp9",2:"press",3:"wind",4:"windDir",5:"windMax",6:"rh",7:"rad"}
     for result in topResults:
         dates=[]
         
@@ -85,7 +84,7 @@ def plotCaseDaysSingleStation():
         for var in varTypes:
             relatedVar.append(int(var))
         
-        mons=["201603","201604","201605","201606","201607","201608","201609"]
+        mons=["201603","201604","201605","201606","201607","201608","201609", "201610","201611", "201612"]
         days=['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
         sta_names={0:"BATA",1:"SBRI",2:"WATE",3:"JORD",4:"CSQR",5:"WEST",6:"COLD",7:"SPRA",8:"COBL",9:"STEP"}
         
@@ -111,7 +110,14 @@ def plotCaseDaysSingleStation():
                     
                     fileName=rootpath+var_type+"/"+mon+day+".txt"
                     print fileName
-                    
+                    print type(fileName)
+                    print type(var_type)
+                    print type(mon)
+                    print type(day)
+                    print type(sta_names)
+                    print type(result[4])
+                    print type(result[0])
+                    print type(relatedVar)
                     drawVarPlot(fileName,var_type,mon,day,sta_names,result[4],result[0],relatedVar)
                 
                 

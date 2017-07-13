@@ -437,7 +437,7 @@ public class TransWeatherRealDataTest {
 	 
 		// System.out.println(sCount+" "+mapCount);
 		System.out.print("[running time: " + (System.nanoTime() - startTime)
-				/ 1e9 + "]");
+				/ 1e9 + "]\n");
 	
 	}
 	
@@ -944,18 +944,18 @@ public class TransWeatherRealDataTest {
 	
 	public static void CaseStudy(int maxwin,int sss){
 		long startTimeAll = System.nanoTime();
-		allResultList = new ArrayList<ResultItem>();
+		
 		List<String> caseDates=(List) Arrays.asList("201603","201604","201605","201606","201607","201608","201609","201610","201611","201612");
-
 		//String truthFolder="data/mesonet_data/caseStudyTempGT/";
 		//String methodType="CP";
 		String methodType = "CP";
-		for (String type : Arrays.asList("temp", "temp9", "press", "wind",
-				"windDir", "windMax", "rh", "rad")) {// "temp", "temp9",
+		for (String type : Arrays.asList("wind","windDir", "windMax")) {// "temp", "temp9",
 														// "press", "wind",
 														// "windDir", "windMax",
 														// "rh", "rad")){
+
 			int count = 0;
+			allResultList = new ArrayList<ResultItem>();
 		String folder="data/mesonet_data/"+type+"_APDM/";
 		//String folder="data/mesonet_data/trans/";
 		String fileName="";
