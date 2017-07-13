@@ -37,12 +37,12 @@ public class Multi8VarTransWeatherTest {
 		{
 			put("temp", 14.22);
 			put("temp9", 16.92);
-			put("press", 16.9);
-			put("wind", 10.64);
-			put("windDir", 554.22);
-			put("windMax", 18.31);
-			put("rh", 31.69);
-			put("rad", 765.65);
+			put("press", 3.48);
+			put("wind", 12.37);
+			put("windDir", 549.02);
+			put("windMax", 20.37);
+			put("rh", 36.44);
+			put("rad", 1047.46);
 		}
 	};
 
@@ -914,7 +914,9 @@ public class Multi8VarTransWeatherTest {
 	public static void CaseStudy(int maxwin, int sss, String month) {
 		long startTimeAll = System.nanoTime();
 		allResultList = new ArrayList<ResultItem>();
-		List<String> caseDates = (List) Arrays.asList("20160412");
+		List<String> caseDates = (List) Arrays.asList("201603", "201604",
+				"201605", "201606", "201607", "201608", "201609", "201610",
+				"201611", "201612");
 		// List<String> caseDates=(List)
 		// Arrays.asList("20160301","20160302","20160303","20160304","20160305","20160306","20160307","20160308","20160309","20160310","20160311","20160312","20160313","20160314","20160315","20160316","20160317","20160318","20160319","20160320","20160321","20160322","20160323","20160324","20160325","20160326","20160327","20160328","20160329","20160330","20160331");
 		// int count=0;
@@ -936,7 +938,7 @@ public class Multi8VarTransWeatherTest {
 			if (!fileName.split("_")[0].startsWith(month)) {
 				continue;
 			}
-			if (!caseDates.contains(fileName.split("_")[0])) {
+			if (!caseDates.contains(fileName.split("_")[0].substring(0, 6))) {
 				continue;
 			}
 			filePath = new String[var_types.length];
@@ -979,7 +981,7 @@ public class Multi8VarTransWeatherTest {
 				testSingleFileChangePoint(filePath, outFile, prf1File, maxwin,
 						sss);
 			} else {
-				System.out.println("---CP3---");
+				// System.out.println("---CP3---");
 				// testSingleFileChangePoint2(folderTemp+fileName,folderWind+fileName,
 				// outFile,"outputs/mesonetPlots/multi_CaseStudy/true_values3.txt",prf1File,maxwin,sss);
 
@@ -997,14 +999,14 @@ public class Multi8VarTransWeatherTest {
 		FileWriter allWriterOutTop = null;
 		String prf1Filepath = sss + "/prf1/AllYearEvent_multi_PRF1_result-"
 				+ methodType + "_baseMeanDiff_20_s_" + sss + "_wMax_" + maxwin
-				+ "_filter_TIncld_0.720160412.txt";
+				+ "_filter_TIncld_0.7.txt";
 		String resultFilepath = sss + "/AllYearEvent_multiGraphMP_TopK_result-"
 				+ methodType + "_baseMeanDiff_20_s_" + sss + "_wMax_" + maxwin
-				+ "_filter_TIncld_0.720160412.txt";
+				+ "_filter_TIncld_0.7.txt";
 		String resultFilepath2 = sss
 				+ "/AllYearEvent_multiGraphMP_TopK_result-" + methodType
 				+ "_baseMeanDiff_20_s_" + sss + "_wMax_" + maxwin
-				+ "_filter_TIncld_0.720160412_Top.txt";
+				+ "_filter_TIncld_0.7_Top.txt";
 		try {
 			allWriter = new FileWriter("outputs/mesonetPlots/multi_CaseStudy/"
 					+ methodType + "/" + prf1Filepath, false);
