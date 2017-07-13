@@ -946,7 +946,7 @@ public class TransWeatherRealDataTest {
 		long startTimeAll = System.nanoTime();
 		allResultList = new ArrayList<ResultItem>();
 		List<String> caseDates=(List) Arrays.asList("201603","201604","201605","201606","201607","201608","201609","201610","201611","201612");
-		int count=0;
+
 		//String truthFolder="data/mesonet_data/caseStudyTempGT/";
 		//String methodType="CP";
 		String methodType = "CP";
@@ -955,6 +955,7 @@ public class TransWeatherRealDataTest {
 														// "press", "wind",
 														// "windDir", "windMax",
 														// "rh", "rad")){
+			int count = 0;
 		String folder="data/mesonet_data/"+type+"_APDM/";
 		//String folder="data/mesonet_data/trans/";
 		String fileName="";
@@ -972,7 +973,7 @@ public class TransWeatherRealDataTest {
 			String outFile="outputs/mesonetPlots/"+type+"_CaseStudy/"+methodType+"/"+sss+"/"+apdmFile.getName();
 			//String prf1File="outputs/mesonetPlots/"+type+"_CaseStudy/"+methodType+"/"+sss+"/prf1/"+fileName;
 			if(methodType.equals("CP")){
-					System.out.println("CP] ");
+					System.out.print("CP] ");
 				testSingleFileChangePoint(folder+apdmFile.getName(), outFile,"outputs/mesonetPlots/temp_CaseStudy/true_values3.txt",maxwin,sss);
 			}else{
 				System.out.print ("CP3] ");
