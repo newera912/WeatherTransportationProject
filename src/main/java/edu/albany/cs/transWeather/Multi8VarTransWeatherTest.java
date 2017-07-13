@@ -131,17 +131,16 @@ public class Multi8VarTransWeatherTest {
 
 		/* Generate Time Windows Parameters */
 
-		System.out.println("s=" + s + " MaxWinSize=" + maxWin);
+		System.out.print("[s=" + s + " MaxWinSize=" + maxWin+" HistBase="+histStaPoint+"] ");
 		/*
 		 * Generate all possible time window, window_size >=2 and less than
 		 * maxWin
 		 */
-		for (int i = 0; i < mvNodes.get(1).X[0].length - 12; i++) {
-			for (int j = 0; j < i + 1; j++) {
+		for (int i = 72; i < mvNodes.get(1).X[0].length - 48; i++) {
+			for (int j = 72; j < i + 1; j++) {
 				if (i - j + 1 < 3 || i - j + 1 > maxWin) {
 					continue;
-				}
-				// if(i-j+1!=18){
+				}// if(i-j+1!=18){
 				// continue;
 				// }
 
@@ -324,9 +323,9 @@ public class Multi8VarTransWeatherTest {
 
 		}
 
-		System.out.println(sCount + " " + mapCount);
-		System.out.println("running time: " + (System.nanoTime() - startTime)
-				/ 1e9);
+		//System.out.println(sCount + " " + mapCount);
+		System.out.print("[Running time: " + (System.nanoTime() - startTime)
+				/ 1e9+"]\n");
 
 	}
 
@@ -417,7 +416,7 @@ public class Multi8VarTransWeatherTest {
 	/*********************************
 	 * \ Assume exist two changing points
 	 * 
-	 * 
+	 * filePath, outFile, prf1File, maxwin,sss
 	 * \
 	 *********************************/
 	public static void testSingleFileChangePoint2(String singleFile,
@@ -907,8 +906,8 @@ public class Multi8VarTransWeatherTest {
 		}// i
 
 		filResultItems.removeAll(removeIdxList);
-		System.out.println("size: " + origSize + " - " + removeIdxList.size()
-				+ " = " + filResultItems.size());
+		System.out.print("[size: " + origSize + " - " + removeIdxList.size()
+				+ " = " + filResultItems.size()+"] ");
 		return filResultItems;
 	}
 
@@ -933,6 +932,7 @@ public class Multi8VarTransWeatherTest {
 		boolean fileExistForAllVar = true;
 		String fileName = "";
 		String[] filePath = null;
+		int count=0;
 		for (File apdmFile : new File("data/mesonet_data/" + var_types[0]
 				+ "_APDM/").listFiles()) {
 			fileName = apdmFile.getName();
@@ -971,27 +971,24 @@ public class Multi8VarTransWeatherTest {
 				System.out.println("false.....");
 				continue;
 			}
-			System.out.println("multi " + fileName);
+			System.out.print(count +" [multi " + fileName);
 			String outFile = "outputs/mesonetPlots/multi_CaseStudy/"
 					+ methodType + "/" + sss + "/" + apdmFile.getName();
 			String prf1File = "outputs/mesonetPlots/multi_CaseStudy/"
 					+ methodType + "/" + sss + "/prf1/" + fileName;
 
 			if (methodType.equals("CP")) {
-				System.out.println("---CP---");
+				System.out.print(" CP]");
 				testSingleFileChangePoint(filePath, outFile, prf1File, maxwin,
 						sss);
 			} else {
-				// System.out.println("---CP3---");
-				// testSingleFileChangePoint2(folderTemp+fileName,folderWind+fileName,
-				// outFile,"outputs/mesonetPlots/multi_CaseStudy/true_values3.txt",prf1File,maxwin,sss);
+				 System.out.println("CP3]");
+//				 testSingleFileChangePoint2(filePath, outFile, prf1File, maxwin,sss);
 
 			}
 
 		}// file
-		if (!fileExistForAllVar) {
-
-		}
+		count++;
 		ArrayList<ResultItem> groundTrueItems = getGroundTruthRI("outputs/mesonetPlots/multi_CaseStudy/true_values3.txt");
 		ArrayList<ResultItem> resultItems = new ArrayList<ResultItem>();
 
