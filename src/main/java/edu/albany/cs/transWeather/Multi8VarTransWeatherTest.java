@@ -35,14 +35,14 @@ public class Multi8VarTransWeatherTest {
 	public static int resIndex = 0;
 	public static Map<String, Double> threshold = new HashMap<String, Double>() {
 		{
-			put("temp", 14.22);
-			put("temp9", 16.92);
-			put("press", 3.48);
-			put("wind", 12.37);
-			put("windDir", 549.02);
-			put("windMax", 20.37);
-			put("rh", 36.44);
-			put("rad", 1047.46);
+			put("temp", 12.52);
+			put("temp9", 11.47);
+			put("press", 3.28);
+			put("wind", 10.6);
+			put("windDir", 510.36);
+			put("windMax", 17.18);
+			put("rh", 35.82);
+			put("rad", 888.87);
 		}
 	};
 
@@ -986,9 +986,9 @@ public class Multi8VarTransWeatherTest {
 //				 testSingleFileChangePoint2(filePath, outFile, prf1File, maxwin,sss);
 
 			}
-
+            count++;
 		}// file
-		count++;
+		
 		ArrayList<ResultItem> groundTrueItems = getGroundTruthRI("outputs/mesonetPlots/multi_CaseStudy/true_values3.txt");
 		ArrayList<ResultItem> resultItems = new ArrayList<ResultItem>();
 
