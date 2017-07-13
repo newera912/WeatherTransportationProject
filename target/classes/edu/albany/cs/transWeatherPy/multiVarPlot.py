@@ -73,7 +73,7 @@ def plotCaseDaysSingleStation():
     
     topResults=loadTop("F:/workspace/git/WeatherTransportationProject/outputs/mesonetPlots/multi_CaseStudy/CP/2/AllYearEvent_multiGraphMP_TopK_result-CP_baseMeanDiff_20_s_2_wMax_18_filter_TIncld_0.7_Top.txt")
     #VARTYPE={0:"temp",1:"temp9",2:"press",3:"wind",4:"windDir",5:"windMax",6:"rh",7:"rad"}
-    VARTYPE={0:"temp",1:"temp9",2:"wind",3:"windMax",4:"rh"}
+    VARTYPE={0:"temp",1:"temp9",2:"press",3:"wind",4:"windDir",5:"windMax",6:"rh",7:"rad"}
     for result in topResults:
         dates=[]
         
@@ -85,7 +85,7 @@ def plotCaseDaysSingleStation():
         for var in varTypes:
             relatedVar.append(int(var))
         
-        mons=["201603","201604","201605","201606","201607","201608","201609"]
+        mons=["201603","201604","201605","201606","201607","201608","201609", "201610","201611", "201612"]
         days=['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
         sta_names={0:"BATA",1:"SBRI",2:"WATE",3:"JORD",4:"CSQR",5:"WEST",6:"COLD",7:"SPRA",8:"COBL",9:"STEP"}
         

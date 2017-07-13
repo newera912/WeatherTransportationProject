@@ -96,10 +96,11 @@ public class Multi8VarTransWeatherTest {
 		double[] b = new double[N]; // base, all set to zero
 		Arrays.fill(b, 1.0D);
 
-		int histStaPoint = 12;
+		int histStaPoint = 6;
 		int sCount = 0;
 		int maxWin = mwin;
-		double[] w = { 1.0D, 1.0D, 15.0D }; /* Result and Gound-True */// TreeMap<Double,String>
+		// double[] w = { 1.0D, 1.0D, 15.0D }; /* Result and Gound-True *///
+		// TreeMap<Double,String>
 																		// resultMap
 																		// = new
 																		// TreeMap<Double,String>(Collections.reverseOrder());
