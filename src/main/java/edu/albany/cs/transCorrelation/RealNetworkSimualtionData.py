@@ -203,7 +203,7 @@ def Case3():
 def Case1():
     root="F:/workspace/git/WeatherTransportationProject/data/trafficData/I90_TravelTime/"
     tmcLoc="I90EastTMCLatLon.txt"  
-    outFile="RNSimuEvents_Case2.txt"  
+    outFile="RNSimuEvents_Case1.txt"  
     
     """read TMC and stations information"""    
     station={}    
@@ -255,8 +255,8 @@ def Case1():
 #         else:
 #             print d
     random.shuffle(dates)
-    wDates=dates#[:len(dates)/2]
-    tDates=dates#[len(dates)/2:]
+    wDates=dates[:len(dates)/2]
+    tDates=dates[len(dates)/2:]
     
 #     print wDates
 #     print tDates
@@ -314,4 +314,4 @@ def round(x):
     return np.round(100.0*x)/100.0    
 
 if __name__ =='__main__':
-    Case3()
+    Case1()
