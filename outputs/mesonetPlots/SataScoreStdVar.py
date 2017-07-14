@@ -9,7 +9,7 @@ types=["temp", "temp9", "press", "wind", "windDir", "windMax", "rh", "rad"]
 
 #rad_CaseStudy/CP3/2/CP3_s_2_wMax_18_filter_TIncld_0.7.txt
 for type in types:
-    fileName=type+"_CaseStudy/CP3/2/CP3_s_2_wMax_18_filter_TIncld_0.7.txt"
+    fileName=type+"_CaseStudy/CP/2/"+type+"_CP_s_2_wMax_18_filter_TIncld_0.7.txt"
     scores=[]
     with open(fileName,"r") as f:
         for i,line in enumerate(f.readlines()):
