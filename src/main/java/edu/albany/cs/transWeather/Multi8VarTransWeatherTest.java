@@ -989,7 +989,7 @@ public class Multi8VarTransWeatherTest {
             count++;
 		}// file
 		
-		ArrayList<ResultItem> groundTrueItems = getGroundTruthRI("outputs/mesonetPlots/multi_CaseStudy/true_values3.txt");
+		//ArrayList<ResultItem> groundTrueItems = getGroundTruthRI("outputs/mesonetPlots/multi_CaseStudy/true_values3.txt");
 		ArrayList<ResultItem> resultItems = new ArrayList<ResultItem>();
 
 		FileWriter allWriter = null;

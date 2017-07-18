@@ -98,20 +98,7 @@ public class ResultItem {
 		for(int var:changedVarList){
 			this.changedVarList.add(var);
 		}
-//		IsDetected(groundTrue);
-//		this.comparator=new Comparator<ResultItem>() {
-//	        public int compare(ResultItem item1, ResultItem item2)
-//	        {
-//	        	if(item1.score > item2.score){  //larger return 1
-//	        		return -1;
-//	        	}else if(item1.score==item2.score){
-//	        		return 0;
-//	        	}else{
-//	            return  1;
-//	        	}
-//	        }
-//	    };
-		//System.out.println(this.detectIdxList);
+
 		
 	}
 
@@ -235,7 +222,7 @@ public class ResultItem {
 	                list.add(t);
 	            }
 	        }
-	        //System.out.println(this.date+" "+list.size()+""+list1 +"¡¡"+list2);
+	        //System.out.println(this.date+" "+list.size()+""+list1 +"ï¿½ï¿½"+list2);
 	        return list;
 	    }
 	

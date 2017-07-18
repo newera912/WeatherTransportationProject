@@ -61,7 +61,7 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
 #             if wev[0]==tev[0]:
 #                 continue
             pairs=str(min(tev[4],wev[4]))+"_"+str(max(tev[4],wev[4]))       
-            if tev[3]-wev[3]>timeThreshold or tev[3]-wev[3]<0:                                                              
+            if abs(tev[3]-wev[3])>timeThreshold:# or tev[3]-wev[3]<0:                                                              
                 continue
             if not pair_dist.has_key(pairs):
                 continue
@@ -83,20 +83,22 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
 
 
 def main():
-
-    ite=10
-    output=open("PICResult100_density.txt","a+")
-    timeThresholds=[1,2,3,4,5]  
-    radius=[50]  #5,9,13,17,21,25  5,10,15,20,25,30,35,40,45,50,55,60
+    inputFile="RNSimuEvents_Case302.txt"
+    outputFile="result_34"+inputFile 
+    ite=500
+    output=open(outputFile,"a+")
+    timeThresholds=[1,2,3]  #1,2,3,4,5
+    radius=[5,15,25,35,45,55]  #5,9,13,17,21,25  5,10,15,20,25,30,35,40,45,50,55,60
     rel_max_dist=np.max(radius)
     
-    evetnFileName="WholeYearWETevent_100_50.txt"
+    evetnFileName=inputFile
     weatherEvent0=[]
     trafficEvent0=[]
+    timeAll0=[]
+    locAll0=[]
     sta_loc=Set()
     tmc_loc=Set()
-    lat=[]
-    lon=[]
+    print "************************************"+evetnFileName+"***************************************"
     with open(evetnFileName,"r") as eF:
         for line in eF.readlines():
             terms=line.strip().split()
@@ -104,9 +106,11 @@ def main():
             if int(terms[0])==0:                
                 weatherEvent0.append((int(terms[0]),float(terms[1]),float(terms[2]),int(terms[3]),int(terms[4])))
                 sta_loc.add((int(terms[4]),float(terms[1]),float(terms[2])))
+                locAll0.append((float(terms[1]),float(terms[2]),int(terms[4])))
             else:
                 trafficEvent0.append((int(terms[0]),float(terms[1]),float(terms[2]),int(terms[3]),int(terms[4])))
-                tmc_loc.add((int(terms[4]),float(terms[1]),float(terms[2])))      
+                tmc_loc.add((int(terms[4]),float(terms[1]),float(terms[2])))
+                locAll0.append((float(terms[1]),float(terms[2]),int(terms[4])))       
   
     
     AllEvent=weatherEvent0+trafficEvent0
@@ -156,11 +160,17 @@ def main():
             above=0.0
             for i in tqdm(range(ite)):
                 tempAll=AllEvent
+                tempLoc=locAll0
                  
                 random.shuffle(tempAll)
-                weatherEvent=tempAll[:weatherEventNum]
-                trafficEvent=tempAll[weatherEventNum:]           
-                                
+                random.shuffle(tempLoc)
+                weatherEvent=[]
+                trafficEvent=[]          
+                for k,event in enumerate(tempAll):
+                    if event[0]==0:
+                        weatherEvent.append((event[0],tempLoc[k][0],tempLoc[k][1],event[3],tempLoc[k][2]))
+                    else:
+                        trafficEvent.append((event[0],tempLoc[k][0],tempLoc[k][1],event[3],tempLoc[k][2])) 
                 score,pairType=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
                 output.write("("+str(score)+" "+str(pairType)+") ")
                 output.flush()
