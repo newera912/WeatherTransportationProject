@@ -82,13 +82,13 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
 
 
 
-def main():
-    inputFile="RNSimuEvents_Case302.txt"
-    outputFile="result_34"+inputFile 
+def main(argv):
+    inputFile="RNSimuEvents_Case4.txt"
+    outputFile="result_"+str(argv)+"_"+inputFile 
     ite=500
     output=open(outputFile,"a+")
-    timeThresholds=[1,2,3]  #1,2,3,4,5
-    radius=[5,15,25,35,45,55]  #5,9,13,17,21,25  5,10,15,20,25,30,35,40,45,50,55,60
+    timeThresholds=[int(argv)]  #1,2,3,4,5
+    radius=[5,10,15,20,25,30,35,40]  #5,9,13,17,21,25  5,10,15,20,25,30,35,40,45,50,55,60
     rel_max_dist=np.max(radius)
     
     evetnFileName=inputFile
@@ -186,5 +186,6 @@ def main():
              
 
     output.close()
-if __name__ =='__main__':
-    main()
+if __name__ =='__main__':  
+    print sys.argv[1] 
+    main(int(sys.argv[1]))
