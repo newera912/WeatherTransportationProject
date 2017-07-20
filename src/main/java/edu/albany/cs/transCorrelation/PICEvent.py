@@ -96,17 +96,22 @@ def round(x,a):
 
 def main():
     ite=10
-    output=open("PICResultEventDebug300.txt","a+")      
- 
-    rel_max_dist=30
+    inputFile="RNSimuEvents_Case1.txt"
+    outputFile="result_"+inputFile 
+    output=open(outputFile,"a+")      
     
-    evetnFileName="WholeYearWETevents_Blocks100.txt"
+    timeThresholds=[1,2,3,4,5]  
+    radius=[5,10,15,20,25,30,35,40,45,50,55,60]  #5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,
+    rel_max_dist=np.max(radius)
+    
+    evetnFileName=inputFile
     weatherEvent0=[]
     trafficEvent0=[]
     timeAll0=[]
     locAll0=[]
     sta_loc=Set()
     tmc_loc=Set()
+    print "************************************"+evetnFileName+"***************************************"
     with open(evetnFileName,"r") as eF:
         for line in eF.readlines():
             terms=line.strip().split()
@@ -158,8 +163,7 @@ def main():
         pair_dist[str(min(a[0],b[0]))+"_"+str(max(a[0],b[0]))]=dist
     print "All-pairs",len(pair_dist) 
       
-    timeThresholds=[1,2,3,4,5]  
-    radius=[5,10,15,20,25,30]  #5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,   
+      
     result=np.zeros((len(radius),len(timeThresholds)))
     for j,timeThreshold in enumerate(timeThresholds):        
         for k,r in enumerate(radius):
@@ -172,19 +176,17 @@ def main():
             above=0.0
             for i in tqdm(range(ite)):
                 tempAll=AllEvent
-#                 tempTime=timeAll0
                 tempLoc=locAll0
                    
                 random.shuffle(tempAll)
-                #random.shuffle(tempTime)
                 random.shuffle(tempLoc)
                 weatherEvent=[]
                 trafficEvent=[]
-                for i,event in enumerate(tempAll):
+                for k,event in enumerate(tempAll):
                     if event[0]==0:
-                        weatherEvent.append((event[0],tempLoc[i][0],tempLoc[i][1],event[3],event[4],event[5]))
+                        weatherEvent.append((event[0],tempLoc[k][0],tempLoc[k][1],event[3],event[4],event[5]))
                     else:
-                        trafficEvent.append((event[0],tempLoc[i][0],tempLoc[i][1],event[3],event[4],event[5]))
+                        trafficEvent.append((event[0],tempLoc[k][0],tempLoc[k][1],event[3],event[4],event[5]))
                                 
                 score,locOnly,timeOnly,nothing,timeAll,locAll=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
                 output.write("("+str(score)+" "+str(locOnly)+" "+str(locAll)+" "+str(timeOnly)+" "+str(timeAll)+") ")
