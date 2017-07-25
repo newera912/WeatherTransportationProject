@@ -25,7 +25,7 @@ edgeFile.close()
 
 
 year=2016
-months=[3,4,5,6,7,8,9]
+months=[3,4,5,6,7,8,9,10,11,12]
 
 for mon in months:
     dateList=[]
@@ -38,7 +38,7 @@ for mon in months:
         count=0     
                     
             
-        with open('I-90 West Full State',"r") as F:
+        with open('I90west.csv',"r") as F:
             for line in F.readlines()[1:]:
                 d=line.strip().split(",")
                 if d[2]==date:
@@ -54,7 +54,7 @@ for mon in months:
                     continue
         
         if np.sum(data)>0:                
-            with open('./wRaw/'+date+".txt","w") as output:
+            with open('./TravelTimeToWest/'+date+".txt","w") as output:
                 for i in range(0,len(data)):
                     count2=0
                     for j in range(0,len(data[0])):
@@ -81,6 +81,6 @@ for mon in months:
                     output.write("\n")
                     if count2!=288:
                         print count2
-        print count,"/",77*288    
+        print date,count,"/",77*288    
             #print d[0]
     #print len(tmcList),("".join(list(tmcList)))
