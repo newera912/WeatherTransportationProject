@@ -99,16 +99,6 @@ public class Multi8VarTransWeatherTest {
 		int histStaPoint = 6;
 		int sCount = 0;
 		int maxWin = mwin;
-		// double[] w = { 1.0D, 1.0D, 15.0D }; /* Result and Gound-True *///
-		// TreeMap<Double,String>
-																		// resultMap
-																		// = new
-																		// TreeMap<Double,String>(Collections.reverseOrder());
-																		// ArrayList<ResultItem>
-																		// resultList
-																		// = new
-																		// ArrayList<ResultItem>();
-
 		ArrayList<ResultItem> resultList = new ArrayList<ResultItem>();
 		// ArrayList<ResultItem> trueResult=getGroundTruthRI(gtFileName);
 
@@ -919,11 +909,8 @@ public class Multi8VarTransWeatherTest {
 				"201611", "201612");
 		// List<String> caseDates=(List)
 		// Arrays.asList("20160301","20160302","20160303","20160304","20160305","20160306","20160307","20160308","20160309","20160310","20160311","20160312","20160313","20160314","20160315","20160316","20160317","20160318","20160319","20160320","20160321","20160322","20160323","20160324","20160325","20160326","20160327","20160328","20160329","20160330","20160331");
-		// int count=0;
-		// String truthFolder="data/mesonet_data/caseStudyTempGT/";
-		// String methodType="CP";
+
 		String methodType = "CP";
-		// for(String type:Arrays.asList("temp")){//,"wind")){
 		// "temp","temp9","press","wind","windDir","windMax","rh","rad"
 		String[] var_types = { "temp", "temp9", "press", "wind", "windDir",
 				"windMax", "rh", "rad" };
@@ -1062,12 +1049,6 @@ public class Multi8VarTransWeatherTest {
 
 		}
 
-		// try {
-		// allWriter.close();
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
 
 		getPRF1 prf1 = null;
 		int maxK = resultItems.size() < 2000 ? resultItems.size() : 2000;
@@ -1081,15 +1062,6 @@ public class Multi8VarTransWeatherTest {
 				}
 			}
 
-			// System.out.println(prf1.pre+" "+prf1.rec+" "+prf1.fscore);
-			// //System.out.print(entryAll.getKey()+" "+entryAll.getValue());
-			// try {
-			// allWriter.write(i+" "+prf1.pre+" "+prf1.rec+" "+prf1.fscore+"\n");
-			//
-			// } catch (IOException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }//
 		}
 		try {
 			allWriterOutTop.close();
@@ -1110,12 +1082,6 @@ public class Multi8VarTransWeatherTest {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		// testSingleFile("data/temperatureData/apdm/testGraph_0.05_20160116.23.hrrr.wrfsfcf00.NYS_TempData.247_257.txt",
-		// "outputs/ADPM_Noise_Signal_Test_result.txt");
-		// testSingleFile("data/Grid-Data-100/APDM-GridData-100-precen-0.05-noise_0.txt",
-		// "outputs/Test_result.txt");
-		// testGraph_0.1_20160116.23.hrrr.wrfsfcf00.NYS_TempData.247_257.txt
 		List<Integer> maxWin = (List) Arrays.asList(18);
 		List<Integer> ss = (List) Arrays.asList(2);
 		for (int mwin : maxWin) {

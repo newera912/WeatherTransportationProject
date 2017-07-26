@@ -94,7 +94,7 @@ public class Multi5VarTransWeather {
 		double[] b = new double[N]; // base, all set to zero
 		Arrays.fill(b, 1.0D);
 
-		int histStaPoint = 12;
+		int histStaPoint = 6;
 		int sCount = 0;
 		int maxWin = mwin;
 
@@ -905,7 +905,9 @@ public class Multi5VarTransWeather {
 	public static void CaseStudy(int maxwin, int sss, String month) {
 		long startTimeAll = System.nanoTime();
 		allResultList = new ArrayList<ResultItem>();
-		List<String> caseDates = (List) Arrays.asList("20160412");
+		List<String> caseDates = (List) Arrays.asList("201603", "201604",
+				"201605", "201606", "201607", "201608", "201609", "201610",
+				"201611", "201612");
 		// List<String> caseDates=(List)
 		// Arrays.asList("20160301","20160302","20160303","20160304","20160305","20160306","20160307","20160308","20160309","20160310","20160311","20160312","20160313","20160314","20160315","20160316","20160317","20160318","20160319","20160320","20160321","20160322","20160323","20160324","20160325","20160326","20160327","20160328","20160329","20160330","20160331");
 
@@ -925,9 +927,9 @@ public class Multi5VarTransWeather {
 			if (!fileName.split("_")[0].startsWith(month)) {
 				continue;
 			}
-			// if (!caseDates.contains(fileName.split("_")[0])) {
-			// continue;
-			// }
+			if (!caseDates.contains(fileName.split("_")[0].substring(0, 6))) {
+				continue;
+			}
 			filePath = new String[var_types.length];
 			for (int i = 0; i < var_types.length; i++) {
 				filePath[i] = "data/mesonet_data/" + var_types[i] + "_APDM/"
@@ -988,14 +990,15 @@ public class Multi5VarTransWeather {
 		FileWriter allWriter = null;
 		FileWriter allWriterOut = null;
 		FileWriter allWriterOutTop = null;
-		String prf1Filepath = sss + "/prf1/AllYearEvent_multi_PRF1_result-"
+		String prf1Filepath = sss + "/prf1/MarDecEvent_multi_PRF1_result-"
 				+ methodType + "_baseMeanDiff_20_s_" + sss + "_wMax_" + maxwin
 				+ "_filter_TIncld_0.7.txt";
-		String resultFilepath = sss + "/AllYearEvent_multiGraphMP_TopK_result-"
+		String resultFilepath = sss + "/MarDecEvent_multiGraphMP_TopK_result-"
 				+ methodType + "_baseMeanDiff_20_s_" + sss + "_wMax_" + maxwin
 				+ "_filter_TIncld_0.7.txt";
 		String resultFilepath2 = sss
-				+ "/AllYearEvent_multiGraphMP_TopK_result-" + methodType
+ + "/MarDecEvent_multiGraphMP_TopK_result-"
+				+ methodType
 				+ "_baseMeanDiff_20_s_" + sss + "_wMax_" + maxwin
 				+ "_filter_TIncld_0.7_Top.txt";
 		try {
@@ -1055,12 +1058,6 @@ public class Multi5VarTransWeather {
 
 		}
 
-		// try {
-		// allWriter.close();
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
 
 		getPRF1 prf1 = null;
 		int maxK = resultItems.size() < 2000 ? resultItems.size() : 2000;
@@ -1074,15 +1071,6 @@ public class Multi5VarTransWeather {
 				}
 			}
 
-			// System.out.println(prf1.pre+" "+prf1.rec+" "+prf1.fscore);
-			// //System.out.print(entryAll.getKey()+" "+entryAll.getValue());
-			// try {
-			// allWriter.write(i+" "+prf1.pre+" "+prf1.rec+" "+prf1.fscore+"\n");
-			//
-			// } catch (IOException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }//
 		}
 		try {
 			allWriterOutTop.close();
@@ -1103,12 +1091,6 @@ public class Multi5VarTransWeather {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		// testSingleFile("data/temperatureData/apdm/testGraph_0.05_20160116.23.hrrr.wrfsfcf00.NYS_TempData.247_257.txt",
-		// "outputs/ADPM_Noise_Signal_Test_result.txt");
-		// testSingleFile("data/Grid-Data-100/APDM-GridData-100-precen-0.05-noise_0.txt",
-		// "outputs/Test_result.txt");
-		// testGraph_0.1_20160116.23.hrrr.wrfsfcf00.NYS_TempData.247_257.txt
 		List<Integer> maxWin = (List) Arrays.asList(18);
 		List<Integer> ss = (List) Arrays.asList(2);
 		for (int mwin : maxWin) {
