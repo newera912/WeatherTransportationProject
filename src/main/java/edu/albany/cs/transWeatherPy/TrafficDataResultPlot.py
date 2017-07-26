@@ -94,9 +94,9 @@ def plotCaseDaysSingleStation():
 #     for i,c in enumerate(colors):
 #         print i,c  
     root="F:/workspace/git/WeatherTransportationProject/outputs/trafficData/travelTime_CaseStudy/CPBest/"
-    mWin=30
-    ex="W621"
-    dir="W621"
+    mWin=18
+    ex="WMD18"
+    dir="WMD18"
     #dir='E'
     for SM in ['multi']:
         if not os.path.exists(root+ex+"-"+str(mWin)+"/"):
