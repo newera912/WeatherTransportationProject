@@ -314,7 +314,7 @@ public class Multi5VarTransWeather {
 
 		System.out.print("[" + sCount + " " + mapCount + "] ");
 		System.out.print("Running time: " + (System.nanoTime() - startTime)
-				/ 1e9 + "]");
+				/ 1e9 + "]\n");
 
 	}
 
@@ -895,7 +895,7 @@ public class Multi5VarTransWeather {
 		}// i
 
 		filResultItems.removeAll(removeIdxList);
-		System.out.println("size: " + origSize + " - " + removeIdxList.size()
+		System.out.print("size: " + origSize + " - " + removeIdxList.size()
 				+ " = " + filResultItems.size());
 		return filResultItems;
 	}
