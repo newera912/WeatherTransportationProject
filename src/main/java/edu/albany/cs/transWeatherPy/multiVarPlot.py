@@ -56,25 +56,18 @@ def drawVarPlot(fileName,varType,date,sta_names,time_region,topN,relatedVar):
     plt.grid()
     #plt.xlim([0.2,0.0])
     plt.legend(loc='best',fontsize=12)
-   
-#                 fig.subplots_adjust(bottom = 2)
-#                 fig.subplots_adjust(top = 2)
-#                 fig.subplots_adjust(right = 2)
-#                 fig.subplots_adjust(left = 0)
-    
-    
     #plt.plot(X,day_data2[i][2],'r-',linewidth='1.0', markersize=5,label='Temp '+sta_names[int(day_data2[i][0])]+day_data2[i][0]) 
-    fig.savefig('F:/workspace/git/WeatherTransportationProject/outputs/mesonetPlots/multi_CaseStudy/mvPlotsNew/MarDec/DayTime'+str(topN)+'_'+varType+'_'+str(date)+'.png', dpi=300)
+    fig.savefig('F:/workspace/git/WeatherTransportationProject/outputs/mesonetPlots/multi_CaseStudy/mvPlotsNew/MarDec5Var/'+str(topN)+'_'+varType+'_'+str(date)+'.png', dpi=300)
     fig.clf()   
                         
 def plotCaseDaysSingleStation():
     #dates=["20160301","20160302","20160308","20160309","20160312","20160313","20160324","20160325","20160328","20160405","20160412","20160419","20160421","20160514","20160529","20160621","20160628","20160813","20160911","20160922"]
     
     
-    topResults=loadTop("F:/workspace/git/WeatherTransportationProject/outputs/mesonetPlots/multi_CaseStudy/CP/2/AllYearEvent_multiGraphMP_TopK_result-CP_baseMeanDiff_20_s_2_wMax_18_filter_TIncld_0.7_Top.txt")
+    topResults=loadTop("F:/workspace/git/WeatherTransportationProject/outputs/mesonetPlots/multi_CaseStudy/CP/2/MarDecEvent_multiGraphMP_TopK_result-CP_baseMeanDiff_20_s_2_wMax_18_filter_TIncld_0.7_Top.txt")
     """topk,change_vars,stations,date,slots"""
-    #VARTYPE={0:"temp",1:"temp9",2:"press",3:"wind",4:"windDir",5:"windMax",6:"rh",7:"rad"}
-    VARTYPE={0:"temp",1:"temp9",2:"press",3:"wind",4:"windDir",5:"windMax",6:"rh",7:"rad"}
+    #VARTYPE={0:"temp",1:"temp9",2:"press",3:"wind",4:"windDir",5:"windMax",6:"rh",7:"rad"}   
+    VARTYPE={0:"temp",1:"temp9",2:"wind",3:"windMax",4:"rh"}
     for result in topResults:
         #dates=[]
         
