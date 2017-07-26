@@ -83,7 +83,7 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
 
 
 def main(argv):
-    inputFile="RNSimuEvents_Case4.txt"
+    inputFile="RNSimuEvents_Case5.txt"
     outputFile="result_"+str(argv)+"_"+inputFile 
     ite=500
     output=open(outputFile,"a+")

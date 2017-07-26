@@ -108,14 +108,7 @@ def Case5():
         for i,line in enumerate(sF.readlines()):
             line=line.strip().split()
             station[i+100]=(float(line[1]),float(line[2]))
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
- 
-=======
-   
->>>>>>> def0f3024d27ada5f037d96e8a579e644de9a075
->>>>>>> 569e7aa685c6c725129f87dd0972867949eedfcf
+
     with open(root+"I90EastTMCLatLon.txt","r") as tF:
         for j,line in enumerate(tF.readlines()):
             line=line.strip().split()

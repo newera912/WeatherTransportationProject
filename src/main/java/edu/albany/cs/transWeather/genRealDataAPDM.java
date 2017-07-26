@@ -227,7 +227,7 @@ public class genRealDataAPDM {
 	public void genSignleAPDMFile(File rawFile,String rootFolder,String outFolder,String type) throws NumberFormatException, IOException{
 		
 		
-		double[][] data = new double[10][288];
+		double[][] data = new double[54][288];
 		double[] mean=new double[data.length];
 		double[] std=new double[data.length];
 		ArrayList<Edge> treEdges=null;
@@ -299,10 +299,10 @@ public class genRealDataAPDM {
 	public void genTrafficRealDataAPDM() throws NumberFormatException,
 			IOException {
 		String type = "travelTime";
-		String rootFolder = "data/trafficData/I90_TravelTime/wRaw/";
+		String rootFolder = "data/trafficData/I90_TravelTime/TravelTimeToEast/";
 		// String filePath="20160101/2016-01-01-00-RawHRRRGridData.txt";
-		String adjListFile = "data/trafficData/I90_TravelTime/WEdgelist.txt";
-		String outFolder = "data/trafficData/I90_TravelTime/wAPDM/";
+		String adjListFile = "data/trafficData/I90_TravelTime/EEdgelist.txt";
+		String outFolder = "data/trafficData/I90_TravelTime/e"+type+"_APDM/";
 
 		/* get adjacent List of the graph */
 		getAdjList(adjListFile);
@@ -323,8 +323,8 @@ public class genRealDataAPDM {
 //		System.out.println(lat[0][0]+" "+lons[1][0]);
 		//generateTestCase();
 		genRealDataAPDM tWgen=new genRealDataAPDM();
-		// tWgen.genTrafficRealDataAPDM();
-		tWgen.genAllRealDataAPDM();
+		tWgen.genTrafficRealDataAPDM();
+//		tWgen.genAllRealDataAPDM();
 	}
 
 }

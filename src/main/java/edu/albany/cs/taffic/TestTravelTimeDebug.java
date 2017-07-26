@@ -1215,10 +1215,9 @@ public class TestTravelTimeDebug {
 		if (data.length == 2) {
 			EMSStat2 emsStat2 = new EMSStat2(data);
 			int[] S = new int[1];
-			if (data[0] > data[1]) {
+			if (data[0] > data[1]){
 				S[0] = 0;
 				score[0] = Math.round(emsStat2.getFuncValue(S) * 100.0) / 100.0;
-
 			} else {
 				S[0] = 1;
 				score[0] = Math.round(emsStat2.getFuncValue(S) * 100.0) / 100.0;
@@ -1367,12 +1366,12 @@ public class TestTravelTimeDebug {
 		List<String> caseDates = (List<String>) Arrays.asList("20160811");
 
 		int count = 0;
-		String direc = "W";
-		String ex = "W621";
+		String direc = "E";
+		String ex = "EMD18";
 		String methodType = "CPBest";
 		System.out.println("---" + methodType + "---" + direc);
 		int fcount = 0;
-		for (String type : Arrays.asList("travelTime")) {// ,"wind","temp","temp9","press","wind","windDir","windMax","rh","rad")){
+		for (String type : Arrays.asList("travelTime")) {
 			String folder = "data/trafficData/I90_TravelTime/"
 					+ direc.toLowerCase() + type
 					+ "_APDM/";
@@ -1594,7 +1593,7 @@ public class TestTravelTimeDebug {
 
 	public static void main(String[] args) {
 
-		List<Integer> maxWin = (List<Integer>) Arrays.asList(30);// ,24,36);//,12,18,24,30,36);
+		List<Integer> maxWin = (List<Integer>) Arrays.asList(18);// ,24,36);//,12,18,24,30,36);
 		List<Integer> ss = (List<Integer>) Arrays.asList(5);
 
 		for (int mwin : maxWin) {

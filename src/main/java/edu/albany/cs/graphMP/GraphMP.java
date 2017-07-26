@@ -151,7 +151,7 @@ public class GraphMP {
 		/** relaxed result */
 		funcValue = function.getFuncValue(x);
 		/** Original problem result */
-		// funcValue = function.getFuncValue(resultNodes_Tail);
+		funcValue = function.getFuncValue(resultNodes_Tail);
 
 		runTime = (System.nanoTime() - startTime) / 1e9;
 		return x;
