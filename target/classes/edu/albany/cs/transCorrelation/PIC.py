@@ -83,7 +83,7 @@ def PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist):
 def main2():
     inputFile="RNSimuEvents_Case6.txt"
     outputFile="result_"+inputFile 
-    ite=500
+    ite=10
     output=open(outputFile,"a+")
     timeThresholds=[1,2,3,4,5]  #1,2,3,4,5
     radius=[5,10,15,20,25,30,35,40]  #5,9,13,17,21,25  5,10,15,20,25,30,35,40,45,50,55,60
