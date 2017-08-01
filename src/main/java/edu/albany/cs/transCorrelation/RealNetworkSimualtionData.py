@@ -142,7 +142,7 @@ def Case6():
         d=str(result).replace("-","")
         dates.append(d)
         
-    true_stations=random.sample(range(100,110),5)
+    true_stations=random.sample(range(100,110),10)
     true_dates=random.sample(dates,10)
     
     """list the dates except the true dates"""
@@ -179,8 +179,8 @@ def Case6():
     print len(weatherEvents)
     print len(trafficEvents)                       
                              
-    for d in random.sample(dates,20):
-        for s in list(random.sample(station.keys(),5)):           
+    for d in random.sample(dates,10):
+        for s in list(random.sample(station.keys(),10)):           
             
             start_times=random.randrange(75, 235)
             for start_time in range(start_times,start_times+5):
