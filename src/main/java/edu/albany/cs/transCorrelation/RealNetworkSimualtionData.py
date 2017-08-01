@@ -121,7 +121,7 @@ def Case6():
             tmcsW[j+300]=(float(line[1]),float(line[2]))
             tmcIDs.append(j+300)
     
-    maxDist=15
+    maxDist=20
     StaTMC_pairs=Set()        
     stat_tmc=defaultdict(list) 
     for stat in station.keys():
@@ -142,7 +142,7 @@ def Case6():
         d=str(result).replace("-","")
         dates.append(d)
         
-    true_stations=random.sample(range(100,110),10)
+    true_stations=random.sample(range(100,110),5)
     true_dates=random.sample(dates,10)
     
     """list the dates except the true dates"""
@@ -159,11 +159,11 @@ def Case6():
     for d in true_dates:
         for s in true_stations:
             start_times=random.randrange(75, 235)
-            for start_time in range(start_times,start_times+5):
+            for start_time in range(start_times,start_times+3):
                 weatherEvents.append((s,d+"%03d"%(start_time)))
                             
             for t in stat_tmc[s]:
-                for start_time in range(start_times,start_times+2):                    
+                for start_time in range(start_times,start_times+1):                    
                     trafficEvents.append((t,d+"%03d"%(start_time)))
                     """add traffic evetns co-occured but dist(sta,tmc)>20 miles"""
 #                     NumFarTmc=2
@@ -181,8 +181,8 @@ def Case6():
     print len(weatherEvents)
     print len(trafficEvents)                       
                              
-    for d in random.sample(dates,100):
-        for s in list(random.sample(station.keys(),10)):           
+    for d in random.sample(dates,50):
+        for s in list(random.sample(station.keys(),5)):           
             
             start_times=random.randrange(75, 235)
             for start_time in range(start_times,start_times+5):
