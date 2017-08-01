@@ -121,7 +121,7 @@ def Case6():
             tmcsW[j+300]=(float(line[1]),float(line[2]))
             tmcIDs.append(j+300)
     
-    maxDist=20
+    maxDist=15
     StaTMC_pairs=Set()        
     stat_tmc=defaultdict(list) 
     for stat in station.keys():
