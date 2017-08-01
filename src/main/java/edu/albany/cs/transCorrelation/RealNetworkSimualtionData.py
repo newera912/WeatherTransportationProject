@@ -95,7 +95,7 @@ def perdelta(start, end, delta):
 def Case6():
     root="F:/workspace/git/WeatherTransportationProject/data/trafficData/I90_TravelTime/"
     tmcLoc="I90EastTMCLatLon.txt"  
-    outFile="RNSimuEvents_Case6.txt"  
+    outFile="RNSimuEvents_Case62.txt"  
     
     """read TMC and stations information"""    
     station={}    
@@ -142,8 +142,8 @@ def Case6():
         d=str(result).replace("-","")
         dates.append(d)
         
-    true_stations=random.sample(range(100,110),5)
-    true_dates=random.sample(dates,10)
+    true_stations=random.sample(range(100,110),10)
+    true_dates=random.sample(dates,50)
     
     """list the dates except the true dates"""
     
