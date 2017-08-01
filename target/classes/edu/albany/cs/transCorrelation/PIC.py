@@ -153,7 +153,6 @@ def main2():
             print("Geo Radius=%d Time Radius=%d "%(r,timeThreshold))
             testStatisticsScore,pairType=PIC(weatherEvent0,trafficEvent0,r,timeThreshold,pair_dist)    
             print testStatisticsScore
-<<<<<<< HEAD
 #             output.write("("+str(testStatisticsScore)+","+str(pairType)+") | ")
 #             output.flush()   
 #             above=0.0
@@ -185,39 +184,6 @@ def main2():
 #              
 # 
 #     output.close()
-=======
-            output.write("("+str(testStatisticsScore)+","+str(pairType)+") | ")
-            output.flush()   
-            above=0.0
-            for i in tqdm(range(ite)):
-                tempAll=AllEvent
-                tempLoc=locAll0
-                 
-                random.shuffle(tempAll)
-                random.shuffle(tempLoc)
-                weatherEvent=[]
-                trafficEvent=[]          
-                for k,event in enumerate(tempAll):
-                    if event[0]==0:
-                        weatherEvent.append((event[0],tempLoc[k][0],tempLoc[k][1],event[3],tempLoc[k][2]))
-                    else:
-                        trafficEvent.append((event[0],tempLoc[k][0],tempLoc[k][1],event[3],tempLoc[k][2])) 
-                score,pairType=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
-                output.write("("+str(score)+" "+str(pairType)+") ")
-                output.flush()
-                if testStatisticsScore<=score:
-                    above+=1.0
-#                 if i%100==0:
-#                     sys.stdout.write('i='+str(i)+" ")
-            output.write("\n")
-            output.flush()
-            sys.stdout.write("\nTest Statistics PIC=%d p-value=%f \n\n"%(testStatisticsScore,1.0*above/ite))
-            output.write(str(timeThreshold)+" "+str(r)+" "+str(above)+" "+ str(1.0*above/ite)+"\n")
-            output.flush()
-             
-
-    output.close()
->>>>>>> d188bb10d67f7f2a07e2ee40e4f3a253b1893349
 
 def main(argv):
     inputFile="MarDecWETevent_100_40.txt"
@@ -324,12 +290,6 @@ def main(argv):
     output.close()
     
 if __name__ =='__main__':  
-<<<<<<< HEAD
-#     print sys.argv[1] 
-#     main(int(sys.argv[1]))
-    main2()
-=======
     print sys.argv[1] 
     main(int(sys.argv[1]))
 #     main2()
->>>>>>> d188bb10d67f7f2a07e2ee40e4f3a253b1893349
