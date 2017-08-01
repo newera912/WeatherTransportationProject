@@ -181,7 +181,7 @@ def Case6():
     print len(weatherEvents)
     print len(trafficEvents)                       
                              
-    for d in random.sample(dates,50):
+    for d in random.sample(dates,100):
         for s in list(random.sample(station.keys(),10)):           
             
             start_times=random.randrange(75, 235)
