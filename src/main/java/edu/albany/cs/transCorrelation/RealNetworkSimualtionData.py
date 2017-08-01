@@ -179,14 +179,14 @@ def Case6():
     print len(weatherEvents)
     print len(trafficEvents)                       
                              
-    for d in random.sample(dates,10):
+    for d in random.sample(dates,50):
         for s in list(random.sample(station.keys(),10)):           
             
             start_times=random.randrange(75, 235)
             for start_time in range(start_times,start_times+5):
                 weatherEvents.append((s,d+"%03d"%(start_time)))
                 """add traffic evetns co-occured but dist(sta,tmc)>20 miles"""
-            NumFarTmc=5
+            NumFarTmc=3
             while(NumFarTmc>0):
                 tmcId=random.sample(tmcIDs,1)[0]
                 tempPair=str(s)+"_"+str(tmcId)
