@@ -121,7 +121,7 @@ def Case6():
             tmcsW[j+300]=(float(line[1]),float(line[2]))
             tmcIDs.append(j+300)
     
-    maxDist=15
+    maxDist=25
     StaTMC_pairs=Set()        
     stat_tmc=defaultdict(list) 
     for stat in station.keys():
@@ -162,7 +162,7 @@ def Case6():
             for start_time in range(start_times,start_times+3):
                 weatherEvents.append((s,d+"%03d"%(start_time)))
                             
-            for t in stat_tmc[s]:
+            for t in stat_tmc[s][:5]:
                 for start_time in range(start_times,start_times+1):                    
                     trafficEvents.append((t,d+"%03d"%(start_time)))
                     """add traffic evetns co-occured but dist(sta,tmc)>20 miles"""
