@@ -396,4 +396,4 @@ def main(argv):
 if __name__ =='__main__':  
 #     print sys.argv[1] 
 #     main(int(sys.argv[1]))
-    main3()
+    main2()
