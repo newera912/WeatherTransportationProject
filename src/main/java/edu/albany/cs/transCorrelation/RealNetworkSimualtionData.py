@@ -144,11 +144,11 @@ def Case6():
         if np.min(v)<=15:
             stat=np.argmin(v)
             print "True",k,np.min(v),stat,v
-            True_StaTMC_pairs.add(str(stat)+"_"+str(k))
+            True_StaTMC_pairs.add(str(stat+100)+"_"+str(k))
         if np.min(v)>=25:
             stat=np.argmin(v)
             print "Far",k,np.min(v),stat,v
-            Far_StaTMC_pairs.add(str(stat)+"_"+str(k))          
+            Far_StaTMC_pairs.add(str(stat+100)+"_"+str(k))          
  
     print "Close pairs:",len(True_StaTMC_pairs)
     print "Far   pairs:",len(Far_StaTMC_pairs)
