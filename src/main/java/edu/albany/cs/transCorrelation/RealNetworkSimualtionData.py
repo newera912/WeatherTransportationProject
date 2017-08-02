@@ -121,18 +121,25 @@ def Case6():
             tmcsW[j+300]=(float(line[1]),float(line[2]))
             tmcIDs.append(j+300)
     
-    maxDist=15
-    StaTMC_pairs=Set()        
+    maxDist=20
+    StaTMC_pairs=Set() 
+    StaTMC_pairs30=Set()        
     stat_tmc=defaultdict(list) 
     for stat in station.keys():
         for te in tmcsE.keys():
-            if calcDistance(station[stat][0], station[stat][1], tmcsE[te][0], tmcsE[te][1])<=maxDist:
+            dist=calcDistance(station[stat][0], station[stat][1], tmcsE[te][0], tmcsE[te][1])
+            if dist<=maxDist:
                 stat_tmc[stat].append(te)
-                StaTMC_pairs.add(str(stat)+"_"+str(te))   
+                StaTMC_pairs.add(str(stat)+"_"+str(te)) 
+            elif dist>30:
+                StaTMC_pairs30.add(str(stat)+"_"+str(te))  
         for te in tmcsW.keys():
-            if calcDistance(station[stat][0], station[stat][1], tmcsW[te][0], tmcsW[te][1])<=maxDist:
+            dist=calcDistance(station[stat][0], station[stat][1], tmcsW[te][0], tmcsW[te][1])
+            if dist<=maxDist:
                 stat_tmc[stat].append(te)
                 StaTMC_pairs.add(str(stat)+"_"+str(te))
+            elif dist>30:
+                StaTMC_pairs30.add(str(stat)+"_"+str(te)) 
                 
     for k,v in stat_tmc.items():
         print k,v 
@@ -192,7 +199,7 @@ def Case6():
             while(NumFarTmc>0):
                 tmcId=random.sample(tmcIDs,1)[0]
                 tempPair=str(s)+"_"+str(tmcId)
-                if  tempPair not in list(StaTMC_pairs):                           
+                if  tempPair not in list(StaTMC_pairs30):                           
                     for start_time in range(start_times,start_times+2):
                         trafficEvents.append((tmcId,d+"%03d"%(start_time)))
                     NumFarTmc-=1
