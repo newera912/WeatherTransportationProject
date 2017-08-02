@@ -121,29 +121,36 @@ def Case6():
             tmcsW[j+300]=(float(line[1]),float(line[2]))
             tmcIDs.append(j+300)
     
-    maxDist=20
-    StaTMC_pairs=Set() 
-    StaTMC_pairs30=Set()        
+    maxDist=15
+    StaTMC_pairs=Set()
+    StaTMC_pairsFar=[[] for i in range(10,45,10)]       
     stat_tmc=defaultdict(list) 
     for stat in station.keys():
         for te in tmcsE.keys():
             dist=calcDistance(station[stat][0], station[stat][1], tmcsE[te][0], tmcsE[te][1])
-            if dist<=maxDist:
-                stat_tmc[stat].append(te)
-                StaTMC_pairs.add(str(stat)+"_"+str(te)) 
-            elif dist>30:
-                StaTMC_pairs30.add(str(stat)+"_"+str(te))  
-        for te in tmcsW.keys():
-            dist=calcDistance(station[stat][0], station[stat][1], tmcsW[te][0], tmcsW[te][1])
-            if dist<=maxDist:
+            if dist<=maxDist:   
+                #print stat,te,dist             
                 stat_tmc[stat].append(te)
                 StaTMC_pairs.add(str(stat)+"_"+str(te))
-            elif dist>30:
-                StaTMC_pairs30.add(str(stat)+"_"+str(te)) 
+            if dist<=45:
+                for j,i in enumerate(range(10,45,10)):
+                    if dist<=i:
+                        StaTMC_pairsFar[j].append(str(stat)+"_"+str(te)) 
+             
+        for te in tmcsW.keys():
+            dist=calcDistance(station[stat][0], station[stat][1], tmcsW[te][0], tmcsW[te][1])
+            if dist<=maxDist:   
+                #print stat,te,dist             
+                stat_tmc[stat].append(te)
+                StaTMC_pairs.add(str(stat)+"_"+str(te))
+            if dist<=45:
+                for j,i in enumerate(range(10,45,10)):
+                    if dist<=i:
+                        StaTMC_pairsFar[j].append(str(stat)+"_"+str(te)) 
                 
     for k,v in stat_tmc.items():
         print k,v 
-    
+    print StaTMC_pairsFar
     dates=[]
     for result in perdelta(date(2016, 3, 1), date(2016, 9, 30), timedelta(days=1)):
         d=str(result).replace("-","")
@@ -173,17 +180,7 @@ def Case6():
                 for start_time in range(start_times,start_times+1):                    
                     trafficEvents.append((t,d+"%03d"%(start_time)))
                     """add traffic evetns co-occured but dist(sta,tmc)>20 miles"""
-#                     NumFarTmc=2
-#                     while(NumFarTmc>0):
-#                         tmcId=random.sample(tmcIDs,1)[0]
-#                         tempPair=str(s)+"_"+str(tmcId)
-#                         if  tempPair not in list(StaTMC_pairs):                           
-#                             for start_time in range(start_times,start_times+3):
-#                                 trafficEvents.append((tmcId,d+"%03d"%(start_time)))
-#                             NumFarTmc-=1
-#                         else:
-#                             continue
-#                         #print NumFarTmc
+
     print "Truth Events:"
     print len(weatherEvents)
     print len(trafficEvents)                       
@@ -199,7 +196,7 @@ def Case6():
             while(NumFarTmc>0):
                 tmcId=random.sample(tmcIDs,1)[0]
                 tempPair=str(s)+"_"+str(tmcId)
-                if  tempPair not in list(StaTMC_pairs30):                           
+                if  tempPair not in list(StaTMC_pairsFar[3]):                           
                     for start_time in range(start_times,start_times+2):
                         trafficEvents.append((tmcId,d+"%03d"%(start_time)))
                     NumFarTmc-=1
