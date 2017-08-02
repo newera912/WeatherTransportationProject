@@ -121,7 +121,7 @@ def Case6():
             tmcsW[j+300]=(float(line[1]),float(line[2]))
             tmcIDs.append(j+300)
     
-    maxDist=15
+    maxDist=10
     StaTMC_pairs=Set()
     StaTMC_pairsFar=[[] for i in range(10,45,10)]       
     stat_tmc=defaultdict(list) 
@@ -135,7 +135,9 @@ def Case6():
             if dist<=45:
                 for j,i in enumerate(range(10,45,10)):
                     if dist<=i:
-                        StaTMC_pairsFar[j].append(str(stat)+"_"+str(te)) 
+                        print i,dist
+                        StaTMC_pairsFar[j].append(str(stat)+"_"+str(te))
+                        break  
              
         for te in tmcsW.keys():
             dist=calcDistance(station[stat][0], station[stat][1], tmcsW[te][0], tmcsW[te][1])
@@ -146,7 +148,9 @@ def Case6():
             if dist<=45:
                 for j,i in enumerate(range(10,45,10)):
                     if dist<=i:
-                        StaTMC_pairsFar[j].append(str(stat)+"_"+str(te)) 
+                        print i,dist
+                        StaTMC_pairsFar[j].append(str(stat)+"_"+str(te))
+                        break 
                 
     for k,v in stat_tmc.items():
         print k,v 
