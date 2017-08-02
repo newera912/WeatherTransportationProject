@@ -162,7 +162,7 @@ def Case6():
             for start_time in range(start_times,start_times+3):
                 weatherEvents.append((s,d+"%03d"%(start_time)))
                             
-            for t in stat_tmc[s][:5]:
+            for t in stat_tmc[s]:
                 for start_time in range(start_times,start_times+1):                    
                     trafficEvents.append((t,d+"%03d"%(start_time)))
                     """add traffic evetns co-occured but dist(sta,tmc)>20 miles"""
@@ -188,7 +188,7 @@ def Case6():
             for start_time in range(start_times,start_times+5):
                 weatherEvents.append((s,d+"%03d"%(start_time)))
                 """add traffic evetns co-occured but dist(sta,tmc)>20 miles"""
-            NumFarTmc=3
+            NumFarTmc=5
             while(NumFarTmc>0):
                 tmcId=random.sample(tmcIDs,1)[0]
                 tempPair=str(s)+"_"+str(tmcId)
