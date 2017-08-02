@@ -98,7 +98,7 @@ def get_stat_tmc(str):
 def Case6():
     root="F:/workspace/git/WeatherTransportationProject/data/trafficData/I90_TravelTime/"
     tmcLoc="I90EastTMCLatLon.txt"  
-    outFile="RNSimuEvents_Case62.txt"  
+    outFile="RNSimuEvents_Case63.txt"  
     
     """read TMC and stations information"""    
     station={}    
@@ -183,7 +183,9 @@ def Case6():
             
             for start_time in range(start_times,start_times+3):                    
                 trafficEvents.append((t,d+"%03d"%(start_time)))
-                   
+            t=random.sample(Far_TMCs,1)[0]
+            for start_time in range(start_times,start_times+1):                    
+                trafficEvents.append((t,d+"%03d"%(start_time)))     
     
 
     print "Truth Events:"
