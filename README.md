@@ -24,7 +24,4 @@ cd path/to/WeatherTransportationProject
 ```shell
 mvn compile
 ```
-#### Step-4: test sample testing cases
-```shell
-mvn test
-```
+
