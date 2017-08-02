@@ -174,13 +174,13 @@ def Case6():
     """each event length fixed to 3"""
     #add true cooccurrence events
     for d in true_dates:
-        for st in list(random.sample(True_StaTMC_pairs,30)):
+        for st in list(random.sample(True_StaTMC_pairs,10)):
             s,t=get_stat_tmc(st)
             start_times=random.randrange(75, 235)
             for start_time in range(start_times,start_times+3):
                 weatherEvents.append((s,d+"%03d"%(start_time)))
             
-            for start_time in range(start_times,start_times+1):                    
+            for start_time in range(start_times,start_times+3):                    
                 trafficEvents.append((t,d+"%03d"%(start_time)))
                    
     
@@ -191,7 +191,7 @@ def Case6():
     
     """add traffic evetns co-occured but dist(sta,tmc)>20 miles"""                         
     for d in random.sample(dates,20):
-        for st in list(random.sample(Far_StaTMC_pairs,5)):           
+        for st in list(random.sample(Far_StaTMC_pairs,10)):           
             s,t=get_stat_tmc(st)
             start_times=random.randrange(75, 235)
             for start_time in range(start_times,start_times+5):
