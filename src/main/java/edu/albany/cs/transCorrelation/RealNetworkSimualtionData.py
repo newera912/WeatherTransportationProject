@@ -149,7 +149,7 @@ def Case6():
                 print int(np.min(v)/10),np.min(v),c,cutoff
                 StaTMC_pairsFar[c].append(k) 
             
-        if np.min(v)<=15:
+        if np.min(v)>5 and np.min(v)<=15:
             stat=np.argmin(v)
             #print "True",k,np.min(v),stat,v
             True_StaTMC_pairs.add(str(stat+100)+"_"+str(k))
