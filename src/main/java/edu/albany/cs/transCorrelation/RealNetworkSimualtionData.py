@@ -178,14 +178,14 @@ def Case6():
         for st in list(random.sample(True_StaTMC_pairs,10)):
             s,t=get_stat_tmc(st)
             start_times=random.randrange(75, 235)
-            for start_time in range(start_times,start_times+3):
+            for start_time in range(start_times,start_times+1):
                 weatherEvents.append((s,d+"%03d"%(start_time)))
             
-            for start_time in range(start_times,start_times+3):                    
+            for start_time in range(start_times,start_times+1):                    
                 trafficEvents.append((t,d+"%03d"%(start_time)))
-            t=random.sample(Far_TMCs,3)[0]
-            for start_time in range(start_times,start_times+3):                    
-                trafficEvents.append((t,d+"%03d"%(start_time)))     
+#             t=random.sample(Far_TMCs,3)[0]
+#             for start_time in range(start_times,start_times+1):                    
+#                 trafficEvents.append((t,d+"%03d"%(start_time)))     
     
 
     print "Truth Events:"
@@ -197,10 +197,10 @@ def Case6():
         for s in list(random.sample(station.keys(),5)): 
             for t in list(random.sample(Far_TMCs,5)):
                 start_times=random.randrange(75, 235)
-                for start_time in range(start_times,start_times+3):
+                for start_time in range(start_times,start_times+1):
                     weatherEvents.append((s,d+"%03d"%(start_time)))
                     """add traffic evetns co-occured but dist(sta,tmc)>20 miles"""                                  
-                for start_time in range(start_times,start_times+2):
+                for start_time in range(start_times,start_times+1):
                     trafficEvents.append((t,d+"%03d"%(start_time)))
                  
                 
@@ -735,5 +735,5 @@ def round(x):
     return np.round(100.0*x)/100.0    
 
 if __name__ =='__main__':
-    Case5()
+    Case6()
     
