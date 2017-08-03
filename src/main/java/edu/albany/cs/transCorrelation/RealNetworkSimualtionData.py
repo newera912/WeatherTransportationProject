@@ -98,7 +98,7 @@ def get_stat_tmc(str):
 def Case6():
     root="F:/workspace/git/WeatherTransportationProject/data/trafficData/I90_TravelTime/"
     tmcLoc="I90EastTMCLatLon.txt"  
-    outFile="RNSimuEvents_Case63.txt"  
+    outFile="RNSimuEvents_Case64.txt"  
     
     """read TMC and stations information"""    
     station={}    
@@ -146,7 +146,7 @@ def Case6():
             stat=np.argmin(v)
             #print "True",k,np.min(v),stat,v
             True_StaTMC_pairs.add(str(stat+100)+"_"+str(k))
-        if np.min(v)>25:
+        if np.min(v)>30:
             Far_TMCs.add(k)
             stat=np.argmin(v)
             #print "Far",k,np.min(v),stat,v
@@ -175,7 +175,7 @@ def Case6():
     """each event length fixed to 3
        TYPE-1. add true cooccurrence events """
     for d in true_dates:
-        for st in list(random.sample(True_StaTMC_pairs,10)):
+        for st in list(random.sample(True_StaTMC_pairs,20)):
             s,t=get_stat_tmc(st)
             start_times=random.randrange(75, 235)
             for start_time in range(start_times,start_times+1):
@@ -183,9 +183,9 @@ def Case6():
             
             for start_time in range(start_times,start_times+1):                    
                 trafficEvents.append((t,d+"%03d"%(start_time)))
-            t=random.sample(Far_TMCs,1)[0]
-            for start_time in range(start_times,start_times+1):                    
-                trafficEvents.append((t,d+"%03d"%(start_time)))     
+#             t=random.sample(Far_TMCs,1)[0]
+#             for start_time in range(start_times,start_times+1):                    
+#                 trafficEvents.append((t,d+"%03d"%(start_time)))     
     
 
     print "Truth Events:"
