@@ -185,7 +185,11 @@ def main3():
     output.close()
 
 def main2():
+<<<<<<< HEAD
+    inputFile="RNSimuEvents_Case52.txt"
+=======
     inputFile="RNSimuEvents_Case63.txt"
+>>>>>>> a0da311cdf187c12f5f2d67212e830f87c658ef3
     outputFile="result_"+inputFile 
     ite=10
     output=open(outputFile,"a+")
