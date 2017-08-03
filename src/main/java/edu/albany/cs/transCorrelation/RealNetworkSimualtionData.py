@@ -142,14 +142,14 @@ def Case6():
             stat_tmc_dist[te].append(dist)
             
     for k,v in stat_tmc_dist.items():
-        if np.min(v)<=15:
+        if np.min(v)<=10:
             stat=np.argmin(v)
-            print "True",k,np.min(v),stat,v
+            #print "True",k,np.min(v),stat,v
             True_StaTMC_pairs.add(str(stat+100)+"_"+str(k))
-        if np.min(v)>30:
+        if np.min(v)>25:
             Far_TMCs.add(k)
             stat=np.argmin(v)
-            print "Far",k,np.min(v),stat,v
+            #print "Far",k,np.min(v),stat,v
             Far_StaTMC_pairs.add(str(stat+100)+"_"+str(k))          
  
     print "Close pairs:",len(True_StaTMC_pairs)
@@ -173,7 +173,7 @@ def Case6():
     weatherEvents=[]
     trafficEvents=[]
     """each event length fixed to 3
-       add true cooccurrence events """
+       TYPE-1. add true cooccurrence events """
     for d in true_dates:
         for st in list(random.sample(True_StaTMC_pairs,10)):
             s,t=get_stat_tmc(st)
@@ -183,18 +183,18 @@ def Case6():
             
             for start_time in range(start_times,start_times+1):                    
                 trafficEvents.append((t,d+"%03d"%(start_time)))
-#             t=random.sample(Far_TMCs,3)[0]
-#             for start_time in range(start_times,start_times+1):                    
-#                 trafficEvents.append((t,d+"%03d"%(start_time)))     
+            t=random.sample(Far_TMCs,1)[0]
+            for start_time in range(start_times,start_times+1):                    
+                trafficEvents.append((t,d+"%03d"%(start_time)))     
     
 
     print "Truth Events:"
     print len(weatherEvents)
     print len(trafficEvents)                       
     
-    """add traffic evetns co-occured but dist(sta,tmc)>20 miles"""                         
+    """TYPE-3 add traffic evetns co-occured but dist(sta,tmc)>20 miles"""                         
     for d in random.sample(dates,20):
-        for s in list(random.sample(station.keys(),5)): 
+        for s in list(random.sample(station.keys(),10)): 
             for t in list(random.sample(Far_TMCs,5)):
                 start_times=random.randrange(75, 235)
                 for start_time in range(start_times,start_times+1):
