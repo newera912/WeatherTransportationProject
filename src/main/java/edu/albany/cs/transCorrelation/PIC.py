@@ -185,16 +185,20 @@ def main3():
     output.close()
 
 def main2():
+<<<<<<< HEAD
     inputFile="RNSimuEvents_Case64.txt"
+=======
+    inputFile="RNSimuEvents_Case61.txt"
+>>>>>>> 478a599749e3b2e07d7dfccc4e4f26e96351d1e9
     outputFile="result_"+inputFile 
     ite=10
     output=open(outputFile,"a+")
     output.write("\n------------------------------------------------------------\n")
     output.flush()
-    timeThresholds=[1,2,3,4,5]  #1,2,3,4,5
+    timeThresholds=[2]  #1,2,3,4,5
     radius=[5,10,15,20,25,30,35,40]  #5,9,13,17,21,25  5,10,15,20,25,30,35,40,45,50,55,60
     rel_max_dist=np.max(radius)
-    
+    p_value=np.zeros((len(radius),len(timeThresholds)))
     evetnFileName=inputFile
     weatherEvent0=[]
     trafficEvent0=[]
@@ -253,13 +257,13 @@ def main2():
     print "All-pairs",len(pair_dist)  
     
     
-    for timeThreshold in timeThresholds:        
-        for r in radius:
+    for j,timeThreshold in enumerate(timeThresholds):        
+        for q,r in enumerate(radius):
             t0=time.time()
             print("Geo Radius=%d Time Radius=%d "%(r,timeThreshold))
             testStatisticsScore,pairType=PIC(weatherEvent0,trafficEvent0,r,timeThreshold,pair_dist)    
             print testStatisticsScore
-            output.write("("+str(testStatisticsScore)+","+str(pairType)+") | ")
+            output.write(str(testStatisticsScore)+" | ")
             output.flush()   
             above=0.0
             for i in tqdm(range(ite)):
@@ -276,7 +280,7 @@ def main2():
                     else:
                         trafficEvent.append((event[0],tempLoc[k][0],tempLoc[k][1],event[3],tempLoc[k][2])) 
                 score,pairType=PIC(weatherEvent,trafficEvent,r,timeThreshold,pair_dist)
-                output.write("("+str(score)+" "+str(pairType)+") ")
+                output.write(str(score)+" ")
                 output.flush()
                 if testStatisticsScore<=score:
                     above+=1.0
@@ -284,11 +288,14 @@ def main2():
 #                     sys.stdout.write('i='+str(i)+" ")
             output.write("\n")
             output.flush()
+            p_value[q][j]=1.0*above/ite
             sys.stdout.write("\nTest Statistics PIC=%d p-value=%f \n\n"%(testStatisticsScore,1.0*above/ite))
             output.write(str(timeThreshold)+" "+str(r)+" "+str(above)+" "+ str(1.0*above/ite)+"\n")
             output.flush()
-              
- 
+    
+    output.write("\n".join(" ".join(map(str, x)) for x in (p_value)))
+    output.flush()          
+    print p_value
     output.close()
 
 def main(argv):
