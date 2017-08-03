@@ -183,9 +183,9 @@ def Case6():
             
             for start_time in range(start_times,start_times+1):                    
                 trafficEvents.append((t,d+"%03d"%(start_time)))
-            t=random.sample(Far_TMCs,1)[0]
-            for start_time in range(start_times,start_times+1):                    
-                trafficEvents.append((t,d+"%03d"%(start_time)))     
+#             t=random.sample(Far_TMCs,1)[0]
+#             for start_time in range(start_times,start_times+1):                    
+#                 trafficEvents.append((t,d+"%03d"%(start_time)))     
     
 
     print "Truth Events:"
