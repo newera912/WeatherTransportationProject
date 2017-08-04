@@ -201,7 +201,7 @@ def Case6():
     
     """TYPE-3 add traffic evetns co-occured but dist(sta,tmc)>R miles -----------------------"""                         
     for d in random.sample(dates,10):
-        for s in list(random.sample(station.keys(),10)):
+        for s in list(random.sample(station.keys(),5)):
             for TMCs in StaTMC_pairsFar[2:3]:                 
                 for t in list(random.sample(TMCs,5)):
                     start_times=random.randrange(75, 235)
