@@ -185,13 +185,13 @@ def main3():
     output.close()
 
 def main2():
-    inputFile="RNSimuEvents_Case61.txt"
+    inputFile="RNSimuEvents_Case53.txt"
     outputFile="result_"+inputFile 
     ite=10
     output=open(outputFile,"a+")
     output.write("\n------------------------------------------------------------\n")
     output.flush()
-    timeThresholds=[2]  #1,2,3,4,5
+    timeThresholds=[1,2,3,4,5]  #1,2,3,4,5
     radius=[5,10,15,20,25,30,35,40]  #5,9,13,17,21,25  5,10,15,20,25,30,35,40,45,50,55,60
     rel_max_dist=np.max(radius)
     p_value=np.zeros((len(radius),len(timeThresholds)))
