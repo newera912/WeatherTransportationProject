@@ -100,7 +100,7 @@ def Case6():
     tmcLoc="I90EastTMCLatLon.txt"  
     outFile="RNSimuEvents_Case61.txt"  
     
-    """read TMC and stations information"""    
+    """read TMC and stations information--------------------------------------------------"""    
     station={}    
     tmcsE={}
     tmcIDE={}
@@ -125,6 +125,8 @@ def Case6():
             tmcIDs.append(j+300)
     
     
+    
+    """ Calculate the distance matrix------------------------------------------"""
     interval=[i for i in range(5,45,10)]
     True_StaTMC_pairs=Set()
     Far_StaTMC_pairs=Set()
@@ -149,7 +151,7 @@ def Case6():
                 print int(np.min(v)/10),np.min(v),c,cutoff
                 StaTMC_pairsFar[c].append(k) 
             
-        if np.min(v)>5 and np.min(v)<=15:
+        if np.min(v)<=15:
             stat=np.argmin(v)
             #print "True",k,np.min(v),stat,v
             True_StaTMC_pairs.add(str(stat+100)+"_"+str(k))
@@ -158,7 +160,9 @@ def Case6():
             stat=np.argmin(v)
             #print "Far",k,np.min(v),stat,v
             Far_StaTMC_pairs.add(str(stat+100)+"_"+str(k))          
-    print StaTMC_pairsFar
+    for band in StaTMC_pairsFar:
+        print len(band),band
+    #print StaTMC_pairsFar
     print "Close pairs:",len(True_StaTMC_pairs)
     print "Far   TMCs:",len(Far_TMCs)
     dates=[]
@@ -169,10 +173,6 @@ def Case6():
     """ Select True station and dates """   
     
     true_dates=random.sample(dates,10)
-    
-    """list the dates except the true dates"""
-    
-
     random.shuffle(dates)
     wDates=dates
     tDates=dates
@@ -180,7 +180,7 @@ def Case6():
     weatherEvents=[]
     trafficEvents=[]
     """each event length fixed to 3
-       TYPE-1. add true co-occurrence events """
+       TYPE-1. add true co-occurrence events ------------------------------------------- """
     for d in true_dates:
         for st in list(random.sample(True_StaTMC_pairs,20)):
             s,t=get_stat_tmc(st)
@@ -199,7 +199,7 @@ def Case6():
     print len(weatherEvents)
     print len(trafficEvents)                       
     
-    """TYPE-3 add traffic evetns co-occured but dist(sta,tmc)>20 miles"""                         
+    """TYPE-3 add traffic evetns co-occured but dist(sta,tmc)>R miles -----------------------"""                         
     for d in random.sample(dates,10):
         for s in list(random.sample(station.keys(),10)):
             for TMCs in StaTMC_pairsFar[2:]:                 
@@ -210,34 +210,32 @@ def Case6():
                         """add traffic evetns co-occured but dist(sta,tmc)>20 miles"""                                  
                     for start_time in range(start_times,start_times+2):
                         trafficEvents.append((t,d+"%03d"%(start_time)))
-                 
-    
-                
+       
                     #print NumFarTmc
     print "Added Only correlated in time:"
     print len(weatherEvents)
     print len(trafficEvents)          
     
-#     """add non-cooccurrence weather events"""
-#     for d in random.sample(wDates,1):
-#         for s in random.sample(station.keys(),5):
-#             start_times=random.randrange(75, 235)
-#             for start_time in range(start_times,start_times+3):
-#                 weatherEvents.append((s,d+"%03d"%(start_time)))
-#      
-#     #add non-cooccurrence traffic events            
-#     for d in random.sample(tDates,1):
-#         for t in random.sample(tmcsE.keys(),5):
-#             start_times=random.randrange(75, 235)
-#             for start_time in range(start_times,start_times+3):
-#                 trafficEvents.append((t,d+"%03d"%(start_time)))
-#      
-#     #add non-cooccurrence traffic events            
-#     for d in random.sample(tDates,1):
-#         for t in random.sample(tmcsW.keys(),5):
-#             start_times=random.randrange(75, 235)
-#             for start_time in range(start_times,start_times+3):
-#                 trafficEvents.append((t,d+"%03d"%(start_time)))
+    """add non-cooccurrence weather events------------------------------------------------------"""
+    for d in random.sample(wDates,10):
+        for s in random.sample(station.keys(),10):
+            start_times=random.randrange(75, 235)
+            for start_time in range(start_times,start_times+3):
+                weatherEvents.append((s,d+"%03d"%(start_time)))
+      
+    #add non-cooccurrence traffic events            
+    for d in random.sample(tDates,10):
+        for t in random.sample(tmcsE.keys(),5):
+            start_times=random.randrange(75, 235)
+            for start_time in range(start_times,start_times+3):
+                trafficEvents.append((t,d+"%03d"%(start_time)))
+      
+    #add non-cooccurrence traffic events            
+    for d in random.sample(tDates,10):
+        for t in random.sample(tmcsW.keys(),5):
+            start_times=random.randrange(75, 235)
+            for start_time in range(start_times,start_times+3):
+                trafficEvents.append((t,d+"%03d"%(start_time)))
     print "After added random events:"
     print len(weatherEvents)
     print len(trafficEvents) 
@@ -258,7 +256,7 @@ def Case6():
 def Case5():
     root="F:/workspace/git/WeatherTransportationProject/data/trafficData/I90_TravelTime/"
     tmcLoc="I90EastTMCLatLon.txt"  
-    outFile="RNSimuEvents_Case52.txt"  
+    outFile="RNSimuEvents_Case53.txt"  
     
     """read TMC and stations information"""    
     station={}    
@@ -301,11 +299,11 @@ def Case5():
         print k,v 
     
     dates=[]
-    for result in perdelta(date(2016, 3, 1), date(2016, 9, 30), timedelta(days=1)):
+    for result in perdelta(date(2016, 3, 1), date(2016, 3, 30), timedelta(days=1)):
         d=str(result).replace("-","")
         dates.append(d)
         
-    true_stations=random.sample(range(100,110),3)
+    true_stations=random.sample(range(100,110),10)
     true_dates=random.sample(dates,10)
     
     """list the dates except the true dates"""
@@ -323,7 +321,7 @@ def Case5():
         for s in true_stations:            
             for t in stat_tmc[s]:
                 start_times=random.randrange(75, 235)
-                for start_time in range(start_times,start_times+3):
+                for start_time in range(start_times,start_times+2):
                     weatherEvents.append((s,d+"%03d"%(start_time)))
                     trafficEvents.append((t,d+"%03d"%(start_time)))
                     """add traffic evetns co-occured but dist(sta,tmc)>20 miles"""
@@ -343,10 +341,10 @@ def Case5():
     print len(trafficEvents)                       
                              
     for d in random.sample(dates,10):
-        for s in list(random.sample(station.keys(),5)):           
+        for s in list(random.sample(station.keys(),5)):  
             
             start_times=random.randrange(75, 235)
-            for start_time in range(start_times,start_times+3):
+            for start_time in range(start_times,start_times+2):
                 weatherEvents.append((s,d+"%03d"%(start_time)))
                 """add traffic evetns co-occured but dist(sta,tmc)>20 miles"""
             NumFarTmc=5
@@ -366,22 +364,22 @@ def Case5():
     
                 
                 
-    #add non-cooccurrence weather events
-#     for d in random.sample(wDates,150):
+#     #add non-cooccurrence weather events
+#     for d in random.sample(wDates,10):
 #         for s in random.sample(station.keys(),5):
 #             start_times=random.randrange(75, 235)
 #             for start_time in range(start_times,start_times+3):
 #                 weatherEvents.append((s,d+"%03d"%(start_time)))
-#     
+#      
 #     #add non-cooccurrence traffic events            
-#     for d in random.sample(tDates,100):
+#     for d in random.sample(tDates,10):
 #         for t in random.sample(tmcsE.keys(),5):
 #             start_times=random.randrange(75, 235)
 #             for start_time in range(start_times,start_times+3):
 #                 trafficEvents.append((t,d+"%03d"%(start_time)))
-#     
+#      
 #     #add non-cooccurrence traffic events            
-#     for d in random.sample(tDates,100):
+#     for d in random.sample(tDates,10):
 #         for t in random.sample(tmcsW.keys(),5):
 #             start_times=random.randrange(75, 235)
 #             for start_time in range(start_times,start_times+3):
@@ -389,7 +387,9 @@ def Case5():
 #     
     
     print len(weatherEvents)
-    print len(trafficEvents)                  
+    print len(trafficEvents)
+    weatherEvents=list(Set(weatherEvents)) 
+    trafficEvents=list(Set(trafficEvents))                 
     with open(outFile,"w") as output:
         for event in weatherEvents:
             output.write("0 "+str(station[event[0]][0])+" "+str(station[event[0]][1])+" "+str(event[1])+" "+str(event[0])+"\n")
