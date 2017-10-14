@@ -3,7 +3,7 @@
 
 
 ## Before you go
-Before you run this code, make sure you have <a href="https://maven.apache.org/install.html" >maven</a> and <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Java</a> on your machine. I tested all of the code under Linux environment. 
+Before you run this code, make sure you have <a href="https://maven.apache.org/install.html" >maven</a> and <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Java</a> on your machine. I tested all of the code under Windows and Linux environment. 
 
 ## Dependency Information
 Need to be installed:
